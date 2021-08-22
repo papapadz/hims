@@ -38,8 +38,8 @@
                 <tr>
                     <td>{{ $labRequest->id }}</td>
                     <td>{{ $labRequest->supply }}</td>
-                    <td>{{ $labRequest->patient_last_name }}, {{ $labRequest->patient_first_name }} {{ $labRequest->patient_middle_name[0] }}</td>
-                    <td>{{ $labRequest->emp_last_name }}, {{ $labRequest->emp_first_name }} {{ $labRequest->emp_middle_name[0] }}</td>
+                    <td>{{ $labRequest->patient_last_name }}, {{ $labRequest->patient_first_name }} {{ $labRequest->patient_middle_name[0] ?? ''}}</td>
+                    <td>{{ $labRequest->emp_last_name }}, {{ $labRequest->emp_first_name }} {{ $labRequest->emp_middle_name[0] ?? '' }}</td>
                     <td>{{ Carbon\Carbon::parse($labRequest->created_at)->toFormattedDateString() }}</td>
                     <td>
                       @if($labRequest->result==null)
@@ -79,8 +79,8 @@
                 <tr>
                     <td>{{ $labRequest->id }}</td>
                     <td>{{ $labRequest->supply }}</td>
-                    <td>{{ $labRequest->patient_last_name }}, {{ $labRequest->patient_first_name }} {{ $labRequest->patient_middle_name[0] }}</td>
-                    <td>{{ $labRequest->emp_last_name }}, {{ $labRequest->emp_first_name }} {{ $labRequest->emp_middle_name[0] }}</td>
+                    <td>{{ $labRequest->patient_last_name }}, {{ $labRequest->patient_first_name }} {{ $labRequest->patient_middle_name[0] ?? ''}}</td>
+                    <td>{{ $labRequest->emp_last_name }}, {{ $labRequest->emp_first_name }} {{ $labRequest->emp_middle_name[0] ?? ''}}</td>
                     <td>{{ Carbon\Carbon::parse($labRequest->created_at)->toFormattedDateString() }}</td>
                     <td>
                       @if($labRequest->result==null)

@@ -160,7 +160,7 @@
     </div>
   </div>
 
-  <div class="col-lg-3 col-md-6 col-sm-6 forAdmin forHRS" hidden="true">
+  {{-- <div class="col-lg-3 col-md-6 col-sm-6 forAdmin forHRS" hidden="true">
     <div class="card card-stats">
       <div class="card-body ">
         <div class="row">
@@ -187,7 +187,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> --}}
 
   <div class="col-lg-3 col-md-6 col-sm-6 forAdmin forPAT forMED forNRS forPHR forLAB forXRY forBLL" hidden="true">
     <div class="card card-stats">
@@ -268,21 +268,15 @@
         <hr>
         <div class="stats">
           <i class="fa fa-calendar-o"></i> as of {{ Carbon\Carbon::now()->toFormattedDateString() }}
-          @if(Auth::User()->account_type == 3)
-          <a href="{{ url('patients/profile/'.Auth::User()->user_id) }}" class="btn btn-sm btn-muted btn-fab btn-icon btn-round float-right">
+          <a href="{{ url('appointment') }}" class="btn btn-sm btn-muted btn-fab btn-icon btn-round float-right">
             <i class="fa fa-gear text-white"></i>
           </a>
-          @else
-          <a href="{{ url('patients') }}" class="btn btn-sm btn-muted btn-fab btn-icon btn-round float-right">
-            <i class="fa fa-gear text-white"></i>
-          </a>
-          @endif
         </div>
       </div>
     </div>
   </div>
 
-  <div class="col-lg-3 col-md-6 col-sm-6 forAdmin forPatient forLAB" hidden="true">
+  {{-- <div class="col-lg-3 col-md-6 col-sm-6 forAdmin forPatient forLAB" hidden="true">
     <div class="card card-stats">
       <div class="card-body ">
         <div class="row">
@@ -309,9 +303,9 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> --}}
 
-  <div class="col-lg-3 col-md-6 col-sm-6 forAdmin forPatient forXRY" hidden="true">
+  {{-- <div class="col-lg-3 col-md-6 col-sm-6 forAdmin forPatient forXRY" hidden="true">
     <div class="card card-stats">
       <div class="card-body ">
         <div class="row">
@@ -338,6 +332,6 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> --}}
 </div>    
 @endsection

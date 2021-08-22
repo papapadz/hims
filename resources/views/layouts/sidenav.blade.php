@@ -38,6 +38,21 @@
 </li>
 
 <li 
+  @if($currPage=='appointments') 
+    class="active forAdmin forPAT forMED forNRS forPHR forBLL forLAB forXRY" 
+  @else
+    class="forAdmin forPAT forMED forNRS forPHR forBLL forLAB forXRY" 
+  @endif
+  hidden="true" 
+>
+  <a href="{{ url('appointment') }}">
+    <i class="fa fa-calendar-o"></i>
+    <p>Appointments</p>
+  </a>
+</li>
+
+
+{{-- <li 
   @if($currPage=='lab-requests') 
     class="active forAdmin forLAB" 
   @else
@@ -49,9 +64,9 @@
     <i class="fa fa-flask"></i>
     <p>Lab Requests</p>
   </a>
-</li>
+</li> --}}
 
-<li 
+{{-- <li 
   @if($currPage=='xray-requests') 
     class="active forAdmin forXRY" 
   @else
@@ -63,9 +78,9 @@
     <i class="fa fa-flash"></i>
     <p>X-RAY Requests</p>
   </a>
-</li>
+</li> --}}
 
-<li 
+{{-- <li 
   @if($currPage=='supplies') 
     class="active forAdmin forPHR" 
   @else
@@ -77,9 +92,9 @@
     <i class="fa fa-shopping-cart"></i>
     <p>Supplies</p>
   </a>
-</li>
+</li> --}}
 
-<li 
+{{-- <li 
   @if($currPage=='pharmacy') 
     class="active forAdmin forPHR" 
   @else
@@ -91,7 +106,7 @@
     <i class="fa fa-tag"></i>
     <p>Pharmacy</p>
   </a>
-</li>
+</li> --}}
 
 <li 
   @if($currPage=='billings') 
@@ -121,7 +136,7 @@
   </a>
 </li>
 
-<li 
+{{-- <li 
   @if($currPage=='schedules') 
     class="active forAdmin forHRS"
   @else
@@ -133,9 +148,9 @@
     <i class="fa fa-sticky-note"></i>
     <p>Schedules</p>
   </a>
-</li>
+</li> --}}
 
-<li 
+{{-- <li 
   @if($currPage=='payroll') 
     class="active forAdmin forHRS"
   @else
@@ -147,9 +162,9 @@
     <i class="fa fa-money"></i>
     <p>Payroll</p>
   </a>
-</li>
+</li> --}}
 
-<li 
+{{-- <li 
   @if($currPage=='dtr') 
     class="active forAdmin forHRS"
   @else
@@ -161,4 +176,4 @@
     <i class="fa fa-calendar"></i>
     <p>DTR</p>
   </a>
-</li>
+</li> --}}

@@ -138,10 +138,17 @@ class UserController extends Controller
             
         }
 
+        $provinces = Provinces::ORDERBY('provDesc')->GET();
+        $cityMuns = CityMuns::ORDERBY('citymunDesc')->GET();
+        $brgys = Brgys::SELECT()->ORDERBY('brgyDesc')->GET();
+        
         return view('user/patients')
             ->with('currPage','patients')
             ->with('patients',$patients)
-            ->with('appointments',$appointments);
+            ->with('appointments',$appointments)
+            ->with('provinces',$provinces)
+            ->with('cityMuns',$cityMuns)
+            ->with('brgys',$brgys);
     }
 
     public function addPatient(Request $request) {
@@ -169,8 +176,8 @@ class UserController extends Controller
         $patient->middle_name = $request->input('middle_name');
         $patient->gender = $request->input('gender');
         $patient->birthdate = $request->input('birthdate');
-        $patient->address = $request->input('address');
-        $patient->patient_type = $request->input('patient_type');
+        $patient->brgy_id = $request->input('brgy');
+        // $patient->patient_type = $request->input('patient_type');
         $patient->contact_no = $request->input('contact_no');
         $patient->civil_stat = $request->input('civil_stat');
         $patient->philhealth_no = $request->input('philhealth_no');
@@ -237,6 +244,7 @@ class UserController extends Controller
         $appointment->emp_no = $request->input('emp_no');
         $appointment->hosp_no = $request->input('hosp_no');
         $appointment->consult_date = $request->input('consult_date').' '.$request->input('consult_time');
+        $appointment->remarks = $request->input('appointment_remarks');
         $appointment->SAVE();
 
         return redirect()->back()->with('success','Appointment has been saved!');

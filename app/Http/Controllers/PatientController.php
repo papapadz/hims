@@ -35,7 +35,8 @@ class PatientController extends Controller
     				'tbl_consults.id',
     				'tbl_consults.created_at',
     				'complaint',
-    				'room'
+    				'room',
+                    'discharge_date'
     			)
     			->JOIN('tbl_rooms','tbl_rooms.id','=','tbl_consults.room_id')
     			->WHERE('hosp_no',$hosp_no)
@@ -50,7 +51,8 @@ class PatientController extends Controller
                     'last_name',
                     'first_name',
                     'middle_name',
-                    'consult_date'
+                    'consult_date',
+                    'remarks'
                 )
                 ->JOIN('tbl_employees','tbl_employees.emp_no','=','tbl_consult_scheds.emp_no')
                 ->WHERE('tbl_consult_scheds.hosp_no',$hosp_no)
@@ -161,8 +163,12 @@ class PatientController extends Controller
                 )
                 ->JOIN('tbl_supply_cat','tbl_supply_cat.id','=','tbl_supplies.category_id')->WHERE('category_id',1)->GET();
 
+        /* Query Patient Info using hosp_no */
+        $employees = Employees::SELECT()->WHERE('department_id',1)->ORDERBY('last_name')->GET();
+        
     	return view('patient/patient-history')
                 ->with('currPage','patients')
+                ->with('employees',$employees)
     			->with('patient',$patient)
     			->with('diagnosis',$diagnosis)
     			->with('resultTypes',$resultTypes)

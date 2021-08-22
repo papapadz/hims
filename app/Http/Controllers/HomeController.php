@@ -77,7 +77,7 @@ class HomeController extends Controller
                     ->WHERE('is_paid',0)
                     ->FIRST();
             
-            $appointments = Appointments::WHEREDATE('consult_date',Carbon::now()->toDateString())->GET();
+            $appointments = Appointments::WHEREDATE('consult_date','>=',Carbon::now()->toDateString())->GET();
             $requests = Results::SELECT()
                     ->JOIN('tbl_supplies','tbl_supplies.id','=','tbl_results.result_type')
                     ->JOIN('tbl_supply_cat','tbl_supply_cat.id','=','tbl_supplies.category_id')

@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
 <form action="{{ url('patients/profile/save') }}" method="POST" enctype="multipart/form-data">
 @csrf
 <input type="text" name="hosp_no" value="{{ $patient->hosp_no }}" hidden>
@@ -111,7 +110,7 @@
            <div class="form-group row">
             <label class="col-sm-2 col-form-label">Address:</label>
             <div class="col-sm-10">
-              <input type="text" readonly="true" class="form-control-plaintext fieldToEdit" name="address" value="{{ $patient->address }}">
+              <input type="text" readonly="true" class="form-control-plaintext fieldToEdit" name="address" value="{{ $patient->address->brgyDesc }}, {{ $patient->address->cityMun->citymunDesc }}, {{ $patient->address->cityMun->province->provDesc }}">
             </div>
            </div>
            <div class="form-group row">
@@ -171,12 +170,15 @@
                 </thead>
                 <tbody>
                   @foreach($consults as $consult)
-                    <tr>
+                    <tr
+                    @if($consult->discharge_date != NULL)
+                      class="bg-danger"
+                    @endif>
                       <td>{{ Carbon\Carbon::parse($consult->created_at)->toDateString() }}</td>
                       <td>{{ $consult->complaint }}</td>
                       <td>{{ $consult->room }}</td>
                       <td>
-                        @if($consult->consult_stat == 0)
+                        @if($consult->discharge_date == NULL)
                           Active
                         @else
                           Inactive
@@ -201,6 +203,7 @@
                   <tr>
                     <th>Date</th>
                     <th>Doctor</th>
+                    <th>Remarks</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -208,6 +211,7 @@
                     <tr>
                       <td>{{ Carbon\Carbon::parse($appointment->consult_date)->toDateString() }} @ {{ Carbon\Carbon::parse($appointment->consult_date)->toTimeString() }}</td>
                       <td>{{ $appointment->last_name }}, {{ $appointment->first_name }} {{ $appointment->last_name[0] }}</td>
+                      <td>{{ $appointment->remarks }}</td>
                     </tr>
                   @endforeach
                 </tbody>
@@ -307,6 +311,12 @@
                 <input type="time" name="consult_time" class="form-control" />
               </div>
             </div>
+            <div class="row mb-3">
+              <div class="col-12">
+                <label>Remarks</label>
+                <textarea class="form-control" name="appointment_remarks"></textarea>
+              </div>
+            </div>
         </div>   
       </div>
       <div class="modal-footer">
@@ -345,7 +355,11 @@
 </script>
 
 <script type="text/javascript">
-  $('#tblConsults').DataTable();
-  $('#tblAppointments').DataTable();
+  $('#tblConsults').DataTable({
+    "order": [[ 0, "desc" ]]
+  });
+  $('#tblAppointments').DataTable({
+    "order": [[ 0, "desc" ]]
+  });
 </script>
 @endsection

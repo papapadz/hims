@@ -23,9 +23,9 @@
           <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#out-patients" role="tab" aria-selected="false">Out Patients</a>
           </li>
-          <li class="nav-item">
+          {{-- <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#appointments" role="tab" aria-selected="false">Appointments</a>
-          </li>
+          </li> --}}
         </ul>
         <!-- Tab panes -->
         <div class="tab-content">
@@ -58,10 +58,10 @@
                       @endif
                       {{ $patient->hosp_no }}
                     </td>
-                    <td>{{ $patient->last_name }}, {{ $patient->first_name }} {{ $patient->middle_name[0] }}</td>
+                    <td>{{ $patient->last_name }}, {{ $patient->first_name }} {{ $patient->middle_name[0] ?? '' }}</td>
                     <td>{{ $patient->birthdate }}</td>
                     <td>{{ $patient->gender }}</td>
-                    <td>{{ $patient->address }}</td>
+                    <td>{{ $patient->address->brgyDesc }}, {{ $patient->address->cityMun->citymunDesc }}, {{ $patient->address->cityMun->province->provDesc }}</td>
                     <td>
                       @if($patient->patient_type==1)
                         Regular Patient
@@ -114,10 +114,10 @@
                       @endif
                       {{ $patient->hosp_no }}
                     </td>
-                    <td>{{ $patient->last_name }}, {{ $patient->first_name }} {{ $patient->middle_name[0] }}</td>
+                    <td>{{ $patient->last_name }}, {{ $patient->first_name }} {{ $patient->middle_name[0] ?? '' }}</td>
                     <td>{{ $patient->birthdate }}</td>
                     <td>{{ $patient->gender }}</td>
-                    <td>{{ $patient->address }}</td>
+                    <td>{{ $patient->address->brgyDesc }}, {{ $patient->address->cityMun->citymunDesc }}, {{ $patient->address->cityMun->province->provDesc }}</td>
                     <td>
                       @if($patient->patient_type==1)
                         Regular Patient
@@ -171,10 +171,10 @@
                       @endif
                       {{ $patient->hosp_no }}
                     </td>
-                    <td>{{ $patient->last_name }}, {{ $patient->first_name }} {{ $patient->middle_name[0] }}</td>
+                    <td>{{ $patient->last_name }}, {{ $patient->first_name }} {{ $patient->middle_name[0] ?? '' }}</td>
                     <td>{{ $patient->birthdate }}</td>
                     <td>{{ $patient->gender }}</td>
-                    <td>{{ $patient->address }}</td>
+                    <td>{{ $patient->address->brgyDesc }}, {{ $patient->address->cityMun->citymunDesc }}, {{ $patient->address->cityMun->province->provDesc }}</td>
                     <td>
                       @if($patient->patient_type==1)
                         Regular Patient
@@ -200,7 +200,7 @@
               </tbody>
             </table>
           </div>
-          <div class="tab-pane" id="appointments" role="tabpanel">
+          {{-- <div class="tab-pane" id="appointments" role="tabpanel">
             <table id="tblAppointments" class="table" style="width:100%">
               <thead>
                 <tr>
@@ -227,7 +227,7 @@
                       @endif
                       {{ $app->hosp_no }}
                     </td>
-                    <td>{{ $app->patient_last_name }}, {{ $app->patient_first_name }} {{ $app->patient_middle_name[0] }}</td>
+                    <td>{{ $app->patient_last_name }}, {{ $app->patient_first_name }} {{ $patient->middle_name[0] ?? '' }}</td>
                     <td>
                       @if($app->patient_type==1)
                         Regular Patient
@@ -235,7 +235,7 @@
                         Mental Patient
                       @endif
                     </td>
-                    <td>{{ $app->last_name }}, {{ $app->first_name }} {{ $app->middle_name[0] }}</td>
+                    <td>{{ $app->last_name }}, {{ $app->first_name }} {{ $patient->middle_name[0] ?? '' }}</td>
                     <td>{{ Carbon\Carbon::parse($app->consult_date)->format('h:i A') }}</td>
                     <td>
 
@@ -254,7 +254,7 @@
                 @endforeach
               </tbody>
             </table>
-          </div>
+          </div> --}}
         </div>
       </div>
       <div class="card-footer ">
@@ -329,12 +329,43 @@
                 <input type="text" name="philhealth_no" class="form-control" placeholder="PhilHealth No." />
               </div>
             </div>
-            <div class="row mb-3">
+            {{-- <div class="row mb-3">
               <div class="col-md-12">
                 <textarea name="address" class="form-control" placeholder="Address"></textarea>
               </div>
+            </div> --}}
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <select name="province" id="province" class="form-control" required>
+                  <option selected disabled>Select Province</option>
+                  @foreach($provinces as $province)
+                  <option value="{{ $province->provCode }}">{{ $province->provDesc }}</option>
+                  @endforeach
+                </select>
+              </div>
+              <div class="col-md-6">
+                <select name="citymun" id="citymun" class="form-control" required>
+                  <option selected disabled>Select City/Municipality</option>
+                </select>
+              </div>
             </div>
             <div class="row mb-3">
+              <div class="col-md-6">
+                <select name="brgy" id="brgy" class="form-control" required>
+                  <option selected disabled>Select Barangay</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <select name="blood_type" class="form-control">
+                  <option selected disabled>Blood Type</option>
+                  <option value="A">A</option>
+                  <option value="B">B</option>
+                  <option value="AB">AB</option>
+                  <option value="O">O</option>
+                </select>
+              </div>
+            </div>
+            {{-- <div class="row mb-3">
               <div class="col-md-6">
                 <select name="blood_type" class="form-control">
                   <option selected disabled>Blood Type</option>
@@ -351,7 +382,7 @@
                   <option value="2">Mental Patient</option>
                 </select>
               </div>
-            </div>
+            </div> --}}
             <div class="row mb-3">
               <div class="col-md-6">
                 <div class="custom-file">
@@ -374,8 +405,39 @@
 
 @section('script')
 <script type="text/javascript">
+
+$(document).ready(function(){
+    
   $('#tblPatients').DataTable();
   $('#tblInPatients').DataTable();
   $('#tblOutPatients').DataTable();
+
+    $('#province').on('change', function() {
+      $.ajax ({
+        url : '{{ url("get/citymun") }}/'+$(this).val()
+        ,method : 'GET'
+        ,cache : false
+      }).done( function(response){
+        $('.onChangeCityMun').remove();
+        for (var key in response) {
+            $('#citymun').append('<option class="onChangeCityMun" value="'+response[key]['citymunCode']+'">'+response[key]['citymunDesc']+'</option>');
+        }
+      });
+    }); 
+
+    $('#citymun').on('change', function() {
+      $.ajax ({
+        url : '{{ url("get/brgy") }}/'+$(this).val()
+        ,method : 'GET'
+        ,cache : false
+      }).done( function(response){
+        $('.onChangeBrgy').remove();
+        for (var key in response) {
+            $('#brgy').append('<option class="onChangeBrgy" value="'+response[key]['id']+'">'+response[key]['brgyDesc']+'</option>');
+        }
+      });
+    });
+  });
+
 </script>
 @endsection

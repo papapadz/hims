@@ -120,5 +120,12 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('get/citymun/{code}','GetController@getCityMun');
 	Route::get('get/brgy/{code}','GetController@getBrgy');
 	Route::get('get/attendance/{id}/{date}/{month}/{year}','GetController@getAttendance');
+
+	/** Appointments */
+	Route::resources([
+		'appointment' => 'AppointmentController'
+	]);
+	
+	Route::get('appointment-calendar','AppointmentController@fullCalendar');
 });
 
