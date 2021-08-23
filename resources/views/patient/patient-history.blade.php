@@ -17,6 +17,13 @@
     @if($patient->discharge_date == NULL)
       <div class="row">
         <div class="col-12">
+          <a style="width: 100%" type="button" class="btn btn-success btn-round float-center forAdmin forMED" hidden="true" href="{{ url('patient/video-call') }}">
+              Video Call
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
           <button style="width: 100%" type="button" class="btn btn-primary btn-round float-center forAdmin forMED" data-toggle="modal" data-target="#modalAddDiagnosis" hidden="true">
               Add Diagnosis
             </button>

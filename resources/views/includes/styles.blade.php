@@ -10,3 +10,4 @@
   <link href="{{asset('assets/css/select2.bootstrap.min.css')}}" rel="stylesheet" />
   
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.css">
+  <link href="{{ asset('css/app.css') }}" rel="stylesheet">

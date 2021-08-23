@@ -227,4 +227,10 @@ class PatientController extends Controller
                 ->with('results',$results)
                 ->with('prescriptions',$prescriptions);
     }
+
+    public function videoCallPatient() {
+
+        return view('patient/patient-meet')
+                ->with('currPage','patients');
+    }
 }

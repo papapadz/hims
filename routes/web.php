@@ -127,5 +127,7 @@ Route::group(['middleware' => 'auth'], function() {
 	]);
 	
 	Route::get('appointment-calendar','AppointmentController@fullCalendar');
+
+	Route::get('patient/video-call','PatientController@videoCallPatient');
 });
 
