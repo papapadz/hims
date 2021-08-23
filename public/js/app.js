@@ -1973,11 +1973,11 @@ __webpack_require__.r(__webpack_exports__);
     jitsiOptions: function jitsiOptions() {
       var customOptions = ['microphone', 'camera', 'closedcaptions', 'fullscreen', 'fodeviceselection', 'hangup', 'chat', 'raisehand', 'videoquality', 'filmstrip', 'tileview'];
       return {
-        roomName: 'some-room-name',
+        roomName: this.$attrs.room,
         noSSL: false,
         userInfo: {
           email: 'user@email.com',
-          displayName: 'Test'
+          displayName: this.$attrs.name
         },
         configOverwrite: {
           enableNoisyMicDetection: false,
@@ -1987,7 +1987,8 @@ __webpack_require__.r(__webpack_exports__);
           disableAEC: true,
           disableAGC: true,
           disableNS: true,
-          disableHPF: true
+          disableHPF: true,
+          disableDeepLinking: true
         },
         interfaceConfigOverwrite: {
           SET_FILMSTRIP_ENABLED: false,

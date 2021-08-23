@@ -17,7 +17,7 @@
     @if($patient->discharge_date == NULL)
       <div class="row">
         <div class="col-12">
-          <a style="width: 100%" type="button" class="btn btn-success btn-round float-center forAdmin forMED" hidden="true" href="{{ url('patient/video-call') }}">
+          <a style="width: 100%" type="button" class="btn btn-success btn-round float-center forAdmin forMED" hidden="true" href="{{ url('patient/video-call/'.$patient->hosp_no) }}">
               Video Call
           </a>
         </div>

@@ -2,19 +2,21 @@
 
 @section('styles')
 <style>
-html,body {
-  height: 100%;
-}
+  #app {
+    width: 95%; 
+    height: 80%;
+    position: absolute
+  }
 </style>
 @endsection
+
 @section('content')
 
-<div class="container-fluid h-100">
-    <div class="row justify-content-center h-100">
-      <div class="card h-100" id="app">
-        <jitsi/>
-    </div>
-  </div>
+<div id="app">
+  <jitsi
+    room = '{{ $room }}'
+    name = '{{ Auth::user()->employeeInfo->first_name}} {{ Auth::user()->employeeInfo->last_name }}'  
+  />
 </div>
 @endsection
 

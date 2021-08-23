@@ -1,5 +1,5 @@
 <template>
-  <vue-jitsi-meet
+      <vue-jitsi-meet 
     ref="jitsiRef"
     domain="meet.jit.si"
     :options="jitsiOptions"
@@ -22,11 +22,11 @@
             ];
 
             return {
-                roomName: 'some-room-name',
+                roomName: this.$attrs.room,
                 noSSL: false,
                 userInfo: {
                     email: 'user@email.com',
-                    displayName: 'Test',
+                    displayName: this.$attrs.name,
                 },
                 configOverwrite: {
                     enableNoisyMicDetection: false,
@@ -37,6 +37,7 @@
                     disableAGC: true,
                     disableNS: true,
                     disableHPF: true,
+                    disableDeepLinking: true
                 },
                 interfaceConfigOverwrite: {
                     SET_FILMSTRIP_ENABLED: false,
