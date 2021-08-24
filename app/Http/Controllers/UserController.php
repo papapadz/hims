@@ -158,15 +158,16 @@ class UserController extends Controller
         $hospital_no_count = str_pad($patient_count, 4, '0', STR_PAD_LEFT);
         $hospital_no_set = Carbon::now()->year.$hospital_no_count; /* Patient hospital number ex. 20190001 */
         //
-
-        $filename = "";
+        
+        $filename = "default.png";
         /*save file to public folder*/
         if($request->hasFile('profile_img')) {
             $file = $request->file('profile_img');
             $filename = $hospital_no_set.'.'.$file->getClientOriginalExtension();
             $destinationPath = public_path('assets/img/faces');
             $file->move($destinationPath,$filename);
-        }
+        } else if($request->input('gender')=='Female')
+            $filename = 'default-F.jpg';
 
         /*save patient info to database*/
         $patient = new Patients;
@@ -300,11 +301,21 @@ class UserController extends Controller
     }
 
     public function addPrescription(Request $request) {
-
+        
         $prescription = new Prescriptions;
         $prescription->consult_id = $request->input('consult_id');
         $prescription->prescription = $request->input('prescription');
-        $prescription->prescribed_by = Auth::User()->user_id;
+        $prescription->prescribed_by = Auth::User()->user_id;        
+        /* Save file to public folder*/
+        $filename = NULL;
+        if($request->hasFile('prescription_img')) {
+            $file = $request->file('prescription_img');
+            $filename = Carbon::now()->valueOf().'.'.$file->getClientOriginalExtension();
+            $destinationPath = public_path('uploads\prescriptions');
+            $file->move($destinationPath,$filename);
+        }
+        //
+        $prescription->file_upload = $filename;
         $prescription->SAVE();
 
         return redirect()->back()->with('success','Prescription has been saved!');

@@ -44,7 +44,7 @@ The above copyright notice and this permission notice shall be included in all c
           </div>
         </a>
         <a href="{{ url('home') }}" class="simple-text logo-normal">
-          HIMS
+          CIMS
           <!-- <div class="logo-image-big">
             <img src="../assets/img/logo-big.png">
           </div> -->
@@ -86,9 +86,9 @@ The above copyright notice and this permission notice shall be included in all c
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownAccount">
                   @if(Auth::User()->account_type==3)
-                    <a class="dropdown-item" href="{{ url('patients/profile/'.Auth::User()->user_id) }}">Hello, {{ Auth::User()->patientInfo->last_name }}, {{ Auth::User()->patientInfo->first_name }} {{ Auth::User()->patientInfo->middle_name[0] }}</a>
+                    <a class="dropdown-item" href="{{ url('patients/profile/'.Auth::User()->user_id) }}">Hello, {{ Auth::User()->patientInfo->last_name }}, {{ Auth::User()->patientInfo->first_name }} {{ Auth::User()->patientInfo->middle_name[0] ?? ''}}</a>
                   @else
-                    <a class="dropdown-item" href="{{ url('employee/profile/'.Auth::User()->user_id) }}">Hello, {{ Auth::User()->employeeInfo->last_name }}, {{ Auth::User()->employeeInfo->first_name }} {{ Auth::User()->employeeInfo->middle_name[0] }}</a>
+                    <a class="dropdown-item" href="{{ url('employee/profile/'.Auth::User()->user_id) }}">Hello, {{ Auth::User()->employeeInfo->last_name }}, {{ Auth::User()->employeeInfo->first_name }} {{ Auth::User()->employeeInfo->middle_name[0] ?? ''}}</a>
                   @endif
                   <a class="dropdown-item" href="{{ url('user-logout') }}">Logout</a>
                 </div>

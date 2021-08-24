@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('styles')
+<link href="{{ asset('css/app.css') }}" rel="stylesheet">
 <style>
   #app {
     width: 95%; 
@@ -11,12 +12,14 @@
 @endsection
 
 @section('content')
-
 <div id="app">
   <jitsi
     room = '{{ $room }}'
-    name = '{{ Auth::user()->employeeInfo->first_name}} {{ Auth::user()->employeeInfo->last_name }}'  
+    name = '{{ $name }}'  
   />
 </div>
 @endsection
 
+@section('script')
+<script src="{{ asset('js/app.js') }}" ></script>
+@endsection

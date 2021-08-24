@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Appointments;
+use App\Employees;
+use Auth;
 
 class AppointmentController extends Controller
 {
@@ -15,7 +17,11 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        return view('appointment.index')->with('currPage','appointments');
+        return view('appointment.index')->with([
+            'currPage' => 'appointments',
+            'employees' => Employees::SELECT()->WHERE('department_id',1)->ORDERBY('last_name')->GET(),
+            'hosp_no' => Auth::user()->user_id
+        ]);
     }
 
     /**
@@ -89,10 +95,20 @@ class AppointmentController extends Controller
         $startdate = explode('T',$request->start);
         $enddate = explode('T',$request->end);
         
-        $appointments = Appointments::orderBy('consult_date')
-            ->whereBetween('consult_date',[ $startdate[0],$enddate[0] ])
-            ->with('patient')
-            ->get();
+        if(Auth::User()->account_type==3) {
+            $user = 'doctor';
+            $appointments = Appointments::orderBy('consult_date')
+                ->whereBetween('consult_date',[ $startdate[0],$enddate[0] ])
+                ->where('hosp_no',Auth::User()->user_id)
+                ->with($user)
+                ->get();
+        } else {
+            $user = 'patient';
+            $appointments = Appointments::orderBy('consult_date')
+                ->whereBetween('consult_date',[ $startdate[0],$enddate[0] ])
+                ->with('patient')
+                ->get();
+        }
             
         $arrappointments = array();
         foreach($appointments as $k => $app) {
@@ -101,8 +117,9 @@ class AppointmentController extends Controller
                 $arrappointments[$k]['backgroundColor'] = 'green';
 
             $arrappointments[$k]['id'] = $app->patient->hosp_no; 
-            $arrappointments[$k]['title'] = $app->patient->last_name.', '.$app->patient->first_name.' '.$app->patient->middle_name;
-            $arrappointments[$k]['start'] = Carbon::parse($app->consult_date)->toDateString();
+            $arrappointments[$k]['title'] = $app[$user]->last_name.', '.$app[$user]->first_name.' '.$app[$user]->middle_name;
+            $arrappointments[$k]['start'] = Carbon::parse($app->consult_date)->toAtomString();
+            $arrappointments[$k]['end'] = Carbon::parse($app->consult_date)->addHour()->toAtomString();
         }
         return json_encode($arrappointments);
     }

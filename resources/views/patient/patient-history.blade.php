@@ -17,7 +17,7 @@
     @if($patient->discharge_date == NULL)
       <div class="row">
         <div class="col-12">
-          <a style="width: 100%" type="button" class="btn btn-success btn-round float-center forAdmin forMED" hidden="true" href="{{ url('patient/video-call/'.$patient->hosp_no) }}">
+          <a style="width: 100%" type="button" class="btn btn-success btn-round float-center" href="{{ url('patient/video-call/'.$patient->hosp_no) }}">
               Video Call
           </a>
         </div>
@@ -242,7 +242,7 @@
                   </tbody>
                 </table>
               </div>
-              <div class="tab-pane" id="lab" role="tabpanel">
+              {{-- <div class="tab-pane" id="lab" role="tabpanel">
                 <table id="tblLabResults" class="table" style="width:100%">
                   <thead>
                     <tr>
@@ -267,8 +267,8 @@
                     @endforeach
                   </tbody>
                 </table>
-              </div>
-              <div class="tab-pane" id="xray" role="tabpanel">
+              </div> --}}
+              {{-- <div class="tab-pane" id="xray" role="tabpanel">
                 <table id="tblXRayResults" class="table" style="width:100%">
                   <thead>
                     <tr>
@@ -293,7 +293,7 @@
                     @endforeach
                   </tbody>
                 </table>
-              </div>
+              </div> --}}
               <div class="tab-pane" id="prescription" role="tabpanel">
                 <table id="tblPrescriptions" class="table" style="width:100%">
                   <thead>
@@ -308,7 +308,12 @@
                     <tr>
                       <td>{{ Carbon\Carbon::parse($presc->created_at)->toDateString() }}</td>
                       <td>{{ $presc->last_name }}, {{ $presc->first_name }}</td>
-                      <td>{{ $presc->prescription }}</td>
+                      <td>
+                        {{ $presc->prescription }}
+                        @if($presc->file_upload)
+                        <a href="{{ url('uploads/prescriptions/'.$presc->file_upload) }}" target="_blank">View</a>
+                        @endif
+                      </td>
                     </tr>
                     @endforeach
                   </tbody>
@@ -476,7 +481,7 @@
 </div>
 </form>
 
-<form action="{{ url('consult/add-prescription') }}" method="POST">
+<form action="{{ url('consult/add-prescription') }}" method="POST" enctype="multipart/form-data">
 @csrf
 <input type="text" name="consult_id" value="{{ $patient->consult_id }}" hidden>
 <div class="modal" tabindex="-1" role="dialog" id="modalAddPrescription">
@@ -495,7 +500,15 @@
               <label>Prescription</label>
               <textarea name="prescription" class="form-control" required></textarea>
             </div>
-          </div>   
+          </div>  
+          <div class="row">
+            <div class="col-12">
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" name="prescription_img">
+                <label class="custom-file-label f1" >Choose image file...</label>
+              </div>
+            </div>
+          </div> 
         </div>   
       </div>
       <div class="modal-footer">
@@ -605,7 +618,7 @@
 </div>
 </form>
 
-<form action="{{ url('patient/add-medicine') }}" method="POST" enctype="multipart/form-data">
+{{-- <form action="{{ url('patient/add-medicine') }}" method="POST" enctype="multipart/form-data">
   @csrf
 <div id="modalSellSupply" class="modal" role="dialog">
   <div class="modal-dialog" role="document">
@@ -644,7 +657,7 @@
     </div>
   </div>
 </div>
-</form>
+</form> --}}
 <!-- END MODALS -->
 
 <form action="{{ url('consult/add-appointment') }}" method="POST">

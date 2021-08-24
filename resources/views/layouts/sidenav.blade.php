@@ -1,7 +1,18 @@
+@if(Auth::User()->account_type==3)
+<li class="active"
+>
+  <a href="{{ url('patients/profile/'.Auth::User()->user_id) }}">
+    <i class="fa fa-home"></i>
+    <p>Profile</p>
+  </a>
+</li>
+@endif
+
 <li 
   @if($currPage=='home') 
-    class="active" 
+    class="active forAdmin" 
   @endif
+  hidden="true" 
 >
   <a href="{{ url('home') }}">
     <i class="fa fa-home"></i>

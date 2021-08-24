@@ -122,6 +122,7 @@ class PatientController extends Controller
                     'first_name',
                     'middle_name',
                     'prescription',
+                    'file_upload',
                     'tbl_prescriptions.created_at'
                 )
                 ->JOIN('tbl_employees','tbl_employees.emp_no','=','tbl_prescriptions.prescribed_by')
@@ -154,14 +155,14 @@ class PatientController extends Controller
                 ->WHERE('consult_id',$id)
                 ->GET();
 
-        $supplies = Supplies::SELECT(
-                    'tbl_supplies.id',
-                    'supply',
-                    'price',
-                    'unit',
-                    'qty'
-                )
-                ->JOIN('tbl_supply_cat','tbl_supply_cat.id','=','tbl_supplies.category_id')->WHERE('category_id',1)->GET();
+        // $supplies = Supplies::SELECT(
+        //             'tbl_supplies.id',
+        //             'supply',
+        //             'price',
+        //             'unit',
+        //             'qty'
+        //         )
+        //         ->JOIN('tbl_supply_cat','tbl_supply_cat.id','=','tbl_supplies.category_id')->WHERE('category_id',1)->GET();
 
         /* Query Patient Info using hosp_no */
         $employees = Employees::SELECT()->WHERE('department_id',1)->ORDERBY('last_name')->GET();
@@ -172,11 +173,11 @@ class PatientController extends Controller
     			->with('patient',$patient)
     			->with('diagnosis',$diagnosis)
     			->with('resultTypes',$resultTypes)
-                ->with('results',$results)
+                //->with('results',$results)
                 ->with('prescriptions',$prescriptions)
                 ->with('bills',$bills)
-                ->with('billGrouped',$billGrouped)
-                ->with('supplies',$supplies);
+                ->with('billGrouped',$billGrouped);
+                //->with('supplies',$supplies);
     }
 
     public function viewPatientChart($id) {
@@ -230,10 +231,17 @@ class PatientController extends Controller
 
     public function videoCallPatient($hosp_no) {
 
+        if(Auth::User()->account_type==3)
+            $name = Auth::user()->patientInfo->first_name.' '.Auth::user()->patientInfo->last_name;
+        else
+            $name = Auth::user()->employeeInfo->first_name.' '.Auth::user()->employeeInfo->last_name;
+
         return view('patient/patient-meet')
                 ->with([
                     'currPage' => 'patients',
+                    'name' => $name,
                     'room' => 'patient-'.$hosp_no
                 ]);
     }
+
 }
