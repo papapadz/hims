@@ -326,6 +326,11 @@
                 <input type="text" name="contact_no" class="form-control" placeholder="Contact No." />
               </div>
               <div class="col-md-6">
+                <input type="text" name="email" class="form-control" placeholder="Email Address" required/>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-6">
                 <input type="text" name="philhealth_no" class="form-control" placeholder="PhilHealth No." />
               </div>
             </div>

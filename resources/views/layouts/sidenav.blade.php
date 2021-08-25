@@ -29,7 +29,7 @@
   hidden="true" 
 >
   <a href="{{ url('user-accounts') }}">
-    <i class="fa fa-list-alt"></i>
+    <i class="fa fa-user-cog"></i>
     <p>User Accounts</p>
   </a>
 </li>
@@ -43,7 +43,7 @@
   hidden="true" 
 >
   <a href="{{ url('patients') }}">
-    <i class="fa fa-hospital-o"></i>
+    <i class="fa fa-user"></i>
     <p>Patients</p>
   </a>
 </li>
@@ -57,7 +57,7 @@
   hidden="true" 
 >
   <a href="{{ url('appointment') }}">
-    <i class="fa fa-calendar-o"></i>
+    <i class="fa fa-calendar-alt"></i>
     <p>Appointments</p>
   </a>
 </li>
@@ -128,7 +128,7 @@
   hidden="true" 
 >
   <a href="{{ url('billings') }}">
-    <i class="fa fa-list"></i>
+    <i class="fa fa-receipt"></i>
     <p>Billings</p>
   </a>
 </li>
@@ -142,7 +142,7 @@
   hidden="true" 
 >
   <a href="{{ url('employees') }}">
-    <i class="fa fa-user"></i>
+    <i class="fa fa-user-tie"></i>
     <p>Employees</p>
   </a>
 </li>

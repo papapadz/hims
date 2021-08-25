@@ -18,14 +18,14 @@
       <div class="row">
         <div class="col-12">
           <a style="width: 100%" type="button" class="btn btn-success btn-round float-center" href="{{ url('patient/video-call/'.$patient->hosp_no) }}">
-              Video Call
+            <i class="fa fa-video"></i> Video Call
           </a>
         </div>
       </div>
       <div class="row">
         <div class="col-12">
           <button style="width: 100%" type="button" class="btn btn-primary btn-round float-center forAdmin forMED" data-toggle="modal" data-target="#modalAddDiagnosis" hidden="true">
-              Add Diagnosis
+            <i class="fa fa-stethoscope"></i> Add Diagnosis
             </button>
         </div>
       </div>
@@ -46,7 +46,7 @@
       <div class="row">
         <div class="col-12">
           <button style="width: 100%" type="button" class="btn btn-primary btn-round float-center forAdmin forMED" data-toggle="modal" data-target="#modalAddPrescription" hidden="true">
-              Add Prescription
+            <i class="fa fa-prescription-bottle-alt"></i> Add Prescription
             </button>
         </div>
       </div>
@@ -60,21 +60,28 @@
       <div class="row">
         <div class="col-12">
           <button style="width: 100%" type="button" class="btn btn-primary btn-round float-center forAdmin forPAT" data-toggle="modal" data-target="#modalAddAppointment" hidden="true">
-              Add Appointment
+            <i class="fa fa-calendar-alt"></i> Add Appointment
+            </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <button style="width: 100%" type="button" class="btn btn-primary btn-round float-center forAdmin forMED" data-toggle="modal" data-target="#modalAddBill" hidden="true">
+            <i class="fa fa-receipt"></i> Add Consultation Fee
             </button>
         </div>
       </div>
       <div class="row">
         <div class="col-12">
           <button style="width: 100%" type="button" class="btn btn-danger btn-round float-center forAdmin forBLL" data-toggle="modal" data-target="#modalBillOut" hidden="true">
-            Bill Out
+            <i class="fa fa-cash-register"></i> Bill Out
           </button>
         </div>
       </div>
     @else
       <div class="row">
         <div class="col-md-12">
-          <button style="width: 100%" class="btn btn-warning btn-round float-center" onclick="printThis('printable','Billing Statement','','2');">Print Billing Statement</button>
+          <button style="width: 100%" class="btn btn-warning btn-round float-center" onclick="printThis('printable','Billing Statement','','2');"><i class="fa fa-print"></i> Print Billing Statement</button>
         </div>
       </div>
     @endif
@@ -413,7 +420,7 @@
 </div>
 </form>
 
-<form action="{{ url('consult/add-lab-request') }}" method="POST">
+{{-- <form action="{{ url('consult/add-lab-request') }}" method="POST">
 @csrf
 <input type="text" name="consult_id" value="{{ $patient->consult_id }}" hidden>
 <div class="modal" tabindex="-1" role="dialog" id="modalAddLabRequest">
@@ -445,9 +452,9 @@
     </div>
   </div>
 </div>
-</form>
+</form> --}}
 
-<form action="{{ url('consult/add-xray-request') }}" method="POST">
+{{-- <form action="{{ url('consult/add-xray-request') }}" method="POST">
 @csrf
 <input type="text" name="consult_id" value="{{ $patient->consult_id }}" hidden>
 <div class="modal" tabindex="-1" role="dialog" id="modalAddXRayRequest">
@@ -479,7 +486,38 @@
     </div>
   </div>
 </div>
-</form>
+</form> --}}
+
+<form action="{{ url('consult/add-consultation-fee') }}" method="POST">
+  @csrf
+  <input type="text" name="consult_id" value="{{ $patient->consult_id }}" hidden>
+  <div class="modal" tabindex="-1" role="dialog" id="modalAddBill">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Consultation Fee for Consultation ID: {{ $patient->consult_id }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <div class="row mb-3">
+              <div class="col-md-12">
+                <label>Consultation Fee (Php)</label>
+                <input type="number" name="amt" step=".01" min="0" class="form-control">
+              </div>
+            </div> 
+          </div>   
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </form>
 
 <form action="{{ url('consult/add-prescription') }}" method="POST" enctype="multipart/form-data">
 @csrf

@@ -57,7 +57,7 @@
                       {{ $user->emp_no }}
                     </td>
                     <td>{{ $user->username }}</td>
-                    <td>{{ $user->last_name }}, {{ $user->first_name }} {{ $user->middle_name[0] }}</td>
+                    <td>{{ $user->last_name }}, {{ $user->first_name }} {{ $user->middle_name[0] ?? ''}}</td>
                     <td>{{ $user->position }}</td>
                     <td>{{ $user->department }}</td>
                     <td>
@@ -105,7 +105,7 @@
                       {{ $patient->hosp_no }}
                     </td>
                     <td>{{ $patient->username }}</td>
-                    <td>{{ $patient->last_name }}, {{ $patient->first_name }} {{ $patient->middle_name[0] }}</td>
+                    <td>{{ $patient->last_name }}, {{ $patient->first_name }} {{ $patient->middle_name[0] ?? ''}}</td>
                     <td>
                       <button 
                         class="btn btn-sm btn-primary btn-fab btn-icon btn-round btn-modalOpen2" 

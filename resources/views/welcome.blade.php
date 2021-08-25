@@ -84,56 +84,56 @@
     <div class="container">
       <div class="row py-5">
         <div class="col-lg-5 py-5">
-          <h1 class="font-weight-bold">Download your best app landing</h1>
-          <p class="my-4 text-muted">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod.</p>
+          <h1 class="font-weight-bold">We’re bridging the gap between Doctors and Patients</h1>
+          <p class="my-4 text-muted">Helps patients manage their healthcare needs wherever and whenever they need to.</p>
           <ul class="list-inline mb-0">
-            <li class="list-inline-item mb-2 mb-lg-0"><a class="btn btn-primary btn-lg px-4" href="#"> <i class="fab fa-google-play mr-3"></i>Google Play</a></li>
-            <li class="list-inline-item"><a class="btn btn-primary btn-lg px-4" href="#"> <i class="fab fa-app-store mr-3"></i>App Store</a></li>
+            <img src="https://static.wixstatic.com/media/a5f627_8f8eeb7ca6d546db9116181ba8292941~mv2.png/v1/fill/w_440,h_442,al_c,q_85,usm_0.66_1.00_0.01/TeleConsult%20PRoced2.webp">
           </ul>
         </div>
-        <div class="col-lg  -6 ml-auto">
+        <div class="col-lg-6 ml-auto">
             <div class="card">
-                <div class="card-body">
-                    <form method="POST" action="{{ url('login') }}">
-                        @csrf
+              <img class="card-img-top" src="https://fifarma.org/wp-content/uploads/2020/05/Mesa-de-trabajo-4-copia.jpg">
+              <div class="card-body">
+                  <form method="POST" action="{{ url('login') }}">
+                      @csrf
 
-                        <div class="form-group row">
-                            <label for="username" class="col-md-4 col-form-label text-md-right">{{ __('Username') }}</label>
+                      <div class="form-group row">
+                          <label for="username" class="col-md-4 col-form-label text-md-right">{{ __('Username') }}</label>
 
-                            <div class="col-md-6">
-                                <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus>
+                          <div class="col-md-6">
+                              <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus>
 
-                                @error('username')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                              @error('username')
+                                  <span class="invalid-feedback" role="alert">
+                                      <strong>{{ $message }}</strong>
+                                  </span>
+                              @enderror
+                          </div>
+                      </div>
 
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                      <div class="form-group row">
+                          <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                          <div class="col-md-6">
+                              <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
 
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                              @error('password')
+                                  <span class="invalid-feedback" role="alert">
+                                      <strong>{{ $message }}</strong>
+                                  </span>
+                              @enderror
+                          </div>
+                      </div>
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                      <div class="form-group row mb-0">
+                          <div class="col-md-8 offset-md-4">
+                              <button type="submit" class="btn btn-primary">
+                                  {{ __('Login') }}
+                              </button>
+                          </div>
+                      </div>
+                  </form>
+              </div>
             </div>
         </div>
       </div>
@@ -152,8 +152,8 @@
                 <svg class="svg-icon svg-icon-light" style="width:60px;height:60px;color:#ff904e">
                   <use xlink:href="#document-saved-1"> </use>
                 </svg>
-                <h3 class="font-weight-normal h4 my-4">Online Marketing</h3>
-                <p class="text-small mb-0">Lorem ipsum dolor amet consectetur adipisicing sed do eiusmod tempor incididunt ut labore.</p>
+                <h3 class="font-weight-normal h4 my-4">Teleconsult</h3>
+                <p class="text-small mb-0">Offers teleconsult services to give you easy access to our doctors for your consultations</p>
               </div>
             </div>
           </div>
@@ -164,8 +164,8 @@
                 <svg class="svg-icon svg-icon-light" style="width:60px;height:60px;color:#39f8d2">
                   <use xlink:href="#map-marker-1"> </use>
                 </svg>
-                <h3 class="font-weight-normal h4 my-4">Track your move </h3>
-                <p class="text-small mb-0">Lorem ipsum dolor amet consectetur adipisicing sed do eiusmod tempor incididunt ut labore.</p>
+                <h3 class="font-weight-normal h4 my-4">Realtime Video Chat </h3>
+                <p class="text-small mb-0">Communicate with your doctors securely</p>
               </div>
             </div>
           </div>
@@ -176,15 +176,15 @@
                 <svg class="svg-icon svg-icon-light" style="width:60px;height:60px;color:#8190ff">
                   <use xlink:href="#arrow-target-1"> </use>
                 </svg>
-                <h3 class="font-weight-normal h4 my-4">Market analysis</h3>
-                <p class="text-small mb-0">Lorem ipsum dolor amet consectetur adipisicing sed do eiusmod tempor incididunt ut labore.</p>
+                <h3 class="font-weight-normal h4 my-4">Appointment Made Easy</h3>
+                <p class="text-small mb-0">Request for appointments easily using the system</p>
               </div>
             </div>
           </div>
         </div>
       </div>
     </section>
-    <section class="with-pattern-1" id="services">
+    {{-- <section class="with-pattern-1" id="services">
       <div class="container">
         <div class="row align-items-center mb-5">
           <div class="col-lg-6 mb-5 mb-lg-0"><img class="img-fluid w-100 px-lg-5" src="img/objects.e4497cfa.svg" alt=""></div>
@@ -259,7 +259,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> --}}
   </section>
   <section class="p-0" id="testimonials" style="background: url(img/testimonials-bg.cc4a8da7.png) no-repeat; background-size: 40% 100%; background-position: left center">
     <div class="container text-center">

@@ -178,6 +178,7 @@ class UserController extends Controller
         $patient->gender = $request->input('gender');
         $patient->birthdate = $request->input('birthdate');
         $patient->brgy_id = $request->input('brgy');
+        $patient->email = $request->input('email');
         // $patient->patient_type = $request->input('patient_type');
         $patient->contact_no = $request->input('contact_no');
         $patient->civil_stat = $request->input('civil_stat');
@@ -228,12 +229,15 @@ class UserController extends Controller
         $consult = new Consults;
         $consult->hosp_no = $request->input('hosp_no');
         $consult->complaint = $request->input('complaint');
-        $consult->consult_type = $request->input('consult_type');
-        $consult->room_id = $request->input('room_id');
+        // $consult->consult_type = $request->input('consult_type');
+        // $consult->room_id = $request->input('room_id');
+        $consult->consult_type = 1;
+        $consult->room_id = 1;
         $consult->SAVE();
 
         $patient = Patients::FIND($request->input('hosp_no'));
-        $patient->patient_stat = $request->input('consult_type');
+        // $patient->patient_stat = $request->input('consult_type');
+        $patient->patient_stat = 1;
         $patient->SAVE();
 
         return redirect()->back()->with('success','You have successfully admitted this patient!');
@@ -1769,5 +1773,18 @@ class UserController extends Controller
         fclose($csvfile);
 
         return redirect()->back()->with('success','File has been successfully uploaded!');
+    }
+
+    public function addConsultationFee(Request $request) {
+        /* add to billing */
+        $billing = new Billings;
+        $billing->consult_id = $request->consult_id;
+        $billing->supply_id = 5;
+        $billing->qty = 1;
+        $billing->sub_total = $request->input('amt'); 
+        $billing->emp_no = Auth::User()->user_id;
+        $billing->SAVE();
+
+        return redirect()->back()->with('success','Consultation Fee has been saved!');
     }
 }

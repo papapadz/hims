@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.1
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 23, 2021 at 01:17 AM
--- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.3
+-- Generation Time: Aug 25, 2021 at 03:18 PM
+-- Server version: 10.4.17-MariaDB
+-- PHP Version: 7.4.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -47,7 +46,8 @@ CREATE TABLE `tbl_billings` (
 --
 
 INSERT INTO `tbl_billings` (`id`, `consult_id`, `supply_id`, `qty`, `sub_total`, `emp_no`, `is_paid`, `payee`, `or_num`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 5, 27.50, 'MED190002', 1, 'Paeadsa', '123', '2021-08-19 15:35:20', '2021-08-19 15:35:38');
+(1, 1, 1, 5, 27.50, 'MED190002', 1, 'Paeadsa', '123', '2021-08-19 15:35:20', '2021-08-19 15:35:38'),
+(2, 2, 5, 1, 1000.00, 'MED190002', 0, NULL, NULL, '2021-08-25 07:38:40', '2021-08-25 07:38:40');
 
 -- --------------------------------------------------------
 
@@ -43839,7 +43839,7 @@ CREATE TABLE `tbl_consults` (
 
 INSERT INTO `tbl_consults` (`id`, `hosp_no`, `complaint`, `consult_type`, `room_id`, `discharge_date`, `created_at`, `updated_at`) VALUES
 (1, '20210001', 'Test', 'OPD', 1, '2021-08-19 15:35:38', '2021-08-19 15:31:08', '2021-08-19 15:35:38'),
-(2, '20210001', 'Test', 'OPD', 3, NULL, '2021-08-22 16:30:59', '2021-08-22 16:30:59');
+(2, '20210001', 'Test', 'OPD', 1, NULL, '2021-08-22 16:30:59', '2021-08-22 16:30:59');
 
 -- --------------------------------------------------------
 
@@ -43864,7 +43864,8 @@ CREATE TABLE `tbl_consult_scheds` (
 INSERT INTO `tbl_consult_scheds` (`id`, `emp_no`, `hosp_no`, `consult_date`, `remarks`, `created_at`, `updated_at`) VALUES
 (1, 'MED190002', '20210001', '2021-08-31 23:36:00', NULL, '2021-08-19 15:36:56', '2021-08-19 15:36:56'),
 (2, 'MED190002', '20210001', '2021-08-20 23:36:00', NULL, '2021-08-19 15:36:56', '2021-08-19 15:36:56'),
-(4, 'MED190002', '20210001', '2021-08-24 13:00:00', 'tets', '2021-08-22 16:57:06', '2021-08-22 16:57:06');
+(4, 'MED190002', '20210001', '2021-08-24 13:00:00', 'tets', '2021-08-22 16:57:06', '2021-08-22 16:57:06'),
+(5, 'MED190001', '20210001', '2021-08-25 09:30:00', 'test', '2021-08-24 08:24:11', '2021-08-24 08:24:11');
 
 -- --------------------------------------------------------
 
@@ -44402,6 +44403,7 @@ CREATE TABLE `tbl_patients` (
   `brgy_id` int(11) NOT NULL,
   `patient_type` int(1) NOT NULL DEFAULT 1,
   `contact_no` varchar(20) NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
   `civil_stat` varchar(10) NOT NULL,
   `philhealth_no` varchar(30) DEFAULT NULL,
   `blood_type` varchar(2) NOT NULL,
@@ -44415,8 +44417,8 @@ CREATE TABLE `tbl_patients` (
 -- Dumping data for table `tbl_patients`
 --
 
-INSERT INTO `tbl_patients` (`hosp_no`, `last_name`, `first_name`, `middle_name`, `gender`, `birthdate`, `brgy_id`, `patient_type`, `contact_no`, `civil_stat`, `philhealth_no`, `blood_type`, `profile_img`, `patient_stat`, `created_at`, `updated_at`) VALUES
-('20210001', 'Patient1', 'Test', NULL, 'Male', '2021-08-19', 58, 1, '099999999', 'Single', '23123123123', 'B', '', 'OPD', '2021-08-19 15:29:41', '2021-08-22 16:30:59');
+INSERT INTO `tbl_patients` (`hosp_no`, `last_name`, `first_name`, `middle_name`, `gender`, `birthdate`, `brgy_id`, `patient_type`, `contact_no`, `email`, `civil_stat`, `philhealth_no`, `blood_type`, `profile_img`, `patient_stat`, `created_at`, `updated_at`) VALUES
+('20210001', 'Patient1', 'Test', NULL, 'Male', '2021-08-19', 58, 1, '099999999', 'benpadz08@gmail.com', 'Single', '23123123123', 'B', 'default.png', 'OPD', '2021-08-19 15:29:41', '2021-08-22 16:30:59');
 
 -- --------------------------------------------------------
 
@@ -44468,6 +44470,7 @@ CREATE TABLE `tbl_prescriptions` (
   `consult_id` int(11) NOT NULL,
   `prescription` varchar(100) NOT NULL,
   `prescribed_by` varchar(255) NOT NULL,
+  `file_upload` varchar(20) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -44476,8 +44479,9 @@ CREATE TABLE `tbl_prescriptions` (
 -- Dumping data for table `tbl_prescriptions`
 --
 
-INSERT INTO `tbl_prescriptions` (`id`, `consult_id`, `prescription`, `prescribed_by`, `created_at`, `updated_at`) VALUES
-(1, 1, 'TeasdAd', 'MED190002', '2021-08-19 15:35:06', '2021-08-19 15:35:06');
+INSERT INTO `tbl_prescriptions` (`id`, `consult_id`, `prescription`, `prescribed_by`, `file_upload`, `created_at`, `updated_at`) VALUES
+(1, 1, 'TeasdAd', 'MED190002', NULL, '2021-08-19 15:35:06', '2021-08-19 15:35:06'),
+(4, 2, 'asdas', 'MED190002', '1629795875829.jpg', '2021-08-24 09:04:35', '2021-08-24 09:04:35');
 
 -- --------------------------------------------------------
 
@@ -44697,9 +44701,7 @@ CREATE TABLE `tbl_rooms` (
 --
 
 INSERT INTO `tbl_rooms` (`id`, `room`, `room_type_id`, `fee`, `max_occupancy`, `created_at`, `updated_at`) VALUES
-(1, '101', 1, 0, 10, '2019-10-19 00:00:00', '2019-10-19 00:00:00'),
-(2, '201', 2, 1200, 1, '2019-10-19 00:00:00', '2019-10-19 00:00:00'),
-(3, 'Family Medicine Clinic', 3, 0, 5, '2019-10-19 00:00:00', '2019-10-19 00:00:00');
+(1, 'Virutal Room', 1, 0, 100, '2019-10-19 00:00:00', '2019-10-19 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -44719,9 +44721,7 @@ CREATE TABLE `tbl_room_types` (
 --
 
 INSERT INTO `tbl_room_types` (`id`, `room_type`, `created_at`, `updated_at`) VALUES
-(1, 'Service Ward', '2019-10-19 00:00:00', '2019-10-19 00:00:00'),
-(2, 'Pay Ward', '2019-10-19 00:00:00', '2019-10-19 00:00:00'),
-(3, 'OPD', '2019-10-19 00:00:00', '2019-10-19 00:00:00');
+(1, 'Online Consult', '2019-10-19 00:00:00', '2019-10-19 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -44748,7 +44748,8 @@ INSERT INTO `tbl_supplies` (`id`, `supply`, `price`, `qty`, `unit`, `category_id
 (1, 'Vitamin C', 5.50, 0, 'tablet', 1, '2019-10-24 00:00:00', '2021-08-19 15:35:20'),
 (2, 'Complete Blood Count', 150.00, 97, 'unit', 2, '2019-10-30 00:00:00', '2020-02-04 06:17:07'),
 (3, 'Chest X-Ray', 550.00, 100, 'unit', 3, '2019-10-30 00:00:00', '2019-10-30 00:00:00'),
-(4, 'Diatabs', 9.25, 95, 'Capsule', 1, '2020-01-01 00:00:00', '2020-01-13 14:21:10');
+(4, 'Diatabs', 9.25, 95, 'Capsule', 1, '2020-01-01 00:00:00', '2020-01-13 14:21:10'),
+(5, 'Consultation Fee', 100.00, 1, 'session', 4, '2021-08-25 15:26:08', '2021-08-25 15:26:08');
 
 -- --------------------------------------------------------
 
@@ -44770,7 +44771,8 @@ CREATE TABLE `tbl_supply_cat` (
 INSERT INTO `tbl_supply_cat` (`id`, `category`, `created_at`, `updated_at`) VALUES
 (1, 'Medicine', '2019-10-24 00:00:00', '2019-10-24 00:00:00'),
 (2, 'Lab Exams', '2019-10-30 00:00:00', '2019-10-30 00:00:00'),
-(3, 'Radiology Exams', '2019-10-30 00:00:00', '2019-10-30 00:00:00');
+(3, 'Radiology Exams', '2019-10-30 00:00:00', '2019-10-30 00:00:00'),
+(4, 'Miscellaneous', '2021-08-25 15:25:26', '2021-08-25 15:25:26');
 
 -- --------------------------------------------------------
 
@@ -44809,7 +44811,8 @@ CREATE TABLE `tbl_user_accounts` (
 --
 
 INSERT INTO `tbl_user_accounts` (`id`, `username`, `password`, `user_id`, `account_type`, `created_at`, `updated_at`) VALUES
-(5, 'admin', '$2y$10$XWViq5W.9YWCIZyIrjCtmuu5CdLqdhIpwQvnn7kXe0xklyrMbho5u', 'MED190002', 1, '2021-08-19 15:03:22', '2021-08-19 15:03:22');
+(5, 'admin', '$2y$10$XWViq5W.9YWCIZyIrjCtmuu5CdLqdhIpwQvnn7kXe0xklyrMbho5u', 'MED190002', 1, '2021-08-19 15:03:22', '2021-08-19 15:03:22'),
+(6, 'patient', '$2y$10$XWViq5W.9YWCIZyIrjCtmuu5CdLqdhIpwQvnn7kXe0xklyrMbho5u', '20210001', 3, '2021-08-19 15:03:22', '2021-08-19 15:03:22');
 
 --
 -- Indexes for dumped tables
@@ -44987,7 +44990,7 @@ ALTER TABLE `tbl_user_accounts`
 -- AUTO_INCREMENT for table `tbl_billings`
 --
 ALTER TABLE `tbl_billings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_brgy`
@@ -45011,7 +45014,7 @@ ALTER TABLE `tbl_consults`
 -- AUTO_INCREMENT for table `tbl_consult_scheds`
 --
 ALTER TABLE `tbl_consult_scheds`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tbl_countries`
@@ -45071,7 +45074,7 @@ ALTER TABLE `tbl_positions`
 -- AUTO_INCREMENT for table `tbl_prescriptions`
 --
 ALTER TABLE `tbl_prescriptions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_professions`
@@ -45113,13 +45116,13 @@ ALTER TABLE `tbl_room_types`
 -- AUTO_INCREMENT for table `tbl_supplies`
 --
 ALTER TABLE `tbl_supplies`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tbl_supply_cat`
 --
 ALTER TABLE `tbl_supply_cat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_uploads`
@@ -45131,7 +45134,7 @@ ALTER TABLE `tbl_uploads`
 -- AUTO_INCREMENT for table `tbl_user_accounts`
 --
 ALTER TABLE `tbl_user_accounts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

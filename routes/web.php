@@ -41,7 +41,7 @@ Route::group(['middleware' => 'auth'], function() {
 		Route::post('consult/add-lab-request', 'UserController@addLabRequest');
 		Route::post('consult/add-xray-request', 'UserController@addXRayRequest');
 		Route::post('consult/add-prescription','UserController@addPrescription');
-
+		Route::post('consult/add-consultation-fee','UserController@addConsultationFee');
 		// Route::get('lab-requests', 'UserController@viewLabRequests');
 		// Route::post('lab/add-result','UserController@addLabResult');
 		// Route::get('lab/delete-request/{id}','UserController@deleteRequest');

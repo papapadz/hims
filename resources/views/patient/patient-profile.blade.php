@@ -247,7 +247,7 @@
               <textarea name="complaint" class="form-control"></textarea>
             </div>
           </div>
-          <div class="row mb-3">
+          {{-- <div class="row mb-3">
             <div class="col-md-6">
               <label>Admission Type</label>
               <select class="form-control" name="consult_type">
@@ -263,7 +263,7 @@
                 @endforeach
               </select>
             </div>
-          </div>    
+          </div>     --}}
         </div>   
       </div>
       <div class="modal-footer">

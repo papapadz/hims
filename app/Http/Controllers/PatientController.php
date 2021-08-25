@@ -20,6 +20,8 @@ use App\Appointments;
 use App\Billings;
 /**/
 
+use App\Mail\VideoconferenceEmail;
+
 class PatientController extends Controller
 {
     public function viewPatientProfile($hosp_no) {
@@ -231,10 +233,20 @@ class PatientController extends Controller
 
     public function videoCallPatient($hosp_no) {
 
-        if(Auth::User()->account_type==3)
+        if(Auth::User()->account_type==3) 
             $name = Auth::user()->patientInfo->first_name.' '.Auth::user()->patientInfo->last_name;
-        else
+        else {
             $name = Auth::user()->employeeInfo->first_name.' '.Auth::user()->employeeInfo->last_name;
+            $patient = Patients::find($hosp_no);
+            //send email
+            $data = [
+                'name' => $patient->first_name.' '.$patient->middle_name.' '.$patient->last_name,
+                'doctor' => $name,
+                'appointment_date' => Carbon::now(),
+                'link' => url('patient/video-call/'.$hosp_no)
+            ];
+            \Mail::to($patient->email)->send(new VideoconferenceEmail($data));
+        }
 
         return view('patient/patient-meet')
                 ->with([
