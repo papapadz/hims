@@ -9,59 +9,6 @@
     <link rel="stylesheet" href="{{asset('/assets/css/nova.default.css')}}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 </head>
-{{-- <body>
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
-
-                <div class="card-body">
-                    <form method="POST" action="{{ url('login') }}">
-                        @csrf
-
-                        <div class="form-group row">
-                            <label for="username" class="col-md-4 col-form-label text-md-right">{{ __('Username') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus>
-
-                                @error('username')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-</body> --}}
 <body>
 <!-- navbar-->
 <header class="header">
@@ -91,50 +38,18 @@
           </ul>
         </div>
         <div class="col-lg-6 ml-auto">
-            <div class="card">
-              <img class="card-img-top" src="https://fifarma.org/wp-content/uploads/2020/05/Mesa-de-trabajo-4-copia.jpg">
-              <div class="card-body">
-                  <form method="POST" action="{{ url('login') }}">
-                      @csrf
-
-                      <div class="form-group row">
-                          <label for="username" class="col-md-4 col-form-label text-md-right">{{ __('Username') }}</label>
-
-                          <div class="col-md-6">
-                              <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus>
-
-                              @error('username')
-                                  <span class="invalid-feedback" role="alert">
-                                      <strong>{{ $message }}</strong>
-                                  </span>
-                              @enderror
-                          </div>
-                      </div>
-
-                      <div class="form-group row">
-                          <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                          <div class="col-md-6">
-                              <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
-                              @error('password')
-                                  <span class="invalid-feedback" role="alert">
-                                      <strong>{{ $message }}</strong>
-                                  </span>
-                              @enderror
-                          </div>
-                      </div>
-
-                      <div class="form-group row mb-0">
-                          <div class="col-md-8 offset-md-4">
-                              <button type="submit" class="btn btn-primary">
-                                  {{ __('Login') }}
-                              </button>
-                          </div>
-                      </div>
-                  </form>
-              </div>
+          <br><br>
+          <div class="row align-items-center">
+            <div class="embed-responsive embed-responsive-16by9">
+              <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/B9oC8vUjqk8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
+          </div>
+          <hr>
+          <div class="row align-items-center">
+            <h3>Click the button to Login!</h3>
+              <p class="text-muted">If you don't have an account yet, you can register through the button. Join now and teleconsult with our doctors!</p>
+              <a class="btn btn-primary js-modal-btn w-100" href="{{ url('login') }}"><i class="fas fa-play-circle mr-2"></i>Login</a>
+          </div>
         </div>
       </div>
     </div>

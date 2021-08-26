@@ -16,6 +16,8 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+Route::get('get/citymun/{code}','GetController@getCityMun');
+Route::get('get/brgy/{code}','GetController@getBrgy');
 
 Route::group(['middleware' => 'auth'], function() {
 	
@@ -119,8 +121,6 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('consult/add-appointment', 'UserController@addAppointment');
 	
 	Route::get('get/employee/{id}','GetController@getEmployee');
-	Route::get('get/citymun/{code}','GetController@getCityMun');
-	Route::get('get/brgy/{code}','GetController@getBrgy');
 	Route::get('get/attendance/{id}/{date}/{month}/{year}','GetController@getAttendance');
 
 	/** Appointments */
