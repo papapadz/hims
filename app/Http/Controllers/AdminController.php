@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 /*Models*/
 use App\User;
@@ -13,6 +14,7 @@ use App\Professions;
 use App\Employees;
 use App\Patients;
 /**/
+use App\Mail\VerifyPatient;
 
 class AdminController extends Controller
 {
@@ -46,6 +48,7 @@ class AdminController extends Controller
                     'middle_name'
                 )
                 ->JOIN('tbl_patients','tbl_patients.hosp_no','=','tbl_user_accounts.user_id')
+                ->WHERE('email_verified_at','!=',NULL)
                 ->GET();
 
     	return view('admin/user-accounts')
@@ -56,12 +59,8 @@ class AdminController extends Controller
 
     public function addUserAccount(Request $request) {
 
-    	$user = new User;
-        $user->user_id = $request->input('emp_no');
-    	$user->username = $request->input('username');
-    	$user->password = bcrypt($request->input('password'));
-    	$user->account_type = $request->input('account_type');
-    	$user->SAVE();
+        $user = new UserController;
+    	$user->store($request);
 
     	return redirect()->back()->with('success','User Account has been succesfully added!');
     }
@@ -230,6 +229,24 @@ class AdminController extends Controller
         $profession->DELETE();
 
         return redirect()->back()->with('danger','Record has been deleted.');
+    }
+
+    public function verifyPatient($hosp_no) {
+
+        $patient = Patients::find($hosp_no);
+        
+        //send email
+        $data = [
+            'name' => $patient->first_name.' '.$patient->middle_name.' '.$patient->last_name,
+            'registration_date' => $patient->created_at,
+            'link' => url('patient/view/create-account/'.$hosp_no)
+        ];
+        \Mail::to($patient->email)->send(new VerifyPatient($data));
+        User::where('user_id',$hosp_no)->update([
+            'email_verified_at' => Carbon::now()
+        ]);
+
+        return redirect()->back()->with('success','Patient was verified successfully and was sent an email');
     }
 
 }

@@ -18,4 +18,8 @@ class Patients extends Model
 	public function appointments() {
 		return $this->belongsTo(Appointment::class,'hosp_no','hosp_no')->with('doctor');
 	}
+
+	public function userAccount() {
+		return $this->belongsTo(User::class,'user_id','hosp_no');
+	}
 }

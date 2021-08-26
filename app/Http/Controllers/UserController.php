@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Validator;
 /* Models */
 use App\Patients;
 use App\Rooms;
@@ -31,15 +31,29 @@ use App\Brgys;
 use App\Eligibilities;
 use App\Schedules;
 use App\Professions;
+use App\User;
 /**/
 
 class UserController extends Controller
 {
+    public function store(Request $request) {
+
+        $user = new User;
+        $user->user_id = $request->input('user_id');
+    	$user->username = $request->input('username');
+    	$user->password = bcrypt($request->input('password'));
+    	$user->account_type = $request->input('account_type');
+    	$user->SAVE();
+
+        return $user;
+    }
 
     public function viewPatients() {
         
         if(Auth::User()->account_type == 1 || Auth::User()->employeeInfo->department_id = 7) { /*If user is ADMIN or under Patient Service Unit, get all records*/
-            $patients = Patients::WHERE('hosp_no','!=','X')->GET();
+            $patients = Patients::JOIN('tbl_user_accounts','tbl_patients.hosp_no','=','tbl_user_accounts.user_id')
+                ->WHERE('hosp_no','!=','X')
+                ->GET();
 
             $appointments = Appointments::SELECT(
                         'tbl_consult_scheds.id',
@@ -92,7 +106,12 @@ class UserController extends Controller
                     )
                     ->JOIN('tbl_consults','tbl_consults.id','=','tbl_diagnosis.consult_id')
                     ->JOIN('tbl_patients','tbl_patients.hosp_no','=','tbl_consults.hosp_no')
-                    ->WHERE([['patient_stat','!=','WLK'],['tbl_diagnosis.emp_no',Auth::User()->user_id]])
+                    ->JOIN('tbl_user_accounts','tbl_patients.hosp_no','=','tbl_user_accounts.user_id')
+                    ->WHERE([
+                            ['patient_stat','!=','WLK'],
+                            ['tbl_diagnosis.emp_no',Auth::User()->user_id],
+                            ['email_verified_at','!=', NULL]
+                        ])
                     ->GET();
 
             $appointments = Appointments::SELECT(
@@ -116,7 +135,10 @@ class UserController extends Controller
 
                 /*If user is under Nursing,Pharmacy,Billing,Lab and XRay, get all patient records who are admitted*/
 
-                $patients = Patients::WHERENOTIN('patient_stat',[NULL,'WLK'])->GET();
+                $patients = Patients::JOIN('tbl_user_accounts','tbl_patients.hosp_no','=','tbl_user_accounts.user_id')
+                    ->WHERE('email_verified_at','!=', NULL)
+                    ->WHERENOTIN('patient_stat',[NULL,'WLK'])
+                    ->GET();
 
                 $appointments = Appointments::SELECT(
                             'tbl_consult_scheds.id',
@@ -153,41 +175,8 @@ class UserController extends Controller
 
     public function addPatient(Request $request) {
 
-        /*create hospital number*/
-        $patient_count = count(Patients::whereBetween('created_at',[Carbon::now()->startOfYear(),Carbon::now()->endOfYear()])->GET()) + 1;
-        $hospital_no_count = str_pad($patient_count, 4, '0', STR_PAD_LEFT);
-        $hospital_no_set = Carbon::now()->year.$hospital_no_count; /* Patient hospital number ex. 20190001 */
-        //
-        
-        $filename = "default.png";
-        /*save file to public folder*/
-        if($request->hasFile('profile_img')) {
-            $file = $request->file('profile_img');
-            $filename = $hospital_no_set.'.'.$file->getClientOriginalExtension();
-            $destinationPath = public_path('assets/img/faces');
-            $file->move($destinationPath,$filename);
-        } else if($request->input('gender')=='Female')
-            $filename = 'default-F.jpg';
-
-        /*save patient info to database*/
-        $patient = new Patients;
-        $patient->hosp_no = $hospital_no_set;
-        $patient->last_name = $request->input('last_name');
-        $patient->first_name = $request->input('first_name');
-        $patient->middle_name = $request->input('middle_name');
-        $patient->gender = $request->input('gender');
-        $patient->birthdate = $request->input('birthdate');
-        $patient->brgy_id = $request->input('brgy');
-        $patient->email = $request->input('email');
-        // $patient->patient_type = $request->input('patient_type');
-        $patient->contact_no = $request->input('contact_no');
-        $patient->civil_stat = $request->input('civil_stat');
-        $patient->philhealth_no = $request->input('philhealth_no');
-        $patient->blood_type = $request->input('blood_type');
-        $patient->profile_img = $filename;
-        $patient->SAVE();
-        //
-
+        $patient = new PatientController;
+        $patient->store($request);
         return redirect()->back()->with('success','You have saved a new patient information!');
     }
 
@@ -1786,5 +1775,29 @@ class UserController extends Controller
         $billing->SAVE();
 
         return redirect()->back()->with('success','Consultation Fee has been saved!');
+    }
+
+    public function newPatientAccount(Request $request) {
+
+        $validator1 = Validator::make($request->all(), [
+            'username' => 'required|unique:tbl_user_accounts'
+        ]);
+        $validator2 = Validator::make($request->all(), [
+            'password' => 'required|min:7'
+        ]);
+
+        if($validator1->fails())
+            return redirect()->back()->with('danger','The username you have entered have been already taken. Please try again.');
+        else if($validator2->fails())
+            return redirect()->back()->with('danger','Yout password must be more than 8 characters long, should contain atleast 1 Uppercase, 1 Lowercase and a Numeric character.');
+        else if(strcmp($request->password, $request->password2)!=0) 
+            return redirect()->back()->with('danger','Password does not match!');
+
+        $user = User::where('user_id',$request->hosp_no)->first();
+    	$user->username = $request->input('username');
+    	$user->password = bcrypt($request->input('password'));
+    	$user->SAVE();
+
+        return redirect('login');
     }
 }

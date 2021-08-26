@@ -18,6 +18,6 @@ class AdminMiddleware
     {
         if(Auth::user()->account_type!=3)
             return $next($request);
-        return redirect()->back();
+        return redirect('patients/profile/'.Auth::User()->user_id);
     }
 }

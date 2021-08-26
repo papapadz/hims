@@ -96,17 +96,74 @@ body {
       <div class="row">
         <div class="mx-auto">
           <div class="card border-0 shadow rounded-3 my-5">
-            <div class="card-body p-4 p-sm-5">
+            <div id="privacy-policy" class="card-body overflow-text">
+              Before proceeding, read our Privacy Policy
+                    <p>
+                        <b>1. Commitment to uphold Privacy of Patients and Clients.</b> In line with our commitment to provide excellent and state-of-the-art health care, the protection and confidentiality of your personal data are our ultimate concerns consistent with the requirements of the Data Privacy Act of 2012, its Implementing Rules and Regulations, National Privacy Commission issuances, and other relevant laws. This statement provides in brief the manner we collect and process your personal data every time you visit our website, and avail of our services.
+                        <br>
+                        <b>2. What we collect from you.</b> With your consent, we collect your personal data, which may include:<br>
+                            a.	Name, age, sex, birthday, address, email address, telephone/mobile;<br>
+                            b.	Current medication or treatments used by patients;<br>
+                            c.	Previous/current medical history, including where relevant, a family medical history;<br>
+                            d.	The name of Health Maintenance Organization (HMO)<br>
+                            e.	The name of any health service provider or medical specialist, where applicable;<br>
+                            f.	The results of any laboratory tests and ancillary services which you provide; and,<br>
+                            g.	Any other information that will assist us in providing you with better health care.
+                        <br>
+                        <b>3. Why we collect your personal data</b> We use your personal data for the following purpose/s:<br>
+                            a.	To meet your medical and ancillary needs and/or requirements and other programs and services you availed;<br>
+                            b.	For multi-disciplinary treating team, where necessary;<br>
+                            c.	For the payment of your bills;<br>
+                            d.	To liaise with health professionals and HMO’s;<br>
+                            e.	For collaboration with other medical health provider, where necessary, and upon your consent;<br>
+                            f.	For purposes required by law.
+                        <br>
+                        <b>4. Sharing your personal data.</b> We do not share your personal data with third parties unless:<br>
+                            a.	you have consented to the sharing thereof<br>
+                            b.	it is necessary to protect our interests<br>
+                            c.	when required and/or permitted by law<br>
+                            d.	with service providers acting on our behalf who have agreed to protect the confidentiality of the data<br>
+                            e.	with HMOs and/or Companies with whom you are affiliated with, and with who you consented to the sharing thereof.
+                        <br>
+                        <b>5. Security.</b> In furtherance with our commitment to ensure the security of your personal data, reasonable and appropriate safeguards and measures have been put in place especially designed for its protection, and for the maintenance of its integrity, availability and confidentiality.
+                        <br>
+                        <b>6. Rights of Data Subjects.</b> Under the Data Privacy Act of 2012, you have the right to the following:
+                            a.	To be Informed of the collection and processing of your personal data;<br>
+                            b.	To Object to the processing of your personal data;<br>
+                            c.	To Access your personal data;<br>
+                            d.	To Correct inaccuracies or errors of your entries;<br>
+                            e.	To suspend, withdraw or order the blocking, removal or destruction of your personal data from our filing system; and<br>
+                            f.	To Complain due to such inaccuracies, incomplete, outdated, false, unlawfully obtained or unauthorized use of personal data.<br>
+                            g.	Transmissibility of your rights to your lawful heirs and assigns;<br>
+                            h.	To obtain a copy of such data in an electronic or structured format where your personal data is processed by electronic means and in a structured and commonly used format.</p>
+                      <button type="button" class="btn btn-primary" onclick="openRegForm()">I Agree</button>
+            </div>
+            <div id="reg-form" class="card-body p-4 p-sm-5" hidden="true">
+              @if(session('success'))
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Success!</strong> {{ session('success') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              @elseif(session('danger'))
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Sorry!</strong> {{ session('danger') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              @endif  
               <h5 class="card-title text-center mb-5 fw-light fs-5">Register</h5>
-              <form action="{{ url('patients/add') }}" method="POST" enctype="multipart/form-data">
+              <form action="{{ url('patient/self-register') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <div class="row mb-3">
                       <div class="col-md-6">
-                        <input type="text" name="last_name" class="form-control" placeholder="Last Name" />
+                        <input type="text" name="last_name" class="form-control" placeholder="Last Name" required/>
                       </div>
                       <div class="col-md-6">
-                        <input type="text" name="first_name" class="form-control" placeholder="First Name" />
+                        <input type="text" name="first_name" class="form-control" placeholder="First Name" required/>
                       </div>
                     </div>
                     <div class="row mb-3">
@@ -116,7 +173,7 @@ body {
                       <div class="col-md-6">
                         <div class="form-check form-check-radio form-check-inline">
                           <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="gender" id="gender_m" value="Male"> Male
+                            <input class="form-check-input" type="radio" name="gender" id="gender_m" value="Male" checked> Male
                             <span class="form-check-sign"></span>
                           </label>
                         </div>
@@ -130,10 +187,10 @@ body {
                     </div>
                     <div class="row mb-3">
                       <div class="col-md-6">
-                        <input type="date" name="birthdate" class="form-control" placeholder="Birthdate" />
+                        <input type="date" name="birthdate" class="form-control" placeholder="Birthdate" required/>
                       </div>
                       <div class="col-md-6">
-                        <select name="civil_stat" class="form-control">
+                        <select name="civil_stat" class="form-control" required>
                           <option selected disabled>Civil Status</option>
                           <option value="Single">Single</option>
                           <option value="Married">Married</option>
@@ -144,7 +201,7 @@ body {
                     </div>
                     <div class="row mb-3">
                       <div class="col-md-6">
-                        <input type="text" name="contact_no" class="form-control" placeholder="Contact No." />
+                        <input type="text" name="contact_no" class="form-control" placeholder="Contact No." required/>
                       </div>
                       <div class="col-md-6">
                         <input type="text" name="email" class="form-control" placeholder="Email Address" required/>
@@ -185,7 +242,7 @@ body {
                         </select>
                       </div>
                       <div class="col-md-6">
-                        <select name="blood_type" class="form-control">
+                        <select name="blood_type" class="form-control" required>
                           <option selected disabled>Blood Type</option>
                           <option value="A">A</option>
                           <option value="B">B</option>
@@ -236,7 +293,6 @@ body {
       </div>
     </div>
   </body>
-  
 @include('includes.scripts')
 <script type="text/javascript">
 
@@ -268,5 +324,10 @@ body {
         });
       });
     
+      function openRegForm() {
+        $('#privacy-policy').remove()
+        $('#reg-form').attr('hidden',false)
+      }
+
     </script>
 </html>

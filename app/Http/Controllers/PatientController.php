@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Validator;
 /* Models */
 use App\Patients;
 use App\Rooms;
@@ -24,6 +24,44 @@ use App\Mail\VideoconferenceEmail;
 
 class PatientController extends Controller
 {
+    public function store(Request $request) {
+        /*create hospital number*/
+        $patient_count = count(Patients::whereBetween('created_at',[Carbon::now()->startOfYear(),Carbon::now()->endOfYear()])->GET()) + 1;
+        $hospital_no_count = str_pad($patient_count, 4, '0', STR_PAD_LEFT);
+        $hospital_no_set = Carbon::now()->year.$hospital_no_count; /* Patient hospital number ex. 20190001 */
+        //
+        
+        $filename = "default.png";
+        /*save file to public folder*/
+        if($request->hasFile('profile_img')) {
+            $file = $request->file('profile_img');
+            $filename = $hospital_no_set.'.'.$file->getClientOriginalExtension();
+            $destinationPath = public_path('assets/img/faces');
+            $file->move($destinationPath,$filename);
+        } else if($request->input('gender')=='Female')
+            $filename = 'default-F.jpg';
+
+        /*save patient info to database*/
+        $patient = new Patients;
+        $patient->hosp_no = $hospital_no_set;
+        $patient->last_name = $request->input('last_name');
+        $patient->first_name = $request->input('first_name');
+        $patient->middle_name = $request->input('middle_name');
+        $patient->gender = $request->input('gender');
+        $patient->birthdate = $request->input('birthdate');
+        $patient->brgy_id = $request->input('brgy');
+        $patient->email = $request->input('email');
+        // $patient->patient_type = $request->input('patient_type');
+        $patient->contact_no = $request->input('contact_no');
+        $patient->civil_stat = $request->input('civil_stat');
+        $patient->philhealth_no = $request->input('philhealth_no');
+        $patient->blood_type = $request->input('blood_type');
+        $patient->profile_img = $filename;
+        $patient->SAVE();
+
+        return $patient;
+    }
+
     public function viewPatientProfile($hosp_no) {
 
     	/* Query all Rooms */
@@ -255,5 +293,29 @@ class PatientController extends Controller
                     'room' => 'patient-'.$hosp_no
                 ]);
     }
+
+    public function register(Request $request) {
+        
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|unique:tbl_patients'
+        ]);
+
+        if($validator->fails())
+        return redirect()->back()->with('danger','Someone already have registered this email address, please use another or check your email and try again.');
+
+        $patient = $this->store($request);
+       
+        $request->request->add([
+            'user_id' => Patients::where('email',$patient->email)->first()->hosp_no,
+            'account_type' => 3,
+            'username' => $patient->email,
+            'password' => bcrypt('dummy')
+        ]);
+
+        $user = new UserController;
+        $user->store($request);
+
+        return redirect()->back()->with('success','Thank you for registering! We will be sending an email to '.$patient->email.' to complete your registration process. Thank you!');
+    }   
 
 }

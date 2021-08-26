@@ -4,8 +4,15 @@
 <form action="{{ url('patients/profile/save') }}" method="POST" enctype="multipart/form-data">
 @csrf
 <input type="text" name="hosp_no" value="{{ $patient->hosp_no }}" hidden>
+@if(Auth::User()->account_type==3)
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong>Welcome!</strong> Hello {{ Auth::User()->patientInfo->first_name }}! Welcome to your profile!
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+  <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+@endif
 <div class="row">
-
   <div class="col-md-3">
     <div class="row">
       <div class="col-12">
@@ -76,7 +83,7 @@
             </div>
             <label class="col-sm-2 col-form-label">Gender:</label>
             <div class="col-sm-4">
-                <select readonly="true" class="form-control-plaintext fieldToEdit" name="gender">
+                <select readonly="true" disabled="true" class="form-control-plaintext fieldToEdit" name="gender">
                   <option @if($patient->gender=='Male') selected @endif value="Male">Male</option>
                   <option @if($patient->gender=='Female') selected @endif value="Female">Female</option>
                 </select>

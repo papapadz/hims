@@ -18,8 +18,18 @@ Route::get('/', function () {
 Auth::routes();
 Route::get('get/citymun/{code}','GetController@getCityMun');
 Route::get('get/brgy/{code}','GetController@getBrgy');
+Route::post('patient/self-register','PatientController@register');
+Route::get('patient/view/create-account/{hosp_no}',function($hosp_no) {
 
-Route::group(['middleware' => 'auth'], function() {
+	$user = DB::table('tbl_user_accounts')->where([['user_id',$hosp_no],['email_verified_at','!=',NULL]])->first();
+	if($user)
+		return view('auth.verify')->with('hosp_no',$hosp_no);
+	else
+		abort(401);
+});
+Route::post('patient/verified/create-account','UserController@newPatientAccount');
+
+Route::group(['middleware' => ['auth','verified']], function() {
 	
 	Route::group(['middleware' => 'is_admin'], function() {
 		Route::get('home', 'HomeController@index')->name('home');
@@ -37,6 +47,7 @@ Route::group(['middleware' => 'auth'], function() {
 		Route::post('patient/add-medicine','UserController@addPatientMedicine');
 		Route::post('patient/bill-out','UserController@billOut');
 		Route::get('patient/delete/{hosp_no}','AdminController@deletePatient');
+		Route::get('patient/verify-email/{hosp_no}','AdminController@verifyPatient');
 
 		Route::get('appointment/delete/{id}', 'UserController@deleteAppointment');
 		Route::post('consult/add-diagnosis', 'UserController@addDiagnosis');

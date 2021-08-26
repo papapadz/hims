@@ -39,7 +39,7 @@
                     <th>Birthdate</th>
                     <th>Gender</th>
                     <th>Address</th>
-                    <th>Patient Type</th>
+                    {{-- <th>Patient Type</th> --}}
                     <th>Action</th>
                 </tr>
               </thead>
@@ -62,24 +62,40 @@
                     <td>{{ $patient->birthdate }}</td>
                     <td>{{ $patient->gender }}</td>
                     <td>{{ $patient->address->brgyDesc }}, {{ $patient->address->cityMun->citymunDesc }}, {{ $patient->address->cityMun->province->provDesc }}</td>
-                    <td>
+                    {{-- <td>
                       @if($patient->patient_type==1)
                         Regular Patient
                       @else
                         Mental Patient
                       @endif
-                    </td>
+                    </td> --}}
                     <td>
-                      <a href="{{ url('patients/profile/'.$patient->hosp_no) }}" class="btn btn-sm btn-primary btn-fab btn-icon btn-round">
-                        <i class="fa fa-arrow-right"></i>
-                      </a>
-                      <a 
-                        href="{{ url('patient/delete/'.$patient->hosp_no) }}" 
-                        class="btn btn-sm btn-danger btn-fab btn-icon btn-round forAdmin" 
-                        hidden="true"
-                        onclick="return confirm('Are you sure you want to delete this patient record?');">
-                        <i class="fa fa-trash"></i>
-                      </a>
+                      @if(Auth::user()->account_type==1)
+                        @if($patient->email_verified_at!=NULL)
+                          <a href="{{ url('patients/profile/'.$patient->hosp_no) }}" class="btn btn-sm btn-primary btn-fab btn-icon btn-round">
+                            <i class="fa fa-arrow-right"></i>
+                          </a>
+                        @else
+                        <a 
+                          href="{{ url('patient/verify-email/'.$patient->hosp_no) }}" 
+                          class="btn btn-sm btn-warning btn-fab btn-icon btn-round forAdmin" 
+                          hidden="true"
+                          onclick="return confirm('Are you sure you want to verify this patient?');">
+                          <i class="fa fa-check"></i>
+                        </a>
+                        @endif
+                        <a 
+                          href="{{ url('patient/delete/'.$patient->hosp_no) }}" 
+                          class="btn btn-sm btn-danger btn-fab btn-icon btn-round forAdmin" 
+                          hidden="true"
+                          onclick="return confirm('Are you sure you want to delete this patient record?');">
+                          <i class="fa fa-trash"></i>
+                        </a>
+                      @else
+                        <a href="{{ url('patients/profile/'.$patient->hosp_no) }}" class="btn btn-sm btn-primary btn-fab btn-icon btn-round">
+                          <i class="fa fa-arrow-right"></i>
+                        </a>
+                      @endif
                     </td>
                 </tr>
                 @endforeach
