@@ -20,11 +20,11 @@ The above copyright notice and this permission notice shall be included in all c
 
 <head>
   <meta charset="utf-8" />
-  <link rel="apple-touch-icon" sizes="76x76" href="{{asset('assets/img/hospital-logo.png')}}">
-  <link rel="icon" type="image/png" href="{{asset('assets/img/hospital-logo.png')}}">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://www.tekportal.net/wp-content/uploads/2019/01/personnel-1.jpg">
+  <link rel="icon" type="image/png" href="https://www.tekportal.net/wp-content/uploads/2019/01/personnel-1.jpg">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Hospital Information Management System
+    Personnel Attendance and Payroll System
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   @include('includes.styles')
@@ -40,11 +40,11 @@ The above copyright notice and this permission notice shall be included in all c
       <div class="logo">
         <a href="#" class="simple-text logo-mini">
           <div class="logo-image-small">
-            <img src="{{asset('assets/img/hospital-logo.png')}}">
+            <img src="https://www.tekportal.net/wp-content/uploads/2019/01/personnel-1.jpg">
           </div>
         </a>
         <a href="{{ url('home') }}" class="simple-text logo-normal">
-          HIMS
+          Personnel APS
           <!-- <div class="logo-image-big">
             <img src="../assets/img/logo-big.png">
           </div> -->
@@ -68,7 +68,7 @@ The above copyright notice and this permission notice shall be included in all c
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a class="navbar-brand" href="{{ url('home') }}">Hospital Information Management System v1.0</a>
+            <a class="navbar-brand" href="{{ url('home') }}">Personnel Attendance and Payroll System</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -216,9 +216,9 @@ The above copyright notice and this permission notice shall be included in all c
             position = '';
           }
 
-          var hosp_name = 'HOSPITAL NAME';
-          var hosp_address = 'HOSPITAL ADDRESS';
-          var hosp_contact = 'HOSPITAL CONTACT';
+          var hosp_name = 'COMPANY NAME';
+          var hosp_address = 'COMPANY ADDRESS';
+          var hosp_contact = 'COMPANY CONTACT';
           var content = document.getElementById(id).innerHTML;
           var mywindow = window.open('', title, 'width=8.5');
           mywindow.document.write('<html><head><title>'+title+'</title>');

@@ -32,7 +32,7 @@
     </div>
   </div>
  
-  <div class="col-lg-3 col-md-6 col-sm-6 forAdmin forPAT" hidden="true">
+  {{-- <div class="col-lg-3 col-md-6 col-sm-6 forAdmin forPAT" hidden="true">
     <div class="card card-stats">
       <div class="card-body ">
         <div class="row">
@@ -59,7 +59,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> --}}
 
   <div class="col-lg-3 col-md-6 col-sm-6 forAdmin" hidden="true">
     <div class="card card-stats">
@@ -90,7 +90,7 @@
     </div>
   </div>
 
-  <div class="col-lg-3 col-md-6 col-sm-6 forAdmin forPatient forBLL" hidden="true">
+  {{-- <div class="col-lg-3 col-md-6 col-sm-6 forAdmin forPatient forBLL" hidden="true">
     <div class="card card-stats">
       <div class="card-body ">
         <div class="row">
@@ -129,7 +129,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> --}}
 
   <div class="col-lg-3 col-md-6 col-sm-6 forAdmin forHRS" hidden="true">
     <div class="card card-stats">
@@ -189,7 +189,7 @@
     </div>
   </div>
 
-  <div class="col-lg-3 col-md-6 col-sm-6 forAdmin forPAT forMED forNRS forPHR forLAB forXRY forBLL" hidden="true">
+  {{-- <div class="col-lg-3 col-md-6 col-sm-6 forAdmin forPAT forMED forNRS forPHR forLAB forXRY forBLL" hidden="true">
     <div class="card card-stats">
       <div class="card-body ">
         <div class="row">
@@ -338,6 +338,6 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> --}}
 </div>    
 @endsection

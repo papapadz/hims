@@ -12,7 +12,7 @@
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalAddUserAccount">Add User Account</a>
-              <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalAddPatientAccount">Add Patient Account</a>
+              {{-- <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalAddPatientAccount">Add Patient Account</a> --}}
             </div>
           </div>
         </h5>
@@ -23,9 +23,9 @@
           <li class="nav-item">
             <a class="nav-link active" data-toggle="tab" href="#users" role="tab" aria-selected="true">User Accounts</a>
           </li>
-          <li class="nav-item">
+          {{-- <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#patients" role="tab" aria-selected="false">Patient Accounts</a>
-          </li>
+          </li> --}}
         </ul>
         <!-- Tab panes -->
         <div class="tab-content">
@@ -158,7 +158,7 @@
             <select name="account_type" class="form-control" required>
               <option value="1">System Administrator</option>
               <option value="2">Employee Account</option>
-              <option value="3">Patient Account</option>
+              {{-- <option value="3">Patient Account</option> --}}
             </select>
           </div>
       </div>

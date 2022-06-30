@@ -23,7 +23,7 @@
   </a>
 </li>
 
-<li 
+{{-- <li 
   @if($currPage=='patients') 
     class="active forAdmin forPAT forMED forNRS forPHR forBLL forLAB forXRY" 
   @else
@@ -105,7 +105,7 @@
     <i class="fa fa-list"></i>
     <p>Billings</p>
   </a>
-</li>
+</li> --}}
 
 <li 
   @if($currPage=='employees') 
@@ -121,7 +121,7 @@
   </a>
 </li>
 
-<li 
+{{-- <li 
   @if($currPage=='schedules') 
     class="active forAdmin forHRS"
   @else
@@ -133,7 +133,7 @@
     <i class="fa fa-sticky-note"></i>
     <p>Schedules</p>
   </a>
-</li>
+</li> --}}
 
 <li 
   @if($currPage=='payroll') 

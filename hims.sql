@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 12, 2020 at 01:44 AM
--- Server version: 10.4.8-MariaDB
--- PHP Version: 7.2.24
+-- Generation Time: Jun 30, 2022 at 06:14 PM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `hims_db`
+-- Database: `hims`
 --
 
 -- --------------------------------------------------------
@@ -44270,7 +44269,6 @@ CREATE TABLE `tbl_employees` (
 --
 
 INSERT INTO `tbl_employees` (`emp_no`, `last_name`, `first_name`, `middle_name`, `extension`, `gender`, `birthdate`, `birthplace`, `citizenship_id`, `civil_stat`, `height`, `weight`, `blood_type`, `house_no`, `street`, `subdivision`, `brgy_id`, `house_no2`, `street2`, `subdivision2`, `brgy_id2`, `contact_no`, `telphone`, `email`, `acct_no`, `gsis`, `pagibig`, `phic`, `sss`, `tin`, `eligibility_id`, `profession`, `position_id`, `department_id`, `profile_img`, `pds_file`, `emp_stat`, `created_at`, `updated_at`) VALUES
-('213', 'asd', 'asd', 'asd', 'asd', 'Male', '2020-01-01', 'Parañaque City', 13, 'Single', 1.52, 65, 'AB', 'asd', 'Greenheights Village', 'ddsa', 37055, 'asd', 'asd', 'asd', 15641, '09978167748', '123', 'asd', '213', '123', '121230643756', '050253064223', '01-20690688', '344 303 754 0000', 14, 'Nurse', 1, 7, '213.png', '213.pdf', 1, '2020-01-28 02:30:20', '2020-01-28 02:30:20'),
 ('MED190001', 'Mabini', 'Apolinario', 'Maranan', NULL, 'Male', '1988-11-29', 'BATAC, ILOCOS NORTE', 175, 'Single', 1.52, 66, 'B', '1', 'asd', NULL, 51, '1', 'asd', NULL, 90, '7789797', '0990909', 'amb@gmail.com', '21321321', '123', '3213', '213213', '213123213', '565487', 20, 'Doctor', 1, 1, '190001.jpg', 'MED190001.pdf', 1, '2019-10-22 00:00:00', '2020-01-28 02:21:03'),
 ('MED190002', 'Bonifacio', 'Andres', 'A', NULL, 'Male', '1998-03-08', '', 175, 'Married', 0, 0, '', '', '', '', 1, NULL, NULL, NULL, 345, '0999989', NULL, 'abonifacio@yahoo.com', '', NULL, NULL, NULL, NULL, '7888999', 20, 'Nurse', 1, 1, 'MED190002.jpg', NULL, 1, '2019-11-07 18:09:05', '2019-11-07 18:09:05'),
 ('NRS200001', 'Silang', 'Gabriela', 'Agoncillo', NULL, 'Female', '1999-01-07', 'asdas', 175, 'Married', 1.66, 67, 'A', '1', '1', 'dasd', 14206, '1', '1', 'ds', 37053, '0999', '12309', 'abonifacio@yahoo.com', '213', '213', '231', '123', '213', '213', 14, 'Nurse', 1, 3, '', NULL, 1, '2020-01-13 16:35:41', '2020-01-13 16:35:41');
@@ -44344,6 +44342,13 @@ CREATE TABLE `tbl_emp_payroll` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_emp_payroll`
+--
+
+INSERT INTO `tbl_emp_payroll` (`id`, `emp_no`, `basic_pay`, `accrued_income`, `salary_diff`, `salary_increase`, `personnel_allowance`, `refund`, `gsis`, `tax`, `philhealth`, `pagibig`, `pagibig2`, `hdmf`, `salary_loan`, `policy_loan`, `cash_advance`, `umid_cash`, `conso_loan`, `emergency_loan`, `housing_loan`, `sdmpc_loan`, `sdmpc_coop`, `landbank`, `dorm_fee`, `mortuary_fund`, `bereavement_asst`, `assoc_due`, `other_deductions`, `hazard`, `subs_laundry`, `food_allowance`, `travel_allowance`, `clothing_allowance`, `adjustments`, `other_benefits`, `payroll_date`, `created_at`, `updated_at`) VALUES
+(1, 'MED190001', 0.00, NULL, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, '2020-01-01', '2022-06-30 16:10:44', '2022-06-30 16:10:44');
 
 -- --------------------------------------------------------
 
@@ -44423,7 +44428,7 @@ CREATE TABLE `tbl_positions` (
 --
 
 INSERT INTO `tbl_positions` (`id`, `position`, `salary_grade`, `salary`, `created_at`, `updated_at`) VALUES
-(1, 'Medical Officer III', 22, 35000.00, '2019-10-21 00:00:00', '2019-10-21 00:00:00');
+(1, 'IT', 22, 35000.00, '2019-10-21 00:00:00', '2022-06-30 16:07:04');
 
 -- --------------------------------------------------------
 
@@ -44763,7 +44768,7 @@ CREATE TABLE `tbl_user_accounts` (
 --
 
 INSERT INTO `tbl_user_accounts` (`id`, `username`, `password`, `user_id`, `account_type`, `created_at`, `updated_at`) VALUES
-(3, 'admin', '$2y$10$0WZSHlsuIPY25QbZoaYijeifx6uL3KDlA6SpZ/DpXFANeQoVvefoi', 'MED190002', 1, '2019-11-12 07:47:56', '2020-02-12 00:44:21');
+(3, 'admin', '$2y$10$kTPhdmOM4GDaBSo0qdWrpOykBgkhNevnkWwo.YgiRzCuRuAA0vfy6', 'MED190002', 1, '2019-11-12 07:47:56', '2020-02-12 00:44:21');
 
 --
 -- Indexes for dumped tables
@@ -45001,7 +45006,7 @@ ALTER TABLE `tbl_emp_dtr`
 -- AUTO_INCREMENT for table `tbl_emp_payroll`
 --
 ALTER TABLE `tbl_emp_payroll`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_emp_scheds`
