@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hospital Information Management System</title>
+    <title>Personnel Attendance and Payroll System</title>
     @include('includes.styles')
 </head>
 <body>
