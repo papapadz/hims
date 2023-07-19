@@ -10,7 +10,7 @@ class Patients extends Model
 	protected $primaryKey = 'hosp_no';
     protected $table = 'tbl_patients';
 
-	public function address() {
+	public function brgy() {
 		
 		return $this->hasOne(Brgys::class,'id','brgy_id')->with('cityMun');
 	}

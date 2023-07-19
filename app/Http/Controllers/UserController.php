@@ -51,10 +51,8 @@ class UserController extends Controller
     public function viewPatients() {
         
         if(Auth::User()->account_type == 1 || Auth::User()->employeeInfo->department_id = 7) { /*If user is ADMIN or under Patient Service Unit, get all records*/
-            $patients = Patients::JOIN('tbl_user_accounts','tbl_patients.hosp_no','=','tbl_user_accounts.user_id')
-                ->WHERE('hosp_no','!=','X')
-                ->GET();
-
+            $patients = Patients::with('brgy')->get();
+            
             $appointments = Appointments::SELECT(
                         'tbl_consult_scheds.id',
                         'tbl_consult_scheds.hosp_no',
