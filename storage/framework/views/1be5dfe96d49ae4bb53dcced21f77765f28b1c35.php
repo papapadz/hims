@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="row">
   <div class="col-md-12">
     <div class="card ">
@@ -23,9 +21,7 @@
           <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#out-patients" role="tab" aria-selected="false">Out Patients</a>
           </li>
-          {{-- <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#appointments" role="tab" aria-selected="false">Appointments</a>
-          </li> --}}
+          
         </ul>
         <!-- Tab panes -->
         <div class="tab-content">
@@ -39,66 +35,61 @@
                     <th>Birthdate</th>
                     <th>Gender</th>
                     <th>Address</th>
-                    {{-- <th>Patient Type</th> --}}
+                    
                     <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                @foreach($patients as $patient)
+                <?php $__currentLoopData = $patients; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $patient): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>
                     <td>
-                      @if($patient->patient_stat!=null)
-                        @if($patient->consult_type=='ADM')
+                      <?php if($patient->patient_stat!=null): ?>
+                        <?php if($patient->consult_type=='ADM'): ?>
                           <i class="fa fa-circle text-primary"></i>
-                        @else
+                        <?php else: ?>
                           <i class="fa fa-circle text-success"></i>
-                        @endif
-                      @else
+                        <?php endif; ?>
+                      <?php else: ?>
                        <i class="fa fa-circle text-gray"></i>
-                      @endif
-                      {{ $patient->hosp_no }}
+                      <?php endif; ?>
+                      <?php echo e($patient->hosp_no); ?>
+
                     </td>
-                    <td>{{ $patient->last_name }}, {{ $patient->first_name }} {{ $patient->middle_name[0] ?? '' }}</td>
-                    <td>{{ $patient->birthdate }}</td>
-                    <td>{{ $patient->gender }}</td>
-                    <td>{{ $patient->brgy->brgyDesc }}, {{ $patient->brgy->cityMun->citymunDesc }}, {{ $patient->brgy->cityMun->province->provDesc }}</td>
-                    {{-- <td>
-                      @if($patient->patient_type==1)
-                        Regular Patient
-                      @else
-                        Mental Patient
-                      @endif
-                    </td> --}}
+                    <td><?php echo e($patient->last_name); ?>, <?php echo e($patient->first_name); ?> <?php echo e($patient->middle_name[0] ?? ''); ?></td>
+                    <td><?php echo e($patient->birthdate); ?></td>
+                    <td><?php echo e($patient->gender); ?></td>
+                    <td><?php echo e($patient->brgy->brgyDesc); ?>, <?php echo e($patient->brgy->cityMun->citymunDesc); ?>, <?php echo e($patient->brgy->cityMun->province->provDesc); ?></td>
+                    
                     <td>
-                      @if(Auth::user()->account_type==1)
-                        @if($patient->email_verified_at!=NULL)
-                          <a href="{{ url('patients/profile/'.$patient->hosp_no) }}" class="btn btn-sm btn-primary btn-fab btn-icon btn-round">
+                      <?php if(Auth::user()->account_type==1): ?>
+                        <?php if($patient->email_verified_at!=NULL): ?>
+                          <a href="<?php echo e(url('patients/profile/'.$patient->hosp_no)); ?>" class="btn btn-sm btn-primary btn-fab btn-icon btn-round">
                             <i class="fa fa-arrow-right"></i>
                           </a>
-                        @else
+                        <?php else: ?>
                         <a 
-                          href="{{ url('patient/verify-email/'.$patient->hosp_no) }}" 
+                          href="<?php echo e(url('patient/verify-email/'.$patient->hosp_no)); ?>" 
                           class="btn btn-sm btn-warning btn-fab btn-icon btn-round forAdmin" 
                           hidden="true"
                           onclick="return confirm('Are you sure you want to verify this patient?');">
                           <i class="fa fa-check"></i>
                         </a>
-                        @endif
+                        <?php endif; ?>
                         <a 
-                          href="{{ url('patient/delete/'.$patient->hosp_no) }}" 
+                          href="<?php echo e(url('patient/delete/'.$patient->hosp_no)); ?>" 
                           class="btn btn-sm btn-danger btn-fab btn-icon btn-round forAdmin" 
                           hidden="true"
                           onclick="return confirm('Are you sure you want to delete this patient record?');">
                           <i class="fa fa-trash"></i>
                         </a>
-                      @else
-                        <a href="{{ url('patients/profile/'.$patient->hosp_no) }}" class="btn btn-sm btn-primary btn-fab btn-icon btn-round">
+                      <?php else: ?>
+                        <a href="<?php echo e(url('patients/profile/'.$patient->hosp_no)); ?>" class="btn btn-sm btn-primary btn-fab btn-icon btn-round">
                           <i class="fa fa-arrow-right"></i>
                         </a>
-                      @endif
+                      <?php endif; ?>
                     </td>
                 </tr>
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
               </tbody>
             </table>
           </div>
@@ -116,38 +107,39 @@
                 </tr>
               </thead>
               <tbody>
-                @foreach($patients->WHERE('patient_stat','ADM') as $patient)
+                <?php $__currentLoopData = $patients->WHERE('patient_stat','ADM'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $patient): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>
                     <td>
-                      @if($patient->patient_stat!=null)
-                        @if($patient->consult_type=='ADM')
+                      <?php if($patient->patient_stat!=null): ?>
+                        <?php if($patient->consult_type=='ADM'): ?>
                           <i class="fa fa-circle text-primary"></i>
-                        @else
+                        <?php else: ?>
                           <i class="fa fa-circle text-success"></i>
-                        @endif
-                      @else
+                        <?php endif; ?>
+                      <?php else: ?>
                        <i class="fa fa-circle text-gray"></i>
-                      @endif
-                      {{ $patient->hosp_no }}
+                      <?php endif; ?>
+                      <?php echo e($patient->hosp_no); ?>
+
                     </td>
-                    <td>{{ $patient->last_name }}, {{ $patient->first_name }} {{ $patient->middle_name[0] ?? '' }}</td>
-                    <td>{{ $patient->birthdate }}</td>
-                    <td>{{ $patient->gender }}</td>
-                    <td>{{ $patient->address->brgyDesc }}, {{ $patient->address->cityMun->citymunDesc }}, {{ $patient->address->cityMun->province->provDesc }}</td>
+                    <td><?php echo e($patient->last_name); ?>, <?php echo e($patient->first_name); ?> <?php echo e($patient->middle_name[0] ?? ''); ?></td>
+                    <td><?php echo e($patient->birthdate); ?></td>
+                    <td><?php echo e($patient->gender); ?></td>
+                    <td><?php echo e($patient->address->brgyDesc); ?>, <?php echo e($patient->address->cityMun->citymunDesc); ?>, <?php echo e($patient->address->cityMun->province->provDesc); ?></td>
                     <td>
-                      @if($patient->patient_type==1)
+                      <?php if($patient->patient_type==1): ?>
                         Regular Patient
-                      @else
+                      <?php else: ?>
                         Mental Patient
-                      @endif
+                      <?php endif; ?>
                     </td>
                     <td>
 
-                      <a href="{{ url('patients/profile/'.$patient->hosp_no) }}" class="btn btn-sm btn-primary btn-fab btn-icon btn-round">
+                      <a href="<?php echo e(url('patients/profile/'.$patient->hosp_no)); ?>" class="btn btn-sm btn-primary btn-fab btn-icon btn-round">
                         <i class="fa fa-arrow-right"></i>
                       </a>
                       <a 
-                        href="{{ url('patient/delete/'.$patient->hosp_no) }}" 
+                        href="<?php echo e(url('patient/delete/'.$patient->hosp_no)); ?>" 
                         class="btn btn-sm btn-danger btn-fab btn-icon btn-round forAdmin" 
                         hidden="true"
                         onclick="return confirm('Are you sure you want to delete this patient record?');">
@@ -155,7 +147,7 @@
                       </a>
                     </td>
                 </tr>
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
               </tbody>
             </table>
           </div>
@@ -173,38 +165,39 @@
                 </tr>
               </thead>
               <tbody>
-                @foreach($patients->WHERE('patient_stat','OPD') as $patient)
+                <?php $__currentLoopData = $patients->WHERE('patient_stat','OPD'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $patient): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>
                     <td>
-                      @if($patient->patient_stat!=null)
-                        @if($patient->consult_type=='ADM')
+                      <?php if($patient->patient_stat!=null): ?>
+                        <?php if($patient->consult_type=='ADM'): ?>
                           <i class="fa fa-circle text-primary"></i>
-                        @else
+                        <?php else: ?>
                           <i class="fa fa-circle text-success"></i>
-                        @endif
-                      @else
+                        <?php endif; ?>
+                      <?php else: ?>
                        <i class="fa fa-circle text-gray"></i>
-                      @endif
-                      {{ $patient->hosp_no }}
+                      <?php endif; ?>
+                      <?php echo e($patient->hosp_no); ?>
+
                     </td>
-                    <td>{{ $patient->last_name }}, {{ $patient->first_name }} {{ $patient->middle_name[0] ?? '' }}</td>
-                    <td>{{ $patient->birthdate }}</td>
-                    <td>{{ $patient->gender }}</td>
-                    <td>{{ $patient->address->brgyDesc }}, {{ $patient->address->cityMun->citymunDesc }}, {{ $patient->address->cityMun->province->provDesc }}</td>
+                    <td><?php echo e($patient->last_name); ?>, <?php echo e($patient->first_name); ?> <?php echo e($patient->middle_name[0] ?? ''); ?></td>
+                    <td><?php echo e($patient->birthdate); ?></td>
+                    <td><?php echo e($patient->gender); ?></td>
+                    <td><?php echo e($patient->address->brgyDesc); ?>, <?php echo e($patient->address->cityMun->citymunDesc); ?>, <?php echo e($patient->address->cityMun->province->provDesc); ?></td>
                     <td>
-                      @if($patient->patient_type==1)
+                      <?php if($patient->patient_type==1): ?>
                         Regular Patient
-                      @else
+                      <?php else: ?>
                         Mental Patient
-                      @endif
+                      <?php endif; ?>
                     </td>
                     <td>
 
-                      <a href="{{ url('patients/profile/'.$patient->hosp_no) }}" class="btn btn-sm btn-primary btn-fab btn-icon btn-round">
+                      <a href="<?php echo e(url('patients/profile/'.$patient->hosp_no)); ?>" class="btn btn-sm btn-primary btn-fab btn-icon btn-round">
                         <i class="fa fa-arrow-right"></i>
                       </a>
                       <a 
-                        href="{{ url('patient/delete/'.$patient->hosp_no) }}" 
+                        href="<?php echo e(url('patient/delete/'.$patient->hosp_no)); ?>" 
                         class="btn btn-sm btn-danger btn-fab btn-icon btn-round forAdmin" 
                         hidden="true"
                         onclick="return confirm('Are you sure you want to delete this patient record?');">
@@ -212,65 +205,11 @@
                       </a>
                     </td>
                 </tr>
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
               </tbody>
             </table>
           </div>
-          {{-- <div class="tab-pane" id="appointments" role="tabpanel">
-            <table id="tblAppointments" class="table" style="width:100%">
-              <thead>
-                <tr>
-                    <th>Hospital No.</th>
-                    <th>Name</th>
-                    <th>Patient Type</th>
-                    <th>Attending Physician</th>
-                    <th>Consultation Time</th>
-                    <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                @foreach($appointments as $app)
-                <tr>
-                    <td>
-                      @if($app->patient_stat!=null)
-                        @if($app->consult_type=='ADM')
-                          <i class="fa fa-circle text-primary"></i>
-                        @else
-                          <i class="fa fa-circle text-success"></i>
-                        @endif
-                      @else
-                       <i class="fa fa-circle text-gray"></i>
-                      @endif
-                      {{ $app->hosp_no }}
-                    </td>
-                    <td>{{ $app->patient_last_name }}, {{ $app->patient_first_name }} {{ $patient->middle_name[0] ?? '' }}</td>
-                    <td>
-                      @if($app->patient_type==1)
-                        Regular Patient
-                      @else
-                        Mental Patient
-                      @endif
-                    </td>
-                    <td>{{ $app->last_name }}, {{ $app->first_name }} {{ $patient->middle_name[0] ?? '' }}</td>
-                    <td>{{ Carbon\Carbon::parse($app->consult_date)->format('h:i A') }}</td>
-                    <td>
-
-                      <a href="{{ url('patients/profile/'.$app->hosp_no) }}" class="btn btn-sm btn-primary btn-fab btn-icon btn-round">
-                        <i class="fa fa-arrow-right"></i>
-                      </a>
-                      <a 
-                        href="{{ url('appointment/delete/'.$app->id) }}" 
-                        class="btn btn-sm btn-danger btn-fab btn-icon btn-round forAdmin" 
-                        hidden="true"
-                        onclick="return confirm('Are you sure you want to delete this appointment?');">
-                        <i class="fa fa-trash"></i>
-                      </a>
-                    </td>
-                </tr>
-                @endforeach
-              </tbody>
-            </table>
-          </div> --}}
+          
         </div>
       </div>
       <div class="card-footer ">
@@ -283,8 +222,8 @@
   </div>
 </div>
 
-<form action="{{ url('patients/add') }}" method="POST" enctype="multipart/form-data">
-  @csrf
+<form action="<?php echo e(url('patients/add')); ?>" method="POST" enctype="multipart/form-data">
+  <?php echo csrf_field(); ?>
 <div id="modalAddPatient" class="modal" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -350,18 +289,14 @@
                 <input type="text" name="philhealth_no" class="form-control" placeholder="PhilHealth No." />
               </div>
             </div>
-            {{-- <div class="row mb-3">
-              <div class="col-md-12">
-                <textarea name="address" class="form-control" placeholder="Address"></textarea>
-              </div>
-            </div> --}}
+            
             <div class="row mb-3">
               <div class="col-md-6">
                 <select name="province" id="province" class="form-control" required>
                   <option selected disabled>Select Province</option>
-                  @foreach($provinces as $province)
-                  <option value="{{ $province->provCode }}">{{ $province->provDesc }}</option>
-                  @endforeach
+                  <?php $__currentLoopData = $provinces; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $province): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                  <option value="<?php echo e($province->provCode); ?>"><?php echo e($province->provDesc); ?></option>
+                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </select>
               </div>
               <div class="col-md-6">
@@ -380,24 +315,7 @@
                 <textarea name="address" class="form-control" required placeholder="House #, Street/Sitio/Purok"></textarea>
               </div>
             </div>
-            {{-- <div class="row mb-3">
-              <div class="col-md-6">
-                <select name="blood_type" class="form-control">
-                  <option selected disabled>Blood Type</option>
-                  <option value="A">A</option>
-                  <option value="B">B</option>
-                  <option value="AB">AB</option>
-                  <option value="O">O</option>
-                </select>
-              </div>
-              <div class="col-md-6">
-                <select name="patient_type" class="form-control">
-                  <option selected disabled>Patient Type</option>
-                  <option value="1">Normal Patient</option>
-                  <option value="2">Mental Patient</option>
-                </select>
-              </div>
-            </div> --}}
+            
             <div class="row mb-3">
               <div class="col-md-6">
                 <select name="blood_type" class="form-control">
@@ -425,9 +343,9 @@
   </div>
 </div>
 </form>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('script')
+<?php $__env->startSection('script'); ?>
 <script type="text/javascript">
 
 $(document).ready(function(){
@@ -438,7 +356,7 @@ $(document).ready(function(){
 
     $('#province').on('change', function() {
       $.ajax ({
-        url : '{{ url("get/citymun") }}/'+$(this).val()
+        url : '<?php echo e(url("get/citymun")); ?>/'+$(this).val()
         ,method : 'GET'
         ,cache : false
       }).done( function(response){
@@ -451,7 +369,7 @@ $(document).ready(function(){
 
     $('#citymun').on('change', function() {
       $.ajax ({
-        url : '{{ url("get/brgy") }}/'+$(this).val()
+        url : '<?php echo e(url("get/brgy")); ?>/'+$(this).val()
         ,method : 'GET'
         ,cache : false
       }).done( function(response){
@@ -464,4 +382,5 @@ $(document).ready(function(){
   });
 
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\hims\resources\views/user/patients.blade.php ENDPATH**/ ?>

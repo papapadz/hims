@@ -1,25 +1,23 @@
-@extends('layouts.app')
-
-@section('content')
-<form action="{{ url('patients/profile/save') }}" method="POST" enctype="multipart/form-data">
-@csrf
-<input type="text" name="hosp_no" value="{{ $patient->hosp_no }}" hidden>
-@if(Auth::User()->account_type==3)
+<?php $__env->startSection('content'); ?>
+<form action="<?php echo e(url('patients/profile/save')); ?>" method="POST" enctype="multipart/form-data">
+<?php echo csrf_field(); ?>
+<input type="text" name="hosp_no" value="<?php echo e($patient->hosp_no); ?>" hidden>
+<?php if(Auth::User()->account_type==3): ?>
 <div class="alert alert-success alert-dismissible fade show" role="alert">
-  <strong>Welcome!</strong> Hello {{ Auth::User()->patientInfo->first_name }}! Welcome to your profile!
+  <strong>Welcome!</strong> Hello <?php echo e(Auth::User()->patientInfo->first_name); ?>! Welcome to your profile!
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
   <span aria-hidden="true">&times;</span>
   </button>
 </div>
-@endif
+<?php endif; ?>
 <div class="row">
   <div class="col-md-3">
     <div class="row">
       <div class="col-12">
         <div class="card" >
-          <img class="card-img-top" style="width: 90%; align-self: center" src="{{ asset('assets/img/faces/'.$patient->profile_img) }}" alt="Card image cap">
+          <img class="card-img-top" style="width: 90%; align-self: center" src="<?php echo e(asset('assets/img/faces/'.$patient->profile_img)); ?>" alt="Card image cap">
           <div class="card-body">
-            <h3 class="card-text text-center">{{ $patient->hosp_no }}</h3>
+            <h3 class="card-text text-center"><?php echo e($patient->hosp_no); ?></h3>
           </div>
           <div id="divEditProfileImg" class="card-footer" hidden="true">
             <label>Change Profile Image</label>
@@ -28,7 +26,7 @@
         </div>
       </div>
     </div>
-    @if($patient->patient_stat==null)
+    <?php if($patient->patient_stat==null): ?>
       <div class="row">
         <div class="col-12">
           <button style="width: 100%" type="button" class="btn btn-success btn-round float-center forAdmin forPAT" id="btnAdmitPatient" data-toggle="modal" data-target="#modalAdmitPatient" hidden="true">
@@ -36,7 +34,7 @@
             </button>
         </div>
       </div>
-    @endif
+    <?php endif; ?>
     <div class="row">
         <div class="col-12">
           <button style="width: 100%" type="button" class="btn btn-success btn-round float-center forAdmin forPAT" data-toggle="modal" data-target="#modalAddAppointment" hidden="true">
@@ -50,7 +48,7 @@
     <div class="row" style="width: 100%">
       <div class="card col-12">
         <div class="card-header ">
-          <h5 class="card-title">{{ $patient->last_name }}, {{ $patient->first_name }} {{ $patient->middle_name }} 
+          <h5 class="card-title"><?php echo e($patient->last_name); ?>, <?php echo e($patient->first_name); ?> <?php echo e($patient->middle_name); ?> 
             <button type="button" class="btn btn-outline-primary btn-round btn-sm float-right forAdmin forPat" id="btnEditFields" hidden="true">
               <i class="fa fa-pencil"></i> Edit
             </button>
@@ -69,69 +67,69 @@
            <div class="form-group row">
             <label class="col-sm-2 col-form-label">Last Name:</label>
             <div class="col-sm-4">
-              <input type="text" readonly="true" class="form-control-plaintext fieldToEdit" name="last_name" value="{{ $patient->last_name }}">
+              <input type="text" readonly="true" class="form-control-plaintext fieldToEdit" name="last_name" value="<?php echo e($patient->last_name); ?>">
             </div>
             <label class="col-sm-2 col-form-label">First Name:</label>
             <div class="col-sm-4">
-              <input type="text" readonly="true" class="form-control-plaintext fieldToEdit" name="first_name" value="{{ $patient->first_name }}">
+              <input type="text" readonly="true" class="form-control-plaintext fieldToEdit" name="first_name" value="<?php echo e($patient->first_name); ?>">
             </div>
            </div>
            <div class="form-group row">
             <label class="col-sm-2 col-form-label">Middle Name:</label>
             <div class="col-sm-4">
-              <input type="text" readonly="true" class="form-control-plaintext fieldToEdit" name="middle_name" value="{{ $patient->middle_name }}">
+              <input type="text" readonly="true" class="form-control-plaintext fieldToEdit" name="middle_name" value="<?php echo e($patient->middle_name); ?>">
             </div>
             <label class="col-sm-2 col-form-label">Gender:</label>
             <div class="col-sm-4">
                 <select readonly="true" disabled="true" class="form-control-plaintext fieldToEdit" name="gender">
-                  <option @if($patient->gender=='Male') selected @endif value="Male">Male</option>
-                  <option @if($patient->gender=='Female') selected @endif value="Female">Female</option>
+                  <option <?php if($patient->gender=='Male'): ?> selected <?php endif; ?> value="Male">Male</option>
+                  <option <?php if($patient->gender=='Female'): ?> selected <?php endif; ?> value="Female">Female</option>
                 </select>
             </div>
            </div>
            <div class="form-group row">
             <label class="col-sm-2 col-form-label">Birthdate:</label>
             <div class="col-sm-4">
-              <input type="date" readonly="true" class="form-control-plaintext fieldToEdit" name="birthdate" value="{{ $patient->birthdate }}">
+              <input type="date" readonly="true" class="form-control-plaintext fieldToEdit" name="birthdate" value="<?php echo e($patient->birthdate); ?>">
             </div>
             <label class="col-sm-2 col-form-label">Age:</label>
             <div class="col-sm-4">
-              <input type="text" readonly="true" class="form-control-plaintext" value="{{ Carbon\Carbon::now()->diffInYears($patient->birthdate) }} yrs old">
+              <input type="text" readonly="true" class="form-control-plaintext" value="<?php echo e(Carbon\Carbon::now()->diffInYears($patient->birthdate)); ?> yrs old">
             </div>
            </div>
            <div class="form-group row">
             <label class="col-sm-2 col-form-label">Civil Status:</label>
             <div class="col-sm-4">
               <select readonly="true" disabled="true" class="form-control-plaintext fieldToEdit" name="civil_stat">
-                  <option @if($patient->civil_stat=='Single') selected @endif value="Single">Single</option>
-                  <option @if($patient->civil_stat=='Married') selected @endif value="Married">Married</option>
-                  <option @if($patient->civil_stat=='Separated') selected @endif value="Separated">Separated</option>
-                  <option @if($patient->civil_stat=='Widowed') selected @endif value="Widowed">Widowed</option>
+                  <option <?php if($patient->civil_stat=='Single'): ?> selected <?php endif; ?> value="Single">Single</option>
+                  <option <?php if($patient->civil_stat=='Married'): ?> selected <?php endif; ?> value="Married">Married</option>
+                  <option <?php if($patient->civil_stat=='Separated'): ?> selected <?php endif; ?> value="Separated">Separated</option>
+                  <option <?php if($patient->civil_stat=='Widowed'): ?> selected <?php endif; ?> value="Widowed">Widowed</option>
                 </select>
             </div>
             <label class="col-sm-2 col-form-label">Contact No:</label>
             <div class="col-sm-4">
-              <input type="text" readonly="true" class="form-control-plaintext fieldToEdit" name="contact_no" value="{{ $patient->contact_no }}">
+              <input type="text" readonly="true" class="form-control-plaintext fieldToEdit" name="contact_no" value="<?php echo e($patient->contact_no); ?>">
             </div>
            </div>
            <div class="form-group row">
             <label class="col-sm-2 col-form-label">Address:</label>
             <div class="col-sm-10">
-              <input type="text" readonly="true" class="form-control-plaintext fieldToEdit" name="address" value="{{ $patient->brgy->brgyDesc }}, {{ $patient->brgy->cityMun->citymunDesc }}, {{ $patient->brgy->cityMun->province->provDesc }}">
+              <input type="text" readonly="true" class="form-control-plaintext fieldToEdit" name="address" value="<?php echo e($patient->brgy->brgyDesc); ?>, <?php echo e($patient->brgy->cityMun->citymunDesc); ?>, <?php echo e($patient->brgy->cityMun->province->provDesc); ?>">
             </div>
            </div>
            <div class="form-group row">
             <label class="col-sm-2 col-form-label">PhilHealth No:</label>
             <div class="col-sm-4">
-              <input type="text" readonly="true" class="form-control-plaintext fieldToEdit" name="philhealth_no" value="{{ $patient->philhealth_no }}">
+              <input type="text" readonly="true" class="form-control-plaintext fieldToEdit" name="philhealth_no" value="<?php echo e($patient->philhealth_no); ?>">
             </div>
             <label class="col-sm-2 col-form-label">Blood Type:</label>
             <div class="col-sm-4">
               <select readonly="true" disabled="true" class="form-control-plaintext fieldToEdit" name="blood_type">
-                  <option @if($patient->blood_type=='A') selected @endif value="A">A</option>
-                  <option @if($patient->blood_type=='B') selected @endif value="B">B</option>
-                  <option @if($patient->blood_type=='AB') selected @endif value="AB">AB</option>
-                  <option @if($patient->blood_type=='O') selected @endif value="O">O</option>
+                  <option <?php if($patient->blood_type=='A'): ?> selected <?php endif; ?> value="A">A</option>
+                  <option <?php if($patient->blood_type=='B'): ?> selected <?php endif; ?> value="B">B</option>
+                  <option <?php if($patient->blood_type=='AB'): ?> selected <?php endif; ?> value="AB">AB</option>
+                  <option <?php if($patient->blood_type=='O'): ?> selected <?php endif; ?> value="O">O</option>
                 </select>
             </div>
            </div>
@@ -139,8 +137,8 @@
             <label class="col-sm-2 col-form-label">Patient Type:</label>
             <div class="col-sm-4">
               <select readonly="true" disabled="true" class="form-control-plaintext fieldToEdit" name="patient_type">
-                <option @if($patient->patient_type==1) selected @endif value="1">Regular Patient</option>
-                <option @if($patient->patient_type==2) selected @endif value="2">Mental Patient</option>
+                <option <?php if($patient->patient_type==1): ?> selected <?php endif; ?> value="1">Regular Patient</option>
+                <option <?php if($patient->patient_type==2): ?> selected <?php endif; ?> value="2">Mental Patient</option>
               </select>
             </div>
            </div>
@@ -176,31 +174,31 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @foreach($consults as $consult)
+                  <?php $__currentLoopData = $consults; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $consult): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <tr
-                    @if($consult->discharge_date != NULL)
+                    <?php if($consult->discharge_date != NULL): ?>
                       class="bg-danger"
-                    @endif>
-                      <td>{{ Carbon\Carbon::parse($consult->created_at)->toDateString() }}</td>
-                      <td>{{ $consult->complaint }}</td>
-                      <td>{{ $consult->room }}</td>
+                    <?php endif; ?>>
+                      <td><?php echo e(Carbon\Carbon::parse($consult->created_at)->toDateString()); ?></td>
+                      <td><?php echo e($consult->complaint); ?></td>
+                      <td><?php echo e($consult->room); ?></td>
                       <td>
-                        @if($consult->discharge_date == NULL)
+                        <?php if($consult->discharge_date == NULL): ?>
                           Active
-                        @else
+                        <?php else: ?>
                           Inactive
-                        @endif
+                        <?php endif; ?>
                       </td>
                       <td>
-                        <a href="{{ url('patients/consult/'.$consult->id) }}" class="btn btn-sm btn-primary btn-fab btn-icon btn-round">
+                        <a href="<?php echo e(url('patients/consult/'.$consult->id)); ?>" class="btn btn-sm btn-primary btn-fab btn-icon btn-round">
                           <i class="fa fa-arrow-right"></i>
                         </a>
-                        <a href="{{ url('patient/chart/'.$consult->id) }}" class="btn btn-sm btn-warning btn-fab btn-icon btn-round forAdmin forMED forNRS forPAT" hidden="true">
+                        <a href="<?php echo e(url('patient/chart/'.$consult->id)); ?>" class="btn btn-sm btn-warning btn-fab btn-icon btn-round forAdmin forMED forNRS forPAT" hidden="true">
                           <i class="fa fa-file"></i>
                         </a>
                       </td>
                     </tr>
-                  @endforeach
+                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </tbody>
               </table>
             </div>
@@ -214,13 +212,13 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @foreach($appointments as $appointment)
+                  <?php $__currentLoopData = $appointments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $appointment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <tr>
-                      <td>{{ Carbon\Carbon::parse($appointment->consult_date)->toDateString() }} @ {{ Carbon\Carbon::parse($appointment->consult_date)->toTimeString() }}</td>
-                      <td>{{ $appointment->last_name }}, {{ $appointment->first_name }} {{ $appointment->last_name[0] }}</td>
-                      <td>{{ $appointment->remarks }}</td>
+                      <td><?php echo e(Carbon\Carbon::parse($appointment->consult_date)->toDateString()); ?> @ <?php echo e(Carbon\Carbon::parse($appointment->consult_date)->toTimeString()); ?></td>
+                      <td><?php echo e($appointment->last_name); ?>, <?php echo e($appointment->first_name); ?> <?php echo e($appointment->last_name[0]); ?></td>
+                      <td><?php echo e($appointment->remarks); ?></td>
                     </tr>
-                  @endforeach
+                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </tbody>
               </table>
             </div>
@@ -234,14 +232,14 @@
 </form>
 
 <!-- MODALS -->
-<form action="{{ url('patients/admit') }}" method="POST">
-  @csrf
-  <input type="text" name="hosp_no" value="{{ $patient->hosp_no }}" hidden>
+<form action="<?php echo e(url('patients/admit')); ?>" method="POST">
+  <?php echo csrf_field(); ?>
+  <input type="text" name="hosp_no" value="<?php echo e($patient->hosp_no); ?>" hidden>
 <div class="modal" tabindex="-1" role="dialog" id="modalAdmitPatient">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Admit Patient {{ $patient->hosp_no }}</h5>
+        <h5 class="modal-title">Admit Patient <?php echo e($patient->hosp_no); ?></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -254,23 +252,7 @@
               <textarea name="complaint" class="form-control"></textarea>
             </div>
           </div>
-          {{-- <div class="row mb-3">
-            <div class="col-md-6">
-              <label>Admission Type</label>
-              <select class="form-control" name="consult_type">
-                <option value="OPD">Out Patient</option>
-                <option value="ADM">In Patient</option>
-              </select>
-            </div>
-            <div class="col-md-6">
-              <label>Ward/Room/Clinic</label>
-              <select class="form-control" name="room_id">
-                @foreach($rooms as $room)
-                  <option value="{{ $room->id }}">{{ $room->room }}</option>
-                @endforeach
-              </select>
-            </div>
-          </div>     --}}
+          
         </div>   
       </div>
       <div class="modal-footer">
@@ -282,14 +264,14 @@
 </div>
 </form>
 
-<form action="{{ url('consult/add-appointment') }}" method="POST">
-  @csrf
-  <input type="text" name="hosp_no" value="{{ $patient->hosp_no }}" hidden>
+<form action="<?php echo e(url('consult/add-appointment')); ?>" method="POST">
+  <?php echo csrf_field(); ?>
+  <input type="text" name="hosp_no" value="<?php echo e($patient->hosp_no); ?>" hidden>
 <div class="modal" tabindex="-1" role="dialog" id="modalAddAppointment">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Schedule Patient {{ $patient->hosp_no }}</h5>
+        <h5 class="modal-title">Schedule Patient <?php echo e($patient->hosp_no); ?></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -300,9 +282,9 @@
             <div class="col-12">
               <label>Doctor</label>
               <select class="form-control" name="emp_no">
-                @foreach($employees as $employee)
-                  <option value="{{ $employee->emp_no }}">{{ $employee->last_name }}, {{ $employee->first_name }} {{ $employee->middle_name[0] }}</option>
-                @endforeach
+                <?php $__currentLoopData = $employees; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                  <option value="<?php echo e($employee->emp_no); ?>"><?php echo e($employee->last_name); ?>, <?php echo e($employee->first_name); ?> <?php echo e($employee->middle_name[0]); ?></option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
               </select>
             </div>
           </div>
@@ -336,9 +318,9 @@
 </form>
 
 <!-- END MODALS -->
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('script')
+<?php $__env->startSection('script'); ?>
 <script type="text/javascript">
   
   $('#btnEditFields').on('click', function() {
@@ -369,4 +351,5 @@
     "order": [[ 0, "desc" ]]
   });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\hims\resources\views/patient/patient-profile.blade.php ENDPATH**/ ?>

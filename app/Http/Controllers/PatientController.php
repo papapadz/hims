@@ -22,14 +22,14 @@ use App\Billings;
 
 use App\Mail\VideoconferenceEmail;
 
+/** Job Queues */
+use App\Jobs\NewPatient;
+
 class PatientController extends Controller
 {
     public function store(Request $request) {
         /*create hospital number*/
-        $patient_count = count(Patients::whereBetween('created_at',[Carbon::now()->startOfYear(),Carbon::now()->endOfYear()])->GET()) + 1;
-        $hospital_no_count = str_pad($patient_count, 4, '0', STR_PAD_LEFT);
-        $hospital_no_set = Carbon::now()->year.$hospital_no_count; /* Patient hospital number ex. 20190001 */
-        //
+        $hospital_no_set = NewPatient::dispatchNow($request->all());
         
         $filename = "default.png";
         /*save file to public folder*/
@@ -41,21 +41,8 @@ class PatientController extends Controller
         } else if($request->input('gender')=='Female')
             $filename = 'default-F.jpg';
 
-        /*save patient info to database*/
-        $patient = new Patients;
-        $patient->hosp_no = $hospital_no_set;
-        $patient->last_name = $request->input('last_name');
-        $patient->first_name = $request->input('first_name');
-        $patient->middle_name = $request->input('middle_name');
-        $patient->gender = $request->input('gender');
-        $patient->birthdate = $request->input('birthdate');
-        $patient->brgy_id = $request->input('brgy');
-        $patient->email = $request->input('email');
-        // $patient->patient_type = $request->input('patient_type');
-        $patient->contact_no = $request->input('contact_no');
-        $patient->civil_stat = $request->input('civil_stat');
-        $patient->philhealth_no = $request->input('philhealth_no');
-        $patient->blood_type = $request->input('blood_type');
+        /*update patient image*/
+        $patient = Patients::find($hospital_no_set);
         $patient->profile_img = $filename;
         $patient->SAVE();
 
