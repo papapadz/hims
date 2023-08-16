@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Http;
 /* Models */
 use App\Patients;
 use App\Rooms;
@@ -19,17 +20,21 @@ use App\Employees;
 use App\Appointments;
 use App\Billings;
 /**/
-
+use Illuminate\Support\Facades\Cache;
 use App\Mail\VideoconferenceEmail;
 
 class PatientController extends Controller
 {
+    protected $publicKey;
+
+    public function __construct() {
+        $this->publicKey = Cache::get('key');
+    }
+
     public function store(Request $request) {
-        /*create hospital number*/
-        $patient_count = count(Patients::whereBetween('created_at',[Carbon::now()->startOfYear(),Carbon::now()->endOfYear()])->GET()) + 1;
-        $hospital_no_count = str_pad($patient_count, 4, '0', STR_PAD_LEFT);
-        $hospital_no_set = Carbon::now()->year.$hospital_no_count; /* Patient hospital number ex. 20190001 */
-        //
+        
+        $hospital_no_set = Http::asForm()->post(config('hims.serverURL').'/api/patient/new/save/'.$this->publicKey, $request->except('profile_img'));
+        dd($hospital_no_set);
         
         $filename = "default.png";
         /*save file to public folder*/

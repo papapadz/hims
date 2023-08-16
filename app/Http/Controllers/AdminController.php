@@ -15,9 +15,18 @@ use App\Employees;
 use App\Patients;
 /**/
 use App\Mail\VerifyPatient;
+use Illuminate\Support\Facades\Cache;
 
 class AdminController extends Controller
 {
+    public function initKey(Request $request) {
+        
+        $request->validate([
+            'fkey' => 'required'
+        ]);
+        if(!Cache::has('key'))
+            Cache::forever('key', $request->fkey);
+    }
     
     public function viewUserAccounts() {
 
