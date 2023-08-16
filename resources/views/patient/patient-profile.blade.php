@@ -117,7 +117,7 @@
            <div class="form-group row">
             <label class="col-sm-2 col-form-label">Address:</label>
             <div class="col-sm-10">
-              <input type="text" readonly="true" class="form-control-plaintext fieldToEdit" name="address" value="{{ $patient->address->brgyDesc }}, {{ $patient->address->cityMun->citymunDesc }}, {{ $patient->address->cityMun->province->provDesc }}">
+              <input type="text" readonly="true" class="form-control-plaintext fieldToEdit" name="address" value="{{ $patient->brgy->brgyDesc }}, {{ $patient->brgy->cityMun->citymunDesc }}, {{ $patient->brgy->cityMun->province->provDesc }}">
             </div>
            </div>
            <div class="form-group row">
@@ -254,7 +254,7 @@
               <textarea name="complaint" class="form-control"></textarea>
             </div>
           </div>
-          {{-- <div class="row mb-3">
+          <div class="row mb-3">
             <div class="col-md-6">
               <label>Admission Type</label>
               <select class="form-control" name="consult_type">
@@ -270,7 +270,7 @@
                 @endforeach
               </select>
             </div>
-          </div>     --}}
+          </div>    
         </div>   
       </div>
       <div class="modal-footer">
