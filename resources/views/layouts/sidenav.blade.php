@@ -21,6 +21,17 @@
 </li>
 
 <li 
+  @if($currPage=='facility') 
+    class="active forAdmin" 
+  @endif
+>
+  <a href="{{ url('facilities') }}">
+    <i class="fa fa-hospital"></i>
+    <p>Facilities</p>
+  </a>
+</li>
+
+<li 
   @if($currPage=='user-accounts') 
     class="active forAdmin" 
   @else

@@ -12,7 +12,10 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::middleware(['key.access'])->group(function(){ 
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+    Route::post('patient/new/save/{key}','PatientController@store');
+    Route::get('patient/{id}/{key}','PatientController@findPatient');
 });
+
+Route::post('facility/get/access','ServerController@setFacilityAccess');

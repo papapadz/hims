@@ -27,10 +27,16 @@ use App\Jobs\NewPatient;
 
 class PatientController extends Controller
 {
+
+    /** API */
+    public function findPatient($id) {
+        return Patients::where('hosp_no',$id)->with('consults')->first();
+    }
+
     public function store(Request $request) {
         /*create hospital number*/
-        $hospital_no_set = NewPatient::dispatchNow($request->all());
-        
+        //$hospital_no_set = NewPatient::dispatchNow($request->all());
+        return $request->all();
         $filename = "default.png";
         /*save file to public folder*/
         if($request->hasFile('profile_img')) {
@@ -48,7 +54,9 @@ class PatientController extends Controller
 
         return $patient;
     }
-
+    /** end API */
+    
+    /** WEB */
     public function viewPatientProfile($hosp_no) {
 
     	/* Query all Rooms */

@@ -32,6 +32,12 @@ Route::post('patient/verified/create-account','UserController@newPatientAccount'
 Route::group(['middleware' => ['auth','verified']], function() {
 	
 	Route::group(['middleware' => 'is_admin'], function() {
+
+		/** v3 */
+		Route::get('facilities','FacilityController@showFacilityLists');
+		Route::post('facility/add','FacilityController@createFacility');
+		/** END V3 */
+
 		Route::get('home', 'HomeController@index')->name('home');
 		Route::get('user-accounts', 'AdminController@viewUserAccounts');
 		Route::post('user-accounts/add', 'AdminController@addUserAccount');

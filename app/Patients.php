@@ -10,8 +10,11 @@ class Patients extends Model
 	protected $primaryKey = 'hosp_no';
     protected $table = 'tbl_patients';
 
+	public function consults() {
+		return $this->hasMany(Consults::class,'hosp_no','hosp_no');
+	}
+
 	public function brgy() {
-		
 		return $this->hasOne(Brgys::class,'id','brgy_id')->with('cityMun');
 	}
 

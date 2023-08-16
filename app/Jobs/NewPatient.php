@@ -40,7 +40,7 @@ class NewPatient implements ShouldQueue
         $hospital_no_count = str_pad($patient_count, 4, '0', STR_PAD_LEFT);
         $hospital_no_set = Carbon::now()->year.$hospital_no_count; /* Patient hospital number ex. 20190001 */
         //
-
+        
         /*save patient info to database*/
         $patient = new Patients;
         $patient->hosp_no = $hospital_no_set;

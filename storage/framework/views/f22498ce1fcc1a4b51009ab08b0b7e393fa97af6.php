@@ -21,6 +21,17 @@
 </li>
 
 <li 
+  <?php if($currPage=='facility'): ?> 
+    class="active forAdmin" 
+  <?php endif; ?>
+>
+  <a href="<?php echo e(url('facilities')); ?>">
+    <i class="fa fa-hospital"></i>
+    <p>Facilities</p>
+  </a>
+</li>
+
+<li 
   <?php if($currPage=='user-accounts'): ?> 
     class="active forAdmin" 
   <?php else: ?>

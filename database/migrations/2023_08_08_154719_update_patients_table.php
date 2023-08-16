@@ -14,8 +14,7 @@ class UpdatePatientsTable extends Migration
     public function up()
     {
         Schema::table('tbl_patients', function (Blueprint $table) {
-            $table->string('email',100)->nullable();
-            $table->dateTime('email_verified_at')->nullable();
+            $table->bigInteger('facility_id');
             $table->string('middle_name',50)->nullable()->change();
             
         });
@@ -29,8 +28,7 @@ class UpdatePatientsTable extends Migration
     public function down()
     {
         Schema::table('tbl_patients', function (Blueprint $table) {
-            $table->dropColumn('email');
-            $table->dropColumn('email_verified_at');
+            $table->dropColumn('facility_id');
             $table->string('middle_name',50)->change();
         });
     }

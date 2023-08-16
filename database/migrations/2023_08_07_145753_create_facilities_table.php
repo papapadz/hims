@@ -27,6 +27,7 @@ class CreateFacilitiesTable extends Migration
             $table->string('licensing_status',50)->nullable();
             $table->integer('bed_capacity');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
