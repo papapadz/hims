@@ -16,3 +16,7 @@ Route::middleware(['http.server'])->group(function() {
 
     Route::post('facility/init/{key}','AdminController@initKey');
 });
+
+Route::middleware(['key.access'])->group(function() {
+    Route::get('patient/{id}/{key}','PatientController@findPatient');
+});

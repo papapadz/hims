@@ -31,6 +31,14 @@ class PatientController extends Controller
         $this->publicKey = Cache::get('key');
     }
 
+    /** API */
+    /** Other Facility Access */
+    public function findPatient($id) {
+        return Patients::where('hosp_no',$id)->with('consults')->first();
+    }
+    /** END Other Facility Access */
+    /** END API */
+
     public function store(Request $request) {
         
         $hospital_no_set = Http::asForm()->post(config('hims.serverURL').'/api/patient/new/save/'.$this->publicKey, $request->except('profile_img'));
