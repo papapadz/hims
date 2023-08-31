@@ -134,7 +134,7 @@
                     <td>{{ $patient->last_name }}, {{ $patient->first_name }} {{ $patient->middle_name[0] ?? '' }}</td>
                     <td>{{ $patient->birthdate }}</td>
                     <td>{{ $patient->gender }}</td>
-                    <td>{{ $patient->address->brgyDesc }}, {{ $patient->address->cityMun->citymunDesc }}, {{ $patient->address->cityMun->province->provDesc }}</td>
+                    <td>{{ $patient->brgy->brgyDesc }}, {{ $patient->brgy->cityMun->citymunDesc }}, {{ $patient->brgy->cityMun->province->provDesc }}</td>
                     <td>
                       @if($patient->patient_type==1)
                         Regular Patient
@@ -191,7 +191,7 @@
                     <td>{{ $patient->last_name }}, {{ $patient->first_name }} {{ $patient->middle_name[0] ?? '' }}</td>
                     <td>{{ $patient->birthdate }}</td>
                     <td>{{ $patient->gender }}</td>
-                    <td>{{ $patient->address->brgyDesc }}, {{ $patient->address->cityMun->citymunDesc }}, {{ $patient->address->cityMun->province->provDesc }}</td>
+                    <td>{{ $patient->brgy->brgyDesc }}, {{ $patient->brgy->cityMun->citymunDesc }}, {{ $patient->brgy->cityMun->province->provDesc }}</td>
                     <td>
                       @if($patient->patient_type==1)
                         Regular Patient

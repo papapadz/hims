@@ -49,10 +49,10 @@ class UserController extends Controller
     }
 
     public function viewPatients() {
-        
+
         if(Auth::User()->account_type == 1 || Auth::User()->employeeInfo->department_id = 7) { /*If user is ADMIN or under Patient Service Unit, get all records*/
             $patients = Patients::with('brgy')->get();
-            
+
             $appointments = Appointments::SELECT(
                         'tbl_consult_scheds.id',
                         'tbl_consult_scheds.hosp_no',
@@ -129,7 +129,7 @@ class UserController extends Controller
                     ->WHEREDATE('consult_date',Carbon::now()->toDateString())
                     ->WHERE('tbl_consult_scheds.emp_no',Auth::User()->user_id)
                     ->GET();
-            } else { 
+            } else {
 
                 /*If user is under Nursing,Pharmacy,Billing,Lab and XRay, get all patient records who are admitted*/
 
@@ -155,13 +155,13 @@ class UserController extends Controller
                         ->WHEREDATE('consult_date',Carbon::now()->toDateString())
                         ->GET();
             }
-            
+
         }
 
         $provinces = Provinces::ORDERBY('provDesc')->GET();
         $cityMuns = CityMuns::ORDERBY('citymunDesc')->GET();
         $brgys = Brgys::SELECT()->ORDERBY('brgyDesc')->GET();
-        
+
         return view('user/patients')
             ->with('currPage','patients')
             ->with('patients',$patients)
@@ -174,7 +174,10 @@ class UserController extends Controller
     public function addPatient(Request $request) {
 
         $patient = new PatientController;
-        $patient->store($request);
+        $retVal = $patient->store($request);
+
+        if($retVal=='ERROR')
+            return redirect()->back()->with('danger','There is an error saving, please check your data and try again!');
         return redirect()->back()->with('success','You have saved a new patient information!');
     }
 
@@ -292,11 +295,11 @@ class UserController extends Controller
     }
 
     public function addPrescription(Request $request) {
-        
+
         $prescription = new Prescriptions;
         $prescription->consult_id = $request->input('consult_id');
         $prescription->prescription = $request->input('prescription');
-        $prescription->prescribed_by = Auth::User()->user_id;        
+        $prescription->prescribed_by = Auth::User()->user_id;
         /* Save file to public folder*/
         $filename = NULL;
         if($request->hasFile('prescription_img')) {
@@ -437,7 +440,7 @@ class UserController extends Controller
     }
 
     public function addPatientMedicine(Request $request) {
-        
+
         /* find the patient's active consultation */
         $consult = Consults::SELECT('id')
                     ->WHERE([
@@ -459,8 +462,8 @@ class UserController extends Controller
         $billing->sub_total = $supply->price * $request->input('qty'); /* Get the price of the supply using supply_id X qty */
         $billing->emp_no = Auth::User()->user_id;
         $billing->SAVE();
-        
-        return redirect()->back()->with('success','Medicine has been added to the current bill!'); 
+
+        return redirect()->back()->with('success','Medicine has been added to the current bill!');
     }
 
     public function viewPharmacy() {
@@ -539,7 +542,7 @@ class UserController extends Controller
             $billing->is_paid = 1;
             $billing->SAVE();
         }
-        
+
         return redirect()->back()->with('success','Medicine has been successfully charged!');
     }
 
@@ -651,7 +654,7 @@ class UserController extends Controller
     public function deleteBilling($id) {
 
         $bill = Billings::FIND($id); //Get the bill info
- 
+
         $supply_id = $bill->supply_id; //Save the id
         $qty = $bill->qty; //Save the qty
 
@@ -790,10 +793,10 @@ class UserController extends Controller
         $cityMuns = CityMuns::SELECT()->WHERE('provCode',$employee->provCode)->ORDERBY('citymunDesc')->GET();
         $brgys = Brgys::SELECT()->WHERE('id',$employee->brgy_id)->GET();
         $professions = Professions::ALL();
-        
+
         $brgys2 = Brgys::FIND($employee->brgy_id2);
         $cityMuns2 = CityMuns::SELECT()->WHERE('provCode',$brgys2->provCode)->ORDERBY('citymunDesc')->GET();
-        
+
         $schedules = Schedules::SELECT()
                 ->WHERE('emp_no',$emp_no)
                 ->GET();
@@ -819,7 +822,7 @@ class UserController extends Controller
     public function addEmployee(Request $request) {
 
         $emp_no_set = $request->input('emp_no');
-        
+
         $filename = "";
         $filename2 = "";
 
@@ -836,7 +839,7 @@ class UserController extends Controller
             $destinationPath2 = public_path('uploads/pds');
             $file2->move($destinationPath2,$filename2);
         }
-        
+
         /* Save Employee Info to database*/
         $employee = new Employees;
         $employee->emp_no = $emp_no_set;
@@ -876,7 +879,7 @@ class UserController extends Controller
         $employee->profile_img = $filename;
         $employee->pds_file = $filename2;
         $employee->SAVE();
-        
+
         return redirect()->back()->with('success','You have saved a new employee information!');
     }
 
@@ -917,7 +920,7 @@ class UserController extends Controller
         $employee->profession = $request->input('profession');
         $employee->position_id = $request->input('position_id');
         $employee->department_id = $request->input('department_id');
-        
+
         /* Update profile image if there is an attached file*/
         if($request->hasFile('profile_img')) {
 
@@ -940,7 +943,7 @@ class UserController extends Controller
         }
 
         $employee->SAVE();
-        
+
         return redirect()->back()->with('success','You have updated this employee\'s information!');
     }
 
@@ -1173,7 +1176,7 @@ class UserController extends Controller
             $stmt1 = 'tbl_emp_payroll.payroll_date';
             $stmt2 = Carbon::create($request->input('payroll_year'),$request->input('payroll_month'),$request->input('payroll_date'));
         }
-            
+
         $payrolls = Payrolls::SELECT(
                     'tbl_employees.last_name',
                     'tbl_employees.first_name',
@@ -1306,9 +1309,9 @@ class UserController extends Controller
                 return view('user/payslip-batch')
                     ->with('currPage','payroll')
                     ->with('payrolls',$payrolls);
-            } else 
+            } else
                 return redirect()->back()->with('danger','No data found!');
-            
+
             } else {
 
                 $date1 = Carbon::create($request->input('payroll_year'),$request->input('payroll_month'),1);
@@ -1345,12 +1348,12 @@ class UserController extends Controller
                     ->GET();
 
                 if(count($payrolls1)>0) {
-                
+
                     return view('user/payslip-batch2')
                         ->with('currPage','payroll')
                         ->with('payrolls1',$payrolls1)
                         ->with('payrolls2',$payrolls2);
-                } else 
+                } else
                     return redirect()->back()->with('danger','No data found!');
             }
     }
@@ -1397,20 +1400,20 @@ class UserController extends Controller
                 $timein_pm = Carbon::parse($request->input('timein_pm'));
                 $timeout_pm = Carbon::parse($request->input('timeout_pm'));
                 $pm = $timein_pm->diffInHours($timeout_pm);
-            } 
+            }
 
             if($request->input('timeout_am')!=NULL) {
                 $timein_am = Carbon::parse($request->input('timein_am'));
                 $timeout_am = Carbon::parse($request->input('timeout_am'));
                 $am = $timein_am->diffInHours($timeout_am);
-            } 
+            }
 
             if($request->input('timeout_am')==NULL && $request->input('timeout_am')==NULL) {
                 $timein_am = Carbon::parse($request->input('timein_am'));
                 $timeout_pm = Carbon::parse($request->input('timeout_pm'));
                 $am = $timein_am->diffInHours($timeout_pm);
             }
-            
+
         } else {
             $timein_pm = Carbon::parse($request->input('timein_pm'));
             $timeout_pm = Carbon::parse($request->input('timeout_pm'));
@@ -1420,7 +1423,7 @@ class UserController extends Controller
         if($request->input('timein_ot')!=NULL) {
             $timein_ot = Carbon::parse($request->input('timein_ot'));
             $timeout_ot = Carbon::parse($request->input('timeout_ot'));
-            $ot = $timein_ot->diffInHours($timeout_ot);   
+            $ot = $timein_ot->diffInHours($timeout_ot);
         }
 
         $diff = $am + $pm;
@@ -1446,7 +1449,7 @@ class UserController extends Controller
     public function searchDTR(Request $request) {
 
         $date1 = Carbon::parse($request->input('fromdate'))->toDateString();
-        $date2 = Carbon::parse($request->input('todate'))->toDateString(); 
+        $date2 = Carbon::parse($request->input('todate'))->toDateString();
 
         $attendances = DTR::SELECT(
                     'tbl_emp_dtr.*',
@@ -1473,7 +1476,7 @@ class UserController extends Controller
             return redirect()->back()->with('danger','No data found!');
         }
 
-        
+
     }
 
     public function viewDTR($id) {
@@ -1481,7 +1484,7 @@ class UserController extends Controller
         $dtr = DTR::FIND($id);
 
         $date1 = Carbon::parse($dtr->dtr_date)->firstOfMonth();
-        $date2 = Carbon::parse($dtr->dtr_date)->lastOfMonth(); 
+        $date2 = Carbon::parse($dtr->dtr_date)->lastOfMonth();
 
         $attendances = DTR::SELECT(
                     'tbl_emp_dtr.*',
@@ -1558,20 +1561,20 @@ class UserController extends Controller
                 $timein_pm = Carbon::parse($request->input('timein_pm'));
                 $timeout_pm = Carbon::parse($request->input('timeout_pm'));
                 $pm = $timein_pm->diffInHours($timeout_pm);
-            } 
+            }
 
             if($request->input('timeout_am')!=NULL) {
                 $timein_am = Carbon::parse($request->input('timein_am'));
                 $timeout_am = Carbon::parse($request->input('timeout_am'));
                 $am = $timein_am->diffInHours($timeout_am);
-            } 
+            }
 
             if($request->input('timeout_am')==NULL && $request->input('timeout_am')==NULL) {
                 $timein_am = Carbon::parse($request->input('timein_am'));
                 $timeout_pm = Carbon::parse($request->input('timeout_pm'));
                 $am = $timein_am->diffInHours($timeout_pm);
             }
-            
+
         } else {
             $timein_pm = Carbon::parse($request->input('timein_pm'));
             $timeout_pm = Carbon::parse($request->input('timeout_pm'));
@@ -1581,7 +1584,7 @@ class UserController extends Controller
         if($request->input('timein_ot')!=NULL) {
             $timein_ot = Carbon::parse($request->input('timein_ot'));
             $timeout_ot = Carbon::parse($request->input('timeout_ot'));
-            $ot = $timein_ot->diffInHours($timeout_ot);   
+            $ot = $timein_ot->diffInHours($timeout_ot);
         }
 
         $diff = $am + $pm;
@@ -1638,10 +1641,10 @@ class UserController extends Controller
 
         /* Read CSV file and save details to database*/
         $csvfile = fopen($destinationPath.'//'.$filename, 'r');
-        
+
         $lineCount = 0;
         while (($line = fgetcsv($csvfile)) !== FALSE) {
-            
+
             if($lineCount>0) {
 
                 if($request->input('file_type')=='DTR') {
@@ -1654,20 +1657,20 @@ class UserController extends Controller
                     //         $timein_pm = Carbon::parse($line[4]);
                     //         $timeout_pm = Carbon::parse($line[5]);
                     //         $pm = $timein_pm->diffInHours($timeout_pm);
-                    //     } 
+                    //     }
 
                     //     if($line[3]!=NULL && $line[2]!=NULL) {
                     //         $timein_am = Carbon::parse($line[2]);
                     //         $timeout_am = Carbon::parse($line[3]);
                     //         $am = $timein_am->diffInHours($timeout_am);
-                    //     } 
+                    //     }
 
                     //     if($line[3]==NULL && $line[4]==NULL && $line[5]!=NULL) {
                     //         $timein_am = Carbon::parse($line[2]);
                     //         $timeout_pm =Carbon::parse($line[5]);
                     //         $am = $timein_am->diffInHours($timeout_pm);
                     //     }
-                        
+
                     // } else if($line[4]!=NULL && $line[5]!=NULL) {
                     //     $timein_pm = Carbon::parse($line[4]);
                     //     $timeout_pm = Carbon::parse($line[5]);
@@ -1684,7 +1687,7 @@ class UserController extends Controller
                     if($line[6]!=NULL && $line[7]!=NULL) {
                         $timein_ot = Carbon::parse($line[6]);
                         $timeout_ot = Carbon::parse($line[7]);
-                        $ot = $timein_am->diffInHours($timeout_am);   
+                        $ot = $timein_am->diffInHours($timeout_am);
                     }
 
                     $diff = $am + $pm;
@@ -1708,7 +1711,7 @@ class UserController extends Controller
                     $attendance->dtr_date =  Carbon::parse($line[1])->toDateString();
                     $attendance->total_hrs = $diff;
                     $attendance->total_ot = $ot;
-                    $attendance->SAVE();  
+                    $attendance->SAVE();
                 } else {
 
                     $payroll = new Payrolls;
@@ -1749,12 +1752,12 @@ class UserController extends Controller
                     $payroll->other_benefits = $line[14];
                     $payroll->payroll_date = Carbon::parse($line[1])->toDateString();
                     $payroll->SAVE();
-                }   
+                }
             }
-            
+
             $lineCount++;
         }
-        
+
 
         /* Close file */
         fclose($csvfile);
@@ -1768,7 +1771,7 @@ class UserController extends Controller
         $billing->consult_id = $request->consult_id;
         $billing->supply_id = 5;
         $billing->qty = 1;
-        $billing->sub_total = $request->input('amt'); 
+        $billing->sub_total = $request->input('amt');
         $billing->emp_no = Auth::User()->user_id;
         $billing->SAVE();
 
@@ -1788,7 +1791,7 @@ class UserController extends Controller
             return redirect()->back()->with('danger','The username you have entered have been already taken. Please try again.');
         else if($validator2->fails())
             return redirect()->back()->with('danger','Yout password must be more than 8 characters long, should contain atleast 1 Uppercase, 1 Lowercase and a Numeric character.');
-        else if(strcmp($request->password, $request->password2)!=0) 
+        else if(strcmp($request->password, $request->password2)!=0)
             return redirect()->back()->with('danger','Password does not match!');
 
         $user = User::where('user_id',$request->hosp_no)->first();

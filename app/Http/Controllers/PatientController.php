@@ -26,9 +26,11 @@ use App\Mail\VideoconferenceEmail;
 class PatientController extends Controller
 {
     protected $publicKey;
+    protected $facilityID;
 
     public function __construct() {
-        $this->publicKey = Cache::get('key');
+        $this->publicKey = config('hims.own');
+        $this->facilityID = config('hims.ID');
     }
 
     /** API */
@@ -40,10 +42,15 @@ class PatientController extends Controller
     /** END API */
 
     public function store(Request $request) {
-        
-        $hospital_no_set = Http::asForm()->post(config('hims.serverURL').'/api/patient/new/save/'.$this->publicKey, $request->except('profile_img'));
-        dd($hospital_no_set);
-        
+        $response = Http::withToken('token')->post(config('hims.serverURL').'/api/patient/new/save/'.$this->publicKey,
+            array_merge($request->except('profile_img'), ['facility_id' => $this->facilityID ])
+        );
+
+        if(!$response->successful())
+            return 'ERROR';
+
+        $hospital_no_set = $response->json();
+
         $filename = "default.png";
         /*save file to public folder*/
         if($request->hasFile('profile_img')) {
@@ -70,6 +77,7 @@ class PatientController extends Controller
         $patient->philhealth_no = $request->input('philhealth_no');
         $patient->blood_type = $request->input('blood_type');
         $patient->profile_img = $filename;
+        $patient->facility_id = $this->facilityID;
         $patient->SAVE();
 
         return $patient;
@@ -97,7 +105,7 @@ class PatientController extends Controller
 
         /* Query Patient Info using hosp_no */
         $employees = Employees::SELECT()->WHERE('department_id',1)->ORDERBY('last_name')->GET();
-        
+
         /* Query Appointments of Patient using hosp_no */
         $appointments = Appointments::SELECT(
                     'tbl_consult_scheds.id',
@@ -151,7 +159,7 @@ class PatientController extends Controller
                 )
                 ->JOIN('tbl_employees','tbl_employees.emp_no','=','tbl_diagnosis.emp_no')
                 ->WHERE('consult_id',$id)->GET();
-    	
+
     	$resultTypes = Supplies::WHEREIN('category_id',[2,3])->GET();
 
         $results = Results::SELECT(
@@ -169,7 +177,7 @@ class PatientController extends Controller
                 ->JOIN('tbl_employees','tbl_employees.emp_no','=','tbl_results.requested_by')
                 ->WHERE('consult_id',$id)
                 ->GET();
-                
+
         $prescriptions = Prescriptions::SELECT(
                     'last_name',
                     'first_name',
@@ -201,7 +209,7 @@ class PatientController extends Controller
                     supply,
                     tbl_supplies.price,
                     tbl_supplies.unit,
-                    sum(tbl_billings.qty) as sumQty, 
+                    sum(tbl_billings.qty) as sumQty,
                     sum(sub_total) as sumSubTotal
                 '))
                 ->JOIN('tbl_supplies','tbl_supplies.id','=','tbl_billings.supply_id')
@@ -219,7 +227,7 @@ class PatientController extends Controller
 
         /* Query Patient Info using hosp_no */
         $employees = Employees::SELECT()->WHERE('department_id',1)->ORDERBY('last_name')->GET();
-        
+
     	return view('patient/patient-history')
                 ->with('currPage','patients')
                 ->with('employees',$employees)
@@ -252,7 +260,7 @@ class PatientController extends Controller
                 )
                 ->JOIN('tbl_employees','tbl_employees.emp_no','=','tbl_diagnosis.emp_no')
                 ->WHERE('consult_id',$id)->GET();
-        
+
         $results = Results::SELECT(
                     'supply',
                     'tbl_results.result',
@@ -284,7 +292,7 @@ class PatientController extends Controller
 
     public function videoCallPatient($hosp_no) {
 
-        if(Auth::User()->account_type==3) 
+        if(Auth::User()->account_type==3)
             $name = Auth::user()->patientInfo->first_name.' '.Auth::user()->patientInfo->last_name;
         else {
             $name = Auth::user()->employeeInfo->first_name.' '.Auth::user()->employeeInfo->last_name;
@@ -308,7 +316,7 @@ class PatientController extends Controller
     }
 
     public function register(Request $request) {
-        
+
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|unique:tbl_patients'
         ]);
@@ -317,7 +325,7 @@ class PatientController extends Controller
         return redirect()->back()->with('danger','Someone already have registered this email address, please use another or check your email and try again.');
 
         $patient = $this->store($request);
-       
+
         $request->request->add([
             'user_id' => Patients::where('email',$patient->email)->first()->hosp_no,
             'account_type' => 3,
@@ -329,6 +337,6 @@ class PatientController extends Controller
         $user->store($request);
 
         return redirect()->back()->with('success','Thank you for registering! We will be sending an email to '.$patient->email.' to complete your registration process. Thank you!');
-    }   
+    }
 
 }
