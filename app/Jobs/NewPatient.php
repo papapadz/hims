@@ -40,7 +40,7 @@ class NewPatient implements ShouldQueue
         $hospital_no_count = str_pad($patient_count, 4, '0', STR_PAD_LEFT);
         $hospital_no_set = Carbon::now()->year.$hospital_no_count; /* Patient hospital number ex. 20190001 */
         //
-        
+
         /*save patient info to database*/
         $patient = new Patients;
         $patient->hosp_no = $hospital_no_set;
@@ -51,11 +51,12 @@ class NewPatient implements ShouldQueue
         $patient->birthdate = $this->data['birthdate'];
         $patient->brgy_id = $this->data['brgy'];
         $patient->email = $this->data['email'];
-        $patient->address = $this->data['address'];
+        //$patient->address = $this->data['address'];
         $patient->contact_no = $this->data['contact_no'];
         $patient->civil_stat = $this->data['civil_stat'];
         $patient->philhealth_no = $this->data['philhealth_no'];
         $patient->blood_type = $this->data['blood_type'];
+        $patient->facility_id = $this->data['facility_id'];
         $patient->SAVE();
 
         return $hospital_no_set;

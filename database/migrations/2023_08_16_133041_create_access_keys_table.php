@@ -18,7 +18,7 @@ class CreateAccessKeysTable extends Migration
             $table->unsignedBigInteger('facility_id');
                 $table->foreign('facility_id')->references('id')->on('facilities')->onDelete('cascade');
             $table->string('public',60);
-            $table->string('serverURL',100);
+            $table->string('serverURL',100)->nullable();
             $table->timestamps();
         });
     }

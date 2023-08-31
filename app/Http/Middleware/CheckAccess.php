@@ -17,11 +17,11 @@ class CheckAccess
      */
     public function handle($request, Closure $next)
     {
-        $accessKey = AccessKey::select('public')->where('facility_id',$request->facility_id)->first();
-        
-        if(Hash::check($request->route('key'),$accessKey))
+        $accessKey = AccessKey::select('public')->where('facility_id',$request->facility_id)->firstOrFail();
+
+        if(Hash::check($request->route('key'),$accessKey->public))
             return $next($request);
 
-        return array('error' => 'Unauthorized');
+        return 'asdasd';
     }
 }

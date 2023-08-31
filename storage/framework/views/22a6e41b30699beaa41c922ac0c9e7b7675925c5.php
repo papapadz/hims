@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="row">
   <div class="col-md-12">
     <div class="card ">
@@ -29,48 +27,48 @@
                 </tr>
               </thead>
               <tbody>
-                @foreach($facilities as $facility)
+                <?php $__currentLoopData = $facilities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $facility): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>
-                    <td>{{ $facility->facility_name }}</td>
-                    <td>{{ $facility->facility_code }}</td>
-                    <td>{{ $facility->brgy }}</td>
-                    <td>{{ $facility->facility_type }}</td>
-                    <td>{{ $facility->facility_classification }}</td>
-                    <td>{{ $facility->bed_capacity }}</td>
-                    <td>{{ $facility->contact_num }}</td>
-                    <td>{{ $facility->email_address }}</td>
+                    <td><?php echo e($facility->facility_name); ?></td>
+                    <td><?php echo e($facility->facility_code); ?></td>
+                    <td><?php echo e($facility->brgy); ?></td>
+                    <td><?php echo e($facility->facility_type); ?></td>
+                    <td><?php echo e($facility->facility_classification); ?></td>
+                    <td><?php echo e($facility->bed_capacity); ?></td>
+                    <td><?php echo e($facility->contact_num); ?></td>
+                    <td><?php echo e($facility->email_address); ?></td>
                     <td>
                       <button
                         class="btn btn-sm btn-primary btn-fab btn-icon btn-round btn-modalOpen"
                         data-toggle="modal"
-                        data-id="{{ $facility->id }}"
-                        data-name="{{ $facility->name }}"
-                        data-code="{{ $facility->facility_code }}"
-                        data-type="{{ $facility->facility_type }}"
-                        data-classification="{{ $facility->facility_classification }}"
-                        data-capacity="{{ $facility->bed_capacity }}"
-                        data-email="{{ $facility->email_address }}"
-                        data-contact="{{ $facility->contact_num }}"
+                        data-id="<?php echo e($facility->id); ?>"
+                        data-name="<?php echo e($facility->name); ?>"
+                        data-code="<?php echo e($facility->facility_code); ?>"
+                        data-type="<?php echo e($facility->facility_type); ?>"
+                        data-classification="<?php echo e($facility->facility_classification); ?>"
+                        data-capacity="<?php echo e($facility->bed_capacity); ?>"
+                        data-email="<?php echo e($facility->email_address); ?>"
+                        data-contact="<?php echo e($facility->contact_num); ?>"
                         data-target="#modalEdit">
                           <i class="fa fa-edit"></i>
                       </button>
                       <a
-                        href="{{ url('facility/delete/'.$facility->id) }}"
+                        href="<?php echo e(url('facility/delete/'.$facility->id)); ?>"
                         class="btn btn-sm btn-danger btn-fab btn-icon btn-round"
                         onclick="return confirm('Are you sure you want to delete this record?');">
                         <i class="fa fa-trash"></i>
                       </a>
                     </td>
                 </tr>
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
               </tbody>
             </table>
       </div>
   </div>
 </div>
 
-<form action="{{ route('admin.facility.add') }}" method="POST" enctype="multipart/form-data">
-  @csrf
+<form action="<?php echo e(route('admin.facility.add')); ?>" method="POST" enctype="multipart/form-data">
+  <?php echo csrf_field(); ?>
 <div id="modalAddFacility" class="modal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -100,9 +98,9 @@
                         <label>Province <small class="text-danger">*</small></label>
                     <select name="province" id="province" class="form-control" required>
                         <option selected disabled>Select Province</option>
-                        @foreach($provinces as $province)
-                        <option value="{{ $province->provCode }}">{{ $province->provDesc }}</option>
-                        @endforeach
+                        <?php $__currentLoopData = $provinces; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $province): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <option value="<?php echo e($province->provCode); ?>"><?php echo e($province->provDesc); ?></option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </select>
                     </div>
                     <div class="col-md-6">
@@ -177,9 +175,9 @@
     </div>
   </div>
 </form>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('script')
+<?php $__env->startSection('script'); ?>
 <script type="text/javascript">
   $('#tblPositions').DataTable();
 
@@ -194,7 +192,7 @@
 
   $('#province').on('change', function() {
       $.ajax ({
-        url : '{{ url("get/citymun") }}/'+$(this).val()
+        url : '<?php echo e(url("get/citymun")); ?>/'+$(this).val()
         ,method : 'GET'
         ,cache : false
       }).done( function(response){
@@ -207,7 +205,7 @@
 
     $('#citymun').on('change', function() {
       $.ajax ({
-        url : '{{ url("get/brgy") }}/'+$(this).val()
+        url : '<?php echo e(url("get/brgy")); ?>/'+$(this).val()
         ,method : 'GET'
         ,cache : false
       }).done( function(response){
@@ -218,4 +216,6 @@
       });
     });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\hims-server\resources\views/admin/facilities.blade.php ENDPATH**/ ?>

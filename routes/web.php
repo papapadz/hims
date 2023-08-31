@@ -30,12 +30,12 @@ Route::get('patient/view/create-account/{hosp_no}',function($hosp_no) {
 Route::post('patient/verified/create-account','UserController@newPatientAccount');
 
 Route::group(['middleware' => ['auth','verified']], function() {
-	
+
 	Route::group(['middleware' => 'is_admin'], function() {
 
 		/** v3 */
 		Route::get('facilities','FacilityController@showFacilityLists');
-		Route::post('facility/add','FacilityController@createFacility');
+		Route::post('facility/add','FacilityController@createFacility')->name('admin.facility.add');
 		/** END V3 */
 
 		Route::get('home', 'HomeController@index')->name('home');
@@ -71,7 +71,7 @@ Route::group(['middleware' => ['auth','verified']], function() {
 
 		// Route::get('pharmacy','UserController@viewPharmacy');
 		// Route::post('pharmacy/pay','UserController@pharmacyPay');
-		
+
 		// Route::get('supplies','UserController@viewSupplies');
 		// Route::post('supply/add', 'UserController@addSupply');
 		// Route::post('supply/edit', 'UserController@editSupply');
@@ -109,7 +109,7 @@ Route::group(['middleware' => ['auth','verified']], function() {
 		// Route::post('schedule/add','UserController@addSchedule');
 		// Route::post('schedule/search','UserController@searchSchedule');
 		// Route::get('schedule/delete/{id}','UserController@deleteSchedule');
-		
+
 		// Route::get('payroll/delete/{id}','UserController@deletePayroll');
 		// Route::get('payroll/payslip/{id}','UserController@viewPayslip');
 		// Route::post('uploads/add','UserController@uploadFile');
@@ -136,7 +136,7 @@ Route::group(['middleware' => ['auth','verified']], function() {
 	Route::get('patients/consult/{id}', 'PatientController@viewConsult');
 	Route::get('patient/chart/{id}', 'PatientController@viewPatientChart');
 	Route::post('consult/add-appointment', 'UserController@addAppointment');
-	
+
 	Route::get('get/employee/{id}','GetController@getEmployee');
 	Route::get('get/attendance/{id}/{date}/{month}/{year}','GetController@getAttendance');
 
@@ -144,7 +144,7 @@ Route::group(['middleware' => ['auth','verified']], function() {
 	Route::resources([
 		'appointment' => 'AppointmentController'
 	]);
-	
+
 	Route::get('appointment-calendar','AppointmentController@fullCalendar');
 
 	Route::get('patient/video-call/{hosp_no}','PatientController@videoCallPatient');

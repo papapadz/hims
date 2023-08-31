@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Facility;
+use App\Provinces;
 use Illuminate\Support\Facades\Hash;
 
 class FacilityController extends Controller
@@ -26,14 +27,15 @@ class FacilityController extends Controller
         $facility->save();
 
         $serverController = new ServerController;
-        $serverController->initFacility($facility->id,$request->url);
+        $serverController->initFacilityKey($facility->id);
     }
 
     public function showFacilityLists() {
-        
+
         return view('admin.facilities')->with([
             'currPage' => 'facility',
-            'facilities' => Facility::with('brgy')->get()
+            'facilities' => Facility::with('brgy')->get(),
+            'provinces' => Provinces::ORDERBY('provDesc')->GET()
         ]);
     }
 }
