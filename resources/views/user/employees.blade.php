@@ -30,9 +30,9 @@
                     <td>{{ $employee->position }}</td>
                     <td>{{ $employee->department }}</td>
                     <td>
-                      <a href="{{ url('employee/profile/'.$employee->emp_no) }}" class="btn btn-sm btn-primary btn-fab btn-icon btn-round">
+                      {{-- <a href="{{ url('employee/profile/'.$employee->emp_no) }}" class="btn btn-sm btn-primary btn-fab btn-icon btn-round">
                         <i class="fa fa-arrow-right"></i>
-                      </a>
+                      </a> --}}
                       <a 
                         href="{{ url('employee/delete/'.$employee->emp_no) }}" 
                         class="btn btn-sm btn-danger btn-fab btn-icon btn-round"
@@ -81,7 +81,7 @@
             <div class="row mb-3">
               <div class="col-md-6">
                 <label>Middle Name</label>
-                <input type="text" name="middle_name" class="form-control" placeholder="Middle Name"/>
+                <input type="text" name="middle_name" class="form-control" placeholder="Middle Name" required/>
               </div>
               <div class="col-md-4">
                 <label>Name Extension</label>
@@ -89,13 +89,13 @@
               </div>
               <div class="col-md-2">
                 <label>Sex</label><br>
-                <div class="form-check form-check-radio form-check-inline">
+                <div class="form-check-radio form-check-inline">
                   <label class="form-check-label">
                     <input class="form-check-input" type="radio" name="gender" id="gender_m" value="Male"> Male
                     <span class="form-check-sign"></span>
                   </label>
                 </div>
-                <div class="form-check form-check-radio form-check-inline">
+                <div class="form-check-radio form-check-inline">
                   <label class="form-check-label">
                     <input class="form-check-input" type="radio" name="gender" id="gender_f" value="Female"> Female
                     <span class="form-check-sign"></span>
@@ -207,7 +207,7 @@
             </div>
             <hr>
 
-            <h4>Permanent Address</h4>
+            {{-- <h4>Permanent Address</h4>
             <div class="row mb-3">
               <div class="col-md-6">
                 <label>House/Block/Lot No.</label>
@@ -247,9 +247,9 @@
                 </select>
               </div>
             </div>
-            <hr>
+            <hr> --}}
 
-            <h5 class="modal-title">Other Information</h5>
+            {{-- <h5 class="modal-title">Other Information</h5>
             <div class="row mb-3">
               <div class="col-md-6">
                 <label>GSIS No.</label>
@@ -295,8 +295,8 @@
                 <label>Account No.</label>
                 <input type="text" name="acct_no" class="form-control" placeholder="Account No." required/>
               </div>
-            </div>
-            <hr>
+            </div> 
+            <hr> --}}
 
             <h5>Employment Details</h5>
             <div class="row mb-3">
@@ -320,7 +320,7 @@
             <div class="row mb-3">
               <div class="col-md-6">
                 <select name="position_id" class="form-control" required>
-                  <option selected disabled>Position</option>
+                  <option selected value="" disabled>Position</option>
                   @foreach($positions as $position)
                     <option value="{{ $position->id }}">{{ $position->position }}</option>
                   @endforeach
@@ -335,7 +335,7 @@
                 </select>
               </div>
             </div>
-            <div class="row mb-3">
+            {{-- <div class="row mb-3">
               <div class="col-md-6">
                 <label>Upload PDS</label>
                 <div class="custom-file">
@@ -343,7 +343,7 @@
                   <label class="custom-file-label f2" >Choose a file...</label>
                 </div>
               </div>
-            </div>
+            </div> --}}
         </div>
       </div>
       <div class="modal-footer">

@@ -97,7 +97,7 @@ class PatientController extends Controller
                 ->JOIN('tbl_employees','tbl_employees.emp_no','=','tbl_diagnosis.emp_no')
                 ->WHERE('consult_id',$id)->GET();
     	
-    	$resultTypes = Supplies::WHEREIN('category_id',[2,3])->GET();
+    	$resultTypes = Supplies::WHEREIN('category_id',[2,3,4])->GET();
 
         $results = Results::SELECT(
                     'last_name',
@@ -159,8 +159,9 @@ class PatientController extends Controller
                     'unit',
                     'qty'
                 )
+                ->where('qty','>',0)
                 ->JOIN('tbl_supply_cat','tbl_supply_cat.id','=','tbl_supplies.category_id')->WHERE('category_id',1)->GET();
-
+            
     	return view('patient/patient-history')
                 ->with('currPage','patients')
     			->with('patient',$patient)

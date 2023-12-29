@@ -24,9 +24,17 @@ The above copyright notice and this permission notice shall be included in all c
   <link rel="icon" type="image/png" href="https://www.tekportal.net/wp-content/uploads/2019/01/personnel-1.jpg">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Personnel Attendance and Payroll System
+    Clinic System
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+  <style>
+    .footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  text-align: center;
+}
+  </style>
   @include('includes.styles')
   @yield('styles')
   </head>
@@ -44,7 +52,7 @@ The above copyright notice and this permission notice shall be included in all c
           </div>
         </a>
         <a href="{{ url('home') }}" class="simple-text logo-normal">
-          Personnel APS
+          Clinic System
           <!-- <div class="logo-image-big">
             <img src="../assets/img/logo-big.png">
           </div> -->
@@ -54,6 +62,10 @@ The above copyright notice and this permission notice shall be included in all c
         <ul class="nav">
           @include('layouts.sidenav')
         </ul>
+        
+        <div class="footer">
+          <small><a target="_blank" href="https://fb.me/binarybee.solutions">Powered By: Binary Bee Solutions</a></small>
+        </div>
       </div>
     </div>
     <div class="main-panel">
@@ -68,7 +80,7 @@ The above copyright notice and this permission notice shall be included in all c
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a class="navbar-brand" href="{{ url('home') }}">Personnel Attendance and Payroll System</a>
+            <a class="navbar-brand" href="{{ url('home') }}">Clinic System</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -140,6 +152,7 @@ The above copyright notice and this permission notice shall be included in all c
       </div>
     </div>
   </div>
+</body>
   @include('includes.scripts')
   
   @yield('script')
@@ -152,9 +165,10 @@ The above copyright notice and this permission notice shall be included in all c
     <script type="text/javascript">
 
     var acct_type = {{ Auth::User()->account_type }};
-   
-    if(acct_type==1) {
-
+    if(acct_type==0) {
+      $('.forSUPER').prop('hidden',false);
+      $('.forAdmin').prop('hidden',false);
+    } else if(acct_type==1) {
       $('.forAdmin').prop('hidden',false);
     } else if(acct_type==2) {
       
@@ -205,7 +219,7 @@ The above copyright notice and this permission notice shall be included in all c
           } else if(flag==4){
             contentStyle = "<style>.table,table,tr,td{border:1px solid black;border-collapse: collapse;}</style>";
             name = 'Printed Name and Signature';
-            position = 'Supervising Administrative Officer';
+            position = '______________________';
           } else if(flag==5){
             contentStyle = "<style>.table,table,tr,td{font-size:7px;border:1px solid black;border-collapse: collapse;}.col-4 {width:30%; float:left;margin-right:12px}.col-12{width:100%; float:left;}</style>";
             name = '';
@@ -241,6 +255,5 @@ The above copyright notice and this permission notice shall be included in all c
         }
 
   </script>
-</body>
 
 </html>

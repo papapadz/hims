@@ -15,14 +15,14 @@
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" id="myTab" role="tablist">
           <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#patients" role="tab" aria-selected="true">All Patients</a>
+            <a class="nav-link active" data-toggle="tab" href="#patients" role="tab" aria-selected="true">Patients</a>
           </li>
-          <li class="nav-item">
+          {{-- <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#in-patients" role="tab" aria-selected="false">In Patients</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#out-patients" role="tab" aria-selected="false">Out Patients</a>
-          </li>
+          </li>  --}}
           <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#appointments" role="tab" aria-selected="false">Appointments</a>
           </li>
@@ -39,7 +39,7 @@
                     <th>Birthdate</th>
                     <th>Gender</th>
                     <th>Address</th>
-                    <th>Patient Type</th>
+                    {{-- <th>Patient Type</th> --}}
                     <th>Action</th>
                 </tr>
               </thead>
@@ -58,17 +58,17 @@
                       @endif
                       {{ $patient->hosp_no }}
                     </td>
-                    <td>{{ $patient->last_name }}, {{ $patient->first_name }} {{ $patient->middle_name[0] }}</td>
+                    <td>{{ $patient->last_name }}, {{ $patient->first_name }} {{ $patient->middle_name ? $patient->middle_name[0] : '' }}</td>
                     <td>{{ $patient->birthdate }}</td>
                     <td>{{ $patient->gender }}</td>
                     <td>{{ $patient->address }}</td>
-                    <td>
+                    {{-- <td>
                       @if($patient->patient_type==1)
                         Regular Patient
                       @else
                         Mental Patient
                       @endif
-                    </td>
+                    </td> --}}
                     <td>
                       <a href="{{ url('patients/profile/'.$patient->hosp_no) }}" class="btn btn-sm btn-primary btn-fab btn-icon btn-round">
                         <i class="fa fa-arrow-right"></i>
@@ -114,7 +114,7 @@
                       @endif
                       {{ $patient->hosp_no }}
                     </td>
-                    <td>{{ $patient->last_name }}, {{ $patient->first_name }} {{ $patient->middle_name[0] }}</td>
+                    <td>{{ $patient->last_name }}, {{ $patient->first_name }} {{ $patient->middle_name ? $patient->middle_name[0] : ''}}</td>
                     <td>{{ $patient->birthdate }}</td>
                     <td>{{ $patient->gender }}</td>
                     <td>{{ $patient->address }}</td>
@@ -206,7 +206,7 @@
                 <tr>
                     <th>Hospital No.</th>
                     <th>Name</th>
-                    <th>Patient Type</th>
+                    {{-- <th>Patient Type</th> --}}
                     <th>Attending Physician</th>
                     <th>Consultation Time</th>
                     <th>Action</th>
@@ -227,15 +227,15 @@
                       @endif
                       {{ $app->hosp_no }}
                     </td>
-                    <td>{{ $app->patient_last_name }}, {{ $app->patient_first_name }} {{ $app->patient_middle_name[0] }}</td>
-                    <td>
+                    <td>{{ $app->patient_last_name }}, {{ $app->patient_first_name }} {{ $app->patient_middle_name ? $app->patient_middle_name[0] : '' }}</td>
+                    {{-- <td>
                       @if($app->patient_type==1)
                         Regular Patient
                       @else
                         Mental Patient
                       @endif
-                    </td>
-                    <td>{{ $app->last_name }}, {{ $app->first_name }} {{ $app->middle_name[0] }}</td>
+                    </td> --}}
+                    <td>{{ $app->last_name }}, {{ $app->first_name }} {{ $app->patient_middle_name ? $app->middle_name[0] : '' }}</td>
                     <td>{{ Carbon\Carbon::parse($app->consult_date)->format('h:i A') }}</td>
                     <td>
 
@@ -336,7 +336,7 @@
             </div>
             <div class="row mb-3">
               <div class="col-md-6">
-                <select name="blood_type" class="form-control">
+                <select name="blood_type" class="form-control" require>
                   <option selected disabled>Blood Type</option>
                   <option value="A">A</option>
                   <option value="B">B</option>
@@ -344,22 +344,22 @@
                   <option value="O">O</option>
                 </select>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-6" hidden>
                 <select name="patient_type" class="form-control">
-                  <option selected disabled>Patient Type</option>
-                  <option value="1">Normal Patient</option>
+                  <option disabled>Patient Type</option>
+                  <option selected value="1">Normal Patient</option>
                   <option value="2">Mental Patient</option>
                 </select>
               </div>
             </div>
-            <div class="row mb-3">
+            {{-- <div class="row mb-3">
               <div class="col-md-6">
                 <div class="custom-file">
                   <input type="file" name="profile_img" class="custom-file-input">
                   <label class="custom-file-label f1" >Choose image file...</label>
                 </div>
               </div>
-            </div>
+            </div> --}}
         </div>
       </div>
       <div class="modal-footer">

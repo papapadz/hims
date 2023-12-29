@@ -170,7 +170,7 @@ class UserController extends Controller
         $patient->gender = $request->input('gender');
         $patient->birthdate = $request->input('birthdate');
         $patient->address = $request->input('address');
-        $patient->patient_type = $request->input('patient_type');
+        //$patient->patient_type = $request->input('patient_type');
         $patient->contact_no = $request->input('contact_no');
         $patient->civil_stat = $request->input('civil_stat');
         $patient->philhealth_no = $request->input('philhealth_no');
@@ -192,7 +192,7 @@ class UserController extends Controller
         $patient->gender = $request->input('gender');
         $patient->birthdate = $request->input('birthdate');
         $patient->address = $request->input('address');
-        $patient->patient_type = $request->input('patient_type');
+        //$patient->patient_type = $request->input('patient_type');
         $patient->contact_no = $request->input('contact_no');
         $patient->civil_stat = $request->input('civil_stat');
         $patient->philhealth_no = $request->input('philhealth_no');
@@ -216,6 +216,8 @@ class UserController extends Controller
     }
 
     public function admitPatient(Request $request) {
+        if(Consults::where('hosp_no',$request->input('hosp_no'))->count()>=config('bts.max_consults'))
+            return redirect()->back()->with('danger','Maximum number of consultations exceeded. Please contact your Systems Administrator');
 
         $consult = new Consults;
         $consult->hosp_no = $request->input('hosp_no');
@@ -232,7 +234,9 @@ class UserController extends Controller
     }
 
     public function addAppointment(Request $request) {
-
+        if(Appointments::where('hosp_no',$request->input('hosp_no'))->count()>=config('bts.max_appointments'))
+            return redirect()->back()->with('danger','Maximum number of appointments exceeded. Please contact your Systems Administrator');
+        
         $appointment = new Appointments;
         $appointment->emp_no = $request->input('emp_no');
         $appointment->hosp_no = $request->input('hosp_no');
@@ -251,6 +255,8 @@ class UserController extends Controller
     }
 
     public function addDiagnosis(Request $request) {
+        if(Diagnosis::where('hosp_no',$request->input('hosp_no'))::count()>=config('bts.max_diagnoses'))
+            return redirect()->back()->with('danger','Maximum number of diagnoses exceeded. Please contact your Systems Administrator');
 
         $diagnosis = new Diagnosis;
         $diagnosis->consult_id = $request->input('consult_id');
@@ -274,7 +280,7 @@ class UserController extends Controller
     }
 
     public function addXrayRequest(Request $request) {
-
+        
         /* Save into info into tbl_results table */
         $xrayRequest = new Results;
         $xrayRequest->consult_id = $request->input('consult_id');
@@ -300,6 +306,19 @@ class UserController extends Controller
         $prescription->SAVE();
 
         return redirect()->back()->with('success','Prescription has been saved!');
+    }
+
+    public function addMiscRequest(Request $request) {
+
+        $bill = new Billings;
+        $bill->consult_id = $request->input('consult_id');
+        $bill->supply_id = $request->input('result_type');
+        $bill->qty = 1;
+        $bill->sub_total = Supplies::find($request->input('result_type'))->price;
+        $bill->emp_no = Auth::User()->user_id;
+        $bill->SAVE();
+
+        return redirect()->back()->with('success','Miscellaneous  Request has been saved!');
     }
 
     public function viewLabRequests() {
@@ -427,7 +446,6 @@ class UserController extends Controller
     }
 
     public function addPatientMedicine(Request $request) {
-        
         /* find the patient's active consultation */
         $consult = Consults::SELECT('id')
                     ->WHERE([
@@ -545,7 +563,7 @@ class UserController extends Controller
                     'category_id'
                 )
                 ->JOIN('tbl_supply_cat','tbl_supply_cat.id','=','tbl_supplies.category_id')
-                ->WHERE('qty','>',0)
+                //->WHERE('qty','>',0)
                 ->GET();
 
         $categories = SupplyCats::ALL();
@@ -557,6 +575,8 @@ class UserController extends Controller
     }
 
     public function addSupply(Request $request) {
+        if(User::count()>=config('bts.max_supplies'))
+            return redirect()->back()->with('danger','Maximum number of items exceeded. Please contact your Systems Administrator');
 
         $supply = new Supplies;
         $supply->supply = $request->input('supply');

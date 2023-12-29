@@ -17,11 +17,14 @@
           <li class="nav-item">
             <a class="nav-link active" data-toggle="tab" href="#supplies" role="tab" aria-selected="true">Medicines</a>
           </li>
-          <li class="nav-item">
+          {{-- <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#lab" role="tab" aria-selected="false">Laboratory Exams</a>
-          </li>
+          </li> --}}
           <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#xray" role="tab" aria-selected="false">X-Ray Exams</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#misc" role="tab" aria-selected="false">Miscellaneous</a>
           </li>
         </ul>
         <!-- Tab panes -->
@@ -74,7 +77,7 @@
               </tbody>
             </table>
           </div>
-          <div class="tab-pane" id="lab" role="tabpanel">
+          <div class="tab-pane" id="misc" role="tabpanel">
             <table id="tblLabExams" class="table" style="width:100%">
               <thead>
                 <tr>
@@ -88,7 +91,7 @@
                 </tr>
               </thead>
               <tbody>
-                @foreach($supplies->WHERE('category_id',2) as $supply)
+                @foreach($supplies->WHERE('category_id',4) as $supply)
                 <tr>
                     <td>{{ $supply->id }}</td>
                     <td>{{ $supply->supply }}</td>

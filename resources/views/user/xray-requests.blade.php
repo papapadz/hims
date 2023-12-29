@@ -5,7 +5,7 @@
   <div class="col-md-12">
     <div class="card ">
       <div class="card-header ">
-        <h5 class="card-title">Lab Requests</h5>
+        <h5 class="card-title">Xray Requests</h5>
       </div>
       <div class="card-body ">
         <!-- Nav tabs -->
@@ -38,8 +38,8 @@
                 <tr>
                     <td>{{ $xrayRequest->id }}</td>
                     <td>{{ $xrayRequest->supply }}</td>
-                    <td>{{ $xrayRequest->patient_last_name }}, {{ $xrayRequest->patient_first_name }} {{ $xrayRequest->patient_middle_name[0] }}</td>
-                    <td>{{ $xrayRequest->emp_last_name }}, {{ $xrayRequest->emp_first_name }} {{ $xrayRequest->emp_middle_name[0] }}</td>
+                    <td>{{ $xrayRequest->patient_last_name }}, {{ $xrayRequest->patient_first_name }} {{ $xrayRequest->patient_middle_name ? $xrayRequest->patient_middle_name[0] : '' }}</td>
+                    <td>{{ $xrayRequest->emp_last_name }}, {{ $xrayRequest->emp_first_name }} {{ $xrayRequest->emp_middle_name ? $xrayRequest->emp_middle_name[0] : '' }}</td>
                     <td>{{ Carbon\Carbon::parse($xrayRequest->created_at)->toFormattedDateString() }}</td>
                     <td>
                       @if($xrayRequest->result==null)
@@ -79,8 +79,8 @@
                 <tr>
                     <td>{{ $xrayRequest->id }}</td>
                     <td>{{ $xrayRequest->supply }}</td>
-                    <td>{{ $xrayRequest->patient_last_name }}, {{ $xrayRequest->patient_first_name }} {{ $xrayRequest->patient_middle_name[0] }}</td>
-                    <td>{{ $xrayRequest->emp_last_name }}, {{ $xrayRequest->emp_first_name }} {{ $xrayRequest->emp_middle_name[0] }}</td>
+                    <td>{{ $xrayRequest->patient_last_name }}, {{ $xrayRequest->patient_first_name }} {{ $xrayRequest->patient_middle_name ? $xrayRequest->patient_middle_name[0] : ''}}</td>
+                    <td>{{ $xrayRequest->emp_last_name }}, {{ $xrayRequest->emp_first_name }} {{ $xrayRequest->emp_middle_name ? $xrayRequest->emp_middle_name[0] : '' }}</td>
                     <td>{{ Carbon\Carbon::parse($xrayRequest->created_at)->toFormattedDateString() }}</td>
                     <td>
                       @if($xrayRequest->result==null)

@@ -18,6 +18,7 @@ use App\Employees;
 use App\Appointments;
 use App\Results;
 use App\Professions;
+use App\Supplies;
 /**/
 
 class HomeController extends Controller
@@ -46,6 +47,7 @@ class HomeController extends Controller
         $employees = Employees::WHERE('emp_stat',1)->GET();
         $patients = Patients::ALL();
         $professions = Professions::ALL();
+        $supplies = Supplies::ALL();
 
         if(Auth::User()->account_type == 3) { /*If User is Patient*/
 
@@ -83,6 +85,7 @@ class HomeController extends Controller
                     ->JOIN('tbl_supply_cat','tbl_supply_cat.id','=','tbl_supplies.category_id')
                     ->WHERE('result',NULL)
                     ->GET();
+            
         }
         
         return view('admin/dashboard')
@@ -95,7 +98,8 @@ class HomeController extends Controller
                 ->with('patients',$patients)
                 ->with('appointments',$appointments)
                 ->with('requests',$requests)
-                ->with('professions',$professions);
+                ->with('professions',$professions)
+                ->with('supplies',$supplies);
     }
 
     public function logout()

@@ -66,7 +66,7 @@
                       @elseif($user->account_type==2)
                         Employee Account
                       @else
-                        System Administrator
+                        Admin
                       @endif
                     </td>
                     <td>
@@ -127,9 +127,9 @@
       </div>
       <div class="card-footer ">
         <div class="legend">
-          <i class="fa fa-circle text-primary"></i> Patient Account
+          {{-- <i class="fa fa-circle text-primary"></i> Patient Account --}}
           <i class="fa fa-circle text-warning"></i> Employee Account
-          <i class="fa fa-circle text-success"></i> System Administrator
+          <i class="fa fa-circle text-success"></i> Admin
         </div>
       </div>
   </div>
@@ -156,7 +156,7 @@
             <input type="password" name="password" class="form-control" required/>
             <label>Account Type</label>
             <select name="account_type" class="form-control" required>
-              <option value="1">System Administrator</option>
+              <option value="1">Admin</option>
               <option value="2">Employee Account</option>
               {{-- <option value="3">Patient Account</option> --}}
             </select>
@@ -195,7 +195,7 @@
             <select name="account_type" id="edit_account_type" class="form-control" required>
               <option value="1">System Administrator</option>
               <option value="2">Employee Account</option>
-              <option value="3">Patient Account</option>
+              {{-- <option value="3">Patient Account</option> --}}
             </select>
           </div>
       </div>

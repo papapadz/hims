@@ -7,7 +7,7 @@
     <div class="row">
       <div class="col-12">
         <div class="card" >
-          <img class="card-img-top" style="width: 90%; align-self: center" src="{{ asset('assets/img/faces/'.$patient->profile_img) }}" alt="Card image cap">
+          <img class="card-img-top" style="width: 90%; align-self: center" src="{{ asset('assets/img/faces/'.$patient->profile_img) }}" alt="">
           <div class="card-body">
             <h3 class="card-text text-center">{{ $patient->hosp_no }}</h3>
           </div>
@@ -22,17 +22,24 @@
             </button>
         </div>
       </div>
-      <div class="row">
+      {{-- <div class="row">
         <div class="col-12">
           <button style="width: 100%" type="button" class="btn btn-primary btn-round float-center forAdmin forMED" data-toggle="modal" data-target="#modalAddLabRequest" hidden="true">
               Add Lab Request
             </button>
         </div>
-      </div>
+      </div> --}}
       <div class="row">
         <div class="col-12">
           <button style="width: 100%" type="button" class="btn btn-primary btn-round float-center forAdmin forMED" data-toggle="modal" data-target="#modalAddXRayRequest" hidden="true">
               Add X-Ray Request
+            </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <button style="width: 100%" type="button" class="btn btn-primary btn-round float-center forAdmin forMED" data-toggle="modal" data-target="#modalAddMiscRequest" hidden="true">
+              Add Miscellaneous Request
             </button>
         </div>
       </div>
@@ -120,9 +127,9 @@
               <li class="nav-item forAdmin forMED forNRS forPatient" hidden="true">
                 <a class="nav-link" data-toggle="tab" href="#diagnosis" role="tab" aria-selected="false">Diagnosis</a>
               </li>
-              <li class="nav-item forAdmin forMED forNRS forPatient" hidden="true">
+              {{-- <li class="nav-item forAdmin forMED forNRS forPatient" hidden="true">
                 <a class="nav-link" data-toggle="tab" href="#lab" role="tab" aria-selected="false">Laboratory</a>
-              </li>
+              </li> --}}
               <li class="nav-item forAdmin forMED forNRS forPatient" hidden="true">
                 <a class="nav-link" data-toggle="tab" href="#xray" role="tab" aria-selected="false">X-Ray</a>
               </li>
@@ -412,7 +419,7 @@
             <div class="col-md-12">
             	<select class="form-control" name="result_type">
             		@foreach($resultTypes->WHERE('category_id',2) as $resultType)
-            		<option value="{{ $resultType->id }}">{{ $resultType->supply }}</option>
+            		<option value="{{ $resultType->id }}">{{ $resultType->supply }} - Php {{ $resultType->price }}</option>
             		@endforeach
             	</select>
             </div>
@@ -427,6 +434,40 @@
   </div>
 </div>
 </form>
+
+<form action="{{ url('consult/add-misc-request') }}" method="POST">
+  @csrf
+  <input type="text" name="consult_id" value="{{ $patient->consult_id }}" hidden>
+  <div class="modal" tabindex="-1" role="dialog" id="modalAddMiscRequest">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Miscellaneous Request for Consultation ID: {{ $patient->consult_id }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <div class="row mb-3">
+              <div class="col-md-12">
+                <select class="form-control" name="result_type">
+                  @foreach($resultTypes->WHERE('category_id',4) as $resultType)
+                  <option value="{{ $resultType->id }}">{{ $resultType->supply }} - Php {{ $resultType->price }}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div> 
+          </div>   
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </form>
 
 <form action="{{ url('consult/add-xray-request') }}" method="POST">
 @csrf
@@ -446,7 +487,7 @@
             <div class="col-md-12">
               <select class="form-control" name="result_type">
                 @foreach($resultTypes->WHERE('category_id',3) as $resultType)
-                <option value="{{ $resultType->id }}">{{ $resultType->supply }}</option>
+                <option value="{{ $resultType->id }}">{{ $resultType->supply }} - Php {{ $resultType->price }}</option>
                 @endforeach
               </select>
             </div>
@@ -610,7 +651,7 @@
               <label>Supply</label>
               <select class="form-control" name="supply_id" required>
                 @foreach($supplies as $supply)
-                  <option value="{{ $supply->id }}">{{ $supply->supply }} - {{ $supply->unit }} (P {{ $supply->price }}) ({{ $supply->qty }} left)</option>
+                  <option value="{{ $supply->id }}">{{ $supply->supply }} - {{ $supply->unit }} Php {{ $supply->price }} ({{ $supply->qty }} left)</option>
                 @endforeach
               </select>
             </div>

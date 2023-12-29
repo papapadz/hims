@@ -3,7 +3,7 @@
 @section('content')
 <div class="row">
   
-  <div class="col-lg-3 col-md-6 col-sm-6 forAdmin forHRS" hidden="true">
+  <div class="col-lg-3 col-md-6 col-sm-6 forSUPER forHRS" hidden="true">
     <div class="card card-stats">
       <div class="card-body ">
         <div class="row">
@@ -44,7 +44,7 @@
           <div class="col-7 col-md-8">
             <div class="numbers">
               <p class="card-category">Rooms</p>
-              <p class="card-title">{{ count($rooms) }}</p>
+              <p class="card-title">{{ count($rooms) }} / {{ config('bts.max_rooms') }}</p>
             </div>
           </div>
         </div>
@@ -73,7 +73,7 @@
           <div class="col-7 col-md-8">
             <div class="numbers">
               <p class="card-category">User Accounts</p>
-              <p class="card-title">{{ count($users) }}</p>
+              <p class="card-title">{{ count($users) }} / {{ config('bts.max_user_accounts') }}</p>
             </div>
           </div>
         </div>
@@ -160,7 +160,7 @@
     </div>
   </div> --}}
 
-  <div class="col-lg-3 col-md-6 col-sm-6 forAdmin forHRS" hidden="true">
+  <div class="col-lg-3 col-md-6 col-sm-6 forSUPER forHRS" hidden="true">
     <div class="card card-stats">
       <div class="card-body ">
         <div class="row">
@@ -200,8 +200,8 @@
           </div>
           <div class="col-7 col-md-8">
             <div class="numbers">
-              <p class="card-category">In Patients</p>
-              <p class="card-title">{{ count($patients->WHERE('patient_stat','ADM')) }}</p>
+              <p class="card-category">Patients</p>
+              <p class="card-title">{{ count($patients) }} / {{ config('bts.max_patients') }}</p>
             </div>
           </div>
         </div>
@@ -218,7 +218,7 @@
     </div>
   </div>
 
-  <div class="col-lg-3 col-md-6 col-sm-6 forAdmin forPHR forPAT forMED forNRS forBLL" hidden="true">
+  {{-- <div class="col-lg-3 col-md-6 col-sm-6 forAdmin forPHR forPAT forMED forNRS forBLL" hidden="true">
     <div class="card card-stats">
       <div class="card-body ">
         <div class="row">
@@ -245,7 +245,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> --}}
 
   <div class="col-lg-3 col-md-6 col-sm-6 forAdmin forPatient forPAT forMED forNRS" hidden="true">
     <div class="card card-stats">
@@ -259,7 +259,7 @@
           <div class="col-7 col-md-8">
             <div class="numbers">
               <p class="card-category">Appointments</p>
-              <p class="card-title">{{ count($appointments) }}</p>
+              <p class="card-title">{{ count($appointments) }} / {{ config('bts.max_appointments') }}</p>
             </div>
           </div>
         </div>
@@ -282,7 +282,7 @@
     </div>
   </div>
 
-  <div class="col-lg-3 col-md-6 col-sm-6 forAdmin forPatient forLAB" hidden="true">
+  {{-- <div class="col-lg-3 col-md-6 col-sm-6 forAdmin forPatient forLAB" hidden="true">
     <div class="card card-stats">
       <div class="card-body ">
         <div class="row">
@@ -309,9 +309,9 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> --}}
 
-  <div class="col-lg-3 col-md-6 col-sm-6 forAdmin forPatient forXRY" hidden="true">
+  {{-- <div class="col-lg-3 col-md-6 col-sm-6 forAdmin forPatient forXRY" hidden="true">
     <div class="card card-stats">
       <div class="card-body ">
         <div class="row">
@@ -323,7 +323,7 @@
           <div class="col-7 col-md-8">
             <div class="numbers">
               <p class="card-category">X-Ray Requests</p>
-              <p class="card-title">{{ count($requests->WHERE('category_id',3)) }}</p>
+              <p class="card-title">{{ count($requests->WHERE('category_id',3)) }} / {{ config('bts.max_xray_requests') }}</p>
             </div>
           </div>
         </div>
@@ -333,6 +333,35 @@
         <div class="stats">
           <i class="fa fa-calendar-o"></i> as of {{ Carbon\Carbon::now()->toFormattedDateString() }}
           <a href="{{ url('xray-requests') }}" class="btn btn-sm btn-muted btn-fab btn-icon btn-round float-right">
+            <i class="fa fa-gear text-white"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div> --}}
+
+  <div class="col-lg-3 col-md-6 col-sm-6 forAdmin" hidden="true">
+    <div class="card card-stats">
+      <div class="card-body ">
+        <div class="row">
+          <div class="col-5 col-md-4">
+            <div class="icon-big text-center icon-warning">
+              <i class="nc-icon nc-globe text-warning"></i>
+            </div>
+          </div>
+          <div class="col-7 col-md-8">
+            <div class="numbers">
+              <p class="card-category">Supplies</p>
+              <p class="card-title">{{ count($supplies) }} / {{ config('bts.max_supplies') }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer ">
+        <hr>
+        <div class="stats">
+          <i class="fa fa-calendar-o"></i> as of {{ Carbon\Carbon::now()->toFormattedDateString() }}
+          <a href="{{ url('supplies') }}" class="btn btn-sm btn-muted btn-fab btn-icon btn-round float-right">
             <i class="fa fa-gear text-white"></i>
           </a>
         </div>

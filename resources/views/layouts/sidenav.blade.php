@@ -10,20 +10,6 @@
 </li>
 
 <li 
-  @if($currPage=='user-accounts') 
-    class="active forAdmin" 
-  @else
-    class="forAdmin"
-  @endif
-  hidden="true" 
->
-  <a href="{{ url('user-accounts') }}">
-    <i class="fa fa-list-alt"></i>
-    <p>User Accounts</p>
-  </a>
-</li>
-
-<li 
   @if($currPage=='patients') 
     class="active forAdmin forPAT forMED forNRS forPHR forBLL forLAB forXRY" 
   @else
@@ -37,7 +23,7 @@
   </a>
 </li>
 
-<li 
+{{-- <li 
   @if($currPage=='lab-requests') 
     class="active forAdmin forLAB" 
   @else
@@ -49,7 +35,7 @@
     <i class="fa fa-flask"></i>
     <p>Lab Requests</p>
   </a>
-</li>
+</li> --}}
 
 <li 
   @if($currPage=='xray-requests') 
@@ -79,7 +65,7 @@
   </a>
 </li>
 
-<li 
+{{-- <li 
   @if($currPage=='pharmacy') 
     class="active forAdmin forPHR" 
   @else
@@ -91,7 +77,7 @@
     <i class="fa fa-tag"></i>
     <p>Pharmacy</p>
   </a>
-</li>
+</li> --}}
 
 <li 
   @if($currPage=='billings') 
@@ -107,11 +93,11 @@
   </a>
 </li>
 
-{{-- <li 
+<li 
   @if($currPage=='employees') 
-    class="active forAdmin forHRS"
+    class="active forSUPER forHRS"
   @else
-    class="forAdmin forHRS" 
+    class="forSUPER forHRS" 
   @endif
   hidden="true" 
 >
@@ -119,7 +105,7 @@
     <i class="fa fa-user"></i>
     <p>Employees</p>
   </a>
-</li> --}}
+</li>
 
 {{-- <li 
   @if($currPage=='schedules') 
@@ -160,5 +146,19 @@
   <a href="{{ url('attendance') }}">
     <i class="fa fa-calendar"></i>
     <p>DTR</p>
-  </a> --}}
+  </a> 
+</li> --}}
+
+<li 
+  @if($currPage=='user-accounts') 
+    class="active forAdmin" 
+  @else
+    class="forAdmin"
+  @endif
+  hidden="true" 
+>
+  <a href="{{ url('user-accounts') }}">
+    <i class="fa fa-list-alt"></i>
+    <p>User Accounts</p>
+  </a>
 </li>

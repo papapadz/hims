@@ -1,5 +1,5 @@
 <li 
-  @if($currPage=='home') 
+  @if($currPage='home') 
     class="active" 
   @endif
 >
@@ -10,7 +10,7 @@
 </li>
 
 <li 
-  @if($currPage=='user-accounts') 
+  @if($currPage='user-accounts') 
     class="active forAdmin" 
   @else
     class="forAdmin"
@@ -24,7 +24,7 @@
 </li>
 
 <li 
-  @if($currPage=='patients') 
+  @if($currPage='patients') 
     class="active forAdmin forPAT forMED forNRS forPHR forBLL forLAB forXRY" 
   @else
     class="forAdmin forPAT forMED forNRS forPHR forBLL forLAB forXRY" 
@@ -38,7 +38,7 @@
 </li>
 
 <li 
-  @if($currPage=='lab-requests') 
+  @if($currPage='lab-requests') 
     class="active forAdmin forLAB" 
   @else
     class="forAdmin forLAB" 
@@ -52,7 +52,7 @@
 </li>
 
 <li 
-  @if($currPage=='xray-requests') 
+  @if($currPage='xray-requests') 
     class="active forAdmin forXRY" 
   @else
     class="forAdmin forXRY" 
@@ -66,7 +66,7 @@
 </li>
 
 <li 
-  @if($currPage=='supplies') 
+  @if($currPage='supplies') 
     class="active forAdmin forPHR" 
   @else
     class="forAdmin forPHR" 
@@ -80,7 +80,7 @@
 </li>
 
 <li 
-  @if($currPage=='pharmacy') 
+  @if($currPage='pharmacy') 
     class="active forAdmin forPHR" 
   @else
     class="forAdmin forPHR" 
@@ -94,7 +94,7 @@
 </li>
 
 <li 
-  @if($currPage=='billings') 
+  @if($currPage='billings') 
     class="active forAdmin forBLL" 
   @else
     class="forAdmin forBLL" 
@@ -108,7 +108,7 @@
 </li>
 
 <li 
-  @if($currPage=='employees') 
+  @if($currPage='employees') 
     class="active forAdmin forHRS"
   @else
     class="forAdmin forHRS" 
@@ -122,7 +122,7 @@
 </li>
 
 <li 
-  @if($currPage=='payroll') 
+  @if($currPage='payroll') 
     class="active forAdmin forHRS"
   @else
     class="forAdmin forHRS" 
@@ -136,7 +136,7 @@
 </li>
 
 <li 
-  @if($currPage=='dtr') 
+  @if($currPage='dtr') 
     class="active forAdmin forHRS"
   @else
     class="forAdmin forHRS" 

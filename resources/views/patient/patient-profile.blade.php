@@ -11,7 +11,7 @@
     <div class="row">
       <div class="col-12">
         <div class="card" >
-          <img class="card-img-top" style="width: 90%; align-self: center" src="{{ asset('assets/img/faces/'.$patient->profile_img) }}" alt="Card image cap">
+          <img class="card-img-top" style="width: 90%; align-self: center" src="{{ asset('assets/img/faces/'.$patient->profile_img) }}" alt="">
           <div class="card-body">
             <h3 class="card-text text-center">{{ $patient->hosp_no }}</h3>
           </div>
@@ -44,7 +44,7 @@
     <div class="row" style="width: 100%">
       <div class="card col-12">
         <div class="card-header ">
-          <h5 class="card-title">{{ $patient->last_name }}, {{ $patient->first_name }} {{ $patient->middle_name }} 
+          <h5 class="card-title">{{ $patient->last_name }}, {{ $patient->first_name }} {{ $patient->middle_name ? $patient->middle_name : '' }} 
             <button type="button" class="btn btn-outline-primary btn-round btn-sm float-right forAdmin forPat" id="btnEditFields" hidden="true">
               <i class="fa fa-pencil"></i> Edit
             </button>
@@ -129,7 +129,7 @@
                 </select>
             </div>
            </div>
-           <div class="form-group row">
+           {{-- <div class="form-group row">
             <label class="col-sm-2 col-form-label">Patient Type:</label>
             <div class="col-sm-4">
               <select readonly="true" disabled="true" class="form-control-plaintext fieldToEdit" name="patient_type">
@@ -137,7 +137,7 @@
                 <option @if($patient->patient_type==2) selected @endif value="2">Mental Patient</option>
               </select>
             </div>
-           </div>
+           </div> --}}
          </form> 
         </div>
       </div>
@@ -207,7 +207,7 @@
                   @foreach($appointments as $appointment)
                     <tr>
                       <td>{{ Carbon\Carbon::parse($appointment->consult_date)->toDateString() }} @ {{ Carbon\Carbon::parse($appointment->consult_date)->toTimeString() }}</td>
-                      <td>{{ $appointment->last_name }}, {{ $appointment->first_name }} {{ $appointment->last_name[0] }}</td>
+                      <td>{{ $appointment->last_name }}, {{ $appointment->first_name }} {{ $appointment->middle_name ? $appointment->middle_name[0] : '' }}</td>
                     </tr>
                   @endforeach
                 </tbody>
@@ -244,11 +244,11 @@
             </div>
           </div>
           <div class="row mb-3">
-            <div class="col-md-6">
+            <div class="col-md-6" hidden>
               <label>Admission Type</label>
               <select class="form-control" name="consult_type">
                 <option value="OPD">Out Patient</option>
-                <option value="ADM">In Patient</option>
+                <option selected value="ADM">In Patient</option>
               </select>
             </div>
             <div class="col-md-6">
@@ -290,7 +290,7 @@
               <label>Doctor</label>
               <select class="form-control" name="emp_no">
                 @foreach($employees as $employee)
-                  <option value="{{ $employee->emp_no }}">{{ $employee->last_name }}, {{ $employee->first_name }} {{ $employee->middle_name[0] }}</option>
+                  <option value="{{ $employee->emp_no }}">{{ $employee->last_name }}, {{ $employee->first_name }} {{ $employee->middle_name ? $employee->middle_name[0] : '' }}</option>
                 @endforeach
               </select>
             </div>

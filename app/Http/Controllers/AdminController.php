@@ -33,7 +33,7 @@ class AdminController extends Controller
                 ->JOIN('tbl_employees','tbl_employees.emp_no','=','tbl_user_accounts.user_id')
                 ->JOIN('tbl_positions','tbl_positions.id','=','tbl_employees.position_id')
                 ->JOIN('tbl_departments','tbl_departments.id','=','tbl_employees.department_id')
-                ->WHERE('account_type','!=',3) //Where accounts are not patient
+                ->WHEREIN('account_type',[1,2]) //Where accounts are not patient
                 ->WHERE('emp_stat','=',1) // Where employees are active
                 ->GET();
 
@@ -55,6 +55,8 @@ class AdminController extends Controller
     }
 
     public function addUserAccount(Request $request) {
+        if(User::count()>=config('bts.max_user_accounts'))
+            return redirect()->back()->with('danger','Maximum number of items exceeded. Please contact your Systems Administrator');
 
     	$user = new User;
         $user->user_id = $request->input('emp_no');
@@ -176,6 +178,9 @@ class AdminController extends Controller
     }
 
     public function addRoom(Request $request) {
+        
+        if(Rooms::count()>=config('bts.max_rooms'))
+            return redirect()->back()->with('danger','Maximum number of items exceeded. Please contact your Systems Administrator');
 
         $room = new Rooms;
         $room->room = $request->input('room');
